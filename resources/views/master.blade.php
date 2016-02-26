@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>INSPINIA | Agile board</title>
+    <title>Avancé Communicatie | Agile board</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
@@ -17,9 +17,11 @@
 </head>
 
 <body>
-    <div id="wrapper">
-        <div class="gray-bg">
-            @yield('content')
+    <div class="container-fluid gray-bg">
+        <div id="wrapper">
+            <div class="gray-bg">
+                @yield('content')
+            </div>
         </div>
     </div>
 
@@ -33,6 +35,13 @@
     <!-- Custom and plugin javascript -->
     <script src="js/inspinia.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
+
+    <!-- Peity -->
+    <script src="js/plugins/peity/jquery.peity.min.js"></script>
+
+    <!-- Peity demo data -->
+    <script src="js/demo/peity-demo.js"></script>
+
 
     <script>
         $(document).ready(function(){

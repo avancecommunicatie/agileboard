@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Bug;
+
+use Input;
 
 class DashboardController extends Controller
 {
@@ -16,6 +19,15 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $projectId = Input::get('project_id');
+
+        if ($projectId) {
+            $tickets = Bug::where('project_id', $projectId)->with('user')->get();
+
+        } else {
+            $tickets = [];
+        }
+
+        return view('dashboard', ['tickets' => $tickets]);
     }
 }

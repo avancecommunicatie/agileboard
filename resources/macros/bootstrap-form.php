@@ -149,22 +149,6 @@ Collective\Html\FormBuilder::macro('iRadio', function($name, $val, $checked, $pr
 
 	return Collective\Html\FormBuilder::radio($name, $val, $checked, $properties);
 });
-/**
- * Make a wysiwyg widget
- * @param $name string
- * @param $value mixed
- * @param $attributes array
- * @return string
- */
-Collective\Html\FormBuilder::macro('wysiwyg', function($name, $value = null, $attributes = []){
-	//$class = 'wysiwyg';
-	$class = 'ckeditor';
-	if(isset($attributes['class'])){
-		$class .= ' '.$attributes['class'];
-	}
-	$attributes['class'] = $class;
-	return Collective\Html\FormBuilder::textarea($name, $value, $attributes);
-});
 
 /**
  * Make a icheck checkbox
@@ -229,75 +213,4 @@ Collective\Html\Formbuilder::macro('dropzone', function($elementid = null, $uri 
  */
 Collective\Html\FormBuilder::macro('simpleSearch', function($name = 's'){
 	return view('backoffice.macros.form.simple-search', ['name' => $name])->render();
-});
-
-/**
- * Make a input based on given type
- * @return string
- */
-Collective\Html\FormBuilder::macro('attribute', function($attribute, $label, $value, $options = []){
-	$data = [
-		'name' => $attribute->name,
-		'label' => $label,
-		'value' => $value,
-		'options' => $options
-	];
-	switch($attribute->datatype){
-		case 'datetime':
-			return view('backoffice.macros.form.attributes.datetime', $data)->render();
-			break;
-		case 'decimal':
-			return view('backoffice.macros.form.attributes.varchar', $data)->render();
-			break;
-		case 'int':
-			if($attribute->source_model){
-				$modelName = '\App\\'.$attribute->source_model;
-				$model = new $modelName;
-				$data['select'] = collectionToSelect($model->orderBy('name')->get(), true);
-				return view('backoffice.macros.form.attributes.select', $data)->render();
-			}else{
-				return view('backoffice.macros.form.attributes.varchar', $data)->render();
-			}
-			break;
-		case 'text':
-			return view('backoffice.macros.form.attributes.text', $data)->render();
-			break;
-		case 'varchar':
-			return view('backoffice.macros.form.attributes.varchar', $data)->render();
-			break;
-		case 'boolean':
-			return view('backoffice.macros.form.attributes.boolean', $data)->render();
-			break;
-	}
-});
-
-/**
- * Open delete form with values for SweetAlert
- * @param $attributes array
- * @return string
- */
-Collective\Html\FormBuilder::macro('openDelete', function($attributes = []){
-	$attributes['method'] = 'DELETE';
-	$class = 'confirm-delete';
-	if(isset($attributes['class'])){
-		$class .= ' '.$attributes['class'];
-	}
-	$attributes['class'] = $class;
-	return Collective\Html\FormBuilder::open($attributes);
-});
-
-/**
- * Generate submit button with proper classes
- * @return string
- */
-Collective\Html\FormBuilder::macro('trash', function(){
-	return '<button type="submit" class="btn btn-white btn-xs"><i class="fa fa-trash"></i></button>';
-});
-
-Collective\Html\FormBuilder::macro('salutation', function($name, $value = null, $attributes = []){
-	return view('backoffice.macros.form.salutation', [
-		'name' => $name,
-		'value' => $value,
-		'attributes' => $attributes
-	])->render();
 });

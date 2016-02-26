@@ -11,8 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 
 Route::get('dashboard', ['as' => 'dashboard.index', 'uses' => 'DashboardController@index']);
+Route::get('issuetracker', ['as' => 'issuetracker.index', 'uses' => 'IssuetrackerController@index']);
