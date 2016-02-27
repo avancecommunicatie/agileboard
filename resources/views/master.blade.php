@@ -14,6 +14,7 @@
 
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
 </head>
 
 <body>
@@ -41,6 +42,8 @@
 
     <!-- Peity demo data -->
     <script src="js/demo/peity-demo.js"></script>
+
+    <script src="//js.pusher.com/3.0/pusher.min.js"></script>
 
 
     <script>
