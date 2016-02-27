@@ -10,7 +10,7 @@
                             <h2>Projecten</h2>
                         </div>
                         <div class="ibox-content">
-                            {!! Form::open(['url' => route('dashboard.index'), 'method' => 'GET']) !!}
+                            {!! Form::open(['url' => route('taskboard.index'), 'method' => 'GET']) !!}
                             <div class="row">
                                 <div class="col-sm-8">
                                     {!! Form::select2('project_id', $selectValues) !!}
@@ -25,7 +25,7 @@
                             <ul>
                                 @foreach ($projects as $project)
                                     <li>
-                                        <a href="{{ route('dashboard.index', 'project_id='.$project->id) }}">{{ $project->name }}</a>
+                                        <a href="{{ route('taskboard.index', 'project_id='.$project->id) }}">{{ $project->name }}</a>
                                     </li>
                                 @endforeach
                             </ul>

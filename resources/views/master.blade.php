@@ -61,6 +61,7 @@
         });
     </script>
 
+    @yield('bottom-includes')
 </body>
 
 </html>

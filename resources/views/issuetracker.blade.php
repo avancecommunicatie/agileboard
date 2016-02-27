@@ -8,7 +8,7 @@
     </div>
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-offset-1 col-lg-2">
-            <a href="{{ route('dashboard.index') }}"><h2>Agile board</h2></a>
+            <a href="{{ route('taskboard.index') }}"><h2>Taskboard</h2></a>
         </div>
     </div>
     <div class="wrapper wrapper-content  animated fadeInRight">
