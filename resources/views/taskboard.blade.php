@@ -11,7 +11,6 @@
             </div>
         </nav>
     </div>
-
     <div class="wrapper wrapper-content  animated fadeInRight">
         <div class="row">
             <div class="col-lg-3">
@@ -19,21 +18,17 @@
                     <div class="ibox-content">
                         <h3>To Do</h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Taken die nog opgepakt moeten worden</p>
-
                         <div class="input-group">
-                            <input type="text" placeholder="Add new task. " class="input input-sm form-control">
+                            {!! Form::select2('tasks', []) !!}
                             <span class="input-group-btn">
-                                    <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-plus"></i> Add task</button>
+                                    <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-plus"></i> Toevoegen</button>
                             </span>
                         </div>
-
                         <ul class="sortable-list connectList agile-list" id="todo">
                             @foreach ($toDo as $ticket)
                                 <li class="task-item {{ ($ticket->priority < 20 ? 'success' : '') }} {{ ($ticket->priority > 19 && $ticket->priority < 40 ? 'warning-element' : '') }} {{ ($ticket->priority > 40 ? 'danger-element' : '') }}" id="{{ $ticket->id }}">
-
                                     {{ $ticket->summary }}
                                     <div class="agile-detail">
-
                                         <span class="pull-right btn btn-xs btn-white">{{ $ticket->user == null ? 'ToDo' : $ticket->user->username}}</span>
                                         <div class="no-padding col-sm-3 pull-left">
                                             <i class="fa fa-clock-o"></i> {{ date('d-m-Y', $ticket->date_submitted) }}
@@ -46,8 +41,6 @@
                     </div>
                 </div>
             </div>
-
-
             <div class="col-lg-3">
                 <div class="ibox">
                     <div class="ibox-content">
@@ -58,7 +51,6 @@
                                 <li class="task-item {{ ($ticket->priority < 20 ? 'success' : '') }} {{ ($ticket->priority > 19 && $ticket->priority < 40 ? 'warning-element' : '') }} {{ ($ticket->priority > 40 ? 'danger-element' : '') }}" id="{{ $ticket->id }}">
                                     {{ $ticket->summary }}
                                     <div class="agile-detail">
-
                                         <span class="pull-right btn btn-xs btn-white">{{ $ticket->user == null ? 'ToDo' : $ticket->user->username}}</span>
                                         <i class="fa fa-clock-o"></i> {{ date('d-m-Y', $ticket->date_submitted) }}
                                     </div>

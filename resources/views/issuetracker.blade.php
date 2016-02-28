@@ -1,15 +1,15 @@
 @extends('master')
 
 @section('content')
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-offset-1 col-lg-2">
-            <h2>Issuetracker</h2>
-        </div>
-    </div>
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-offset-1 col-lg-2">
-            <a href="{{ route('taskboard.index') }}"><h2>Taskboard</h2></a>
-        </div>
+    <div class="row wrapper nav-wrapper border-bottom white-bg page-heading no-padding">
+        <nav class="navbar navbar-default border-bottom">
+            <div class="col-lg-offset-1 col-md-offset-1 col-xs-offset-1 col-lg-6 col-md-4 col-sm-5 col-xs-10 no-padding">
+                <h2>Issuetracker</h2>
+            </div>
+            <div class="col-sm-offset-1 col-xs-offset-1 col-lg-2 col-md-4 col-sm-5 col-xs-10 pull-right">
+                <a href="{{ route('home') }}"><h2>Dashboard</h2></a>
+            </div>
+        </nav>
     </div>
     <div class="wrapper wrapper-content  animated fadeInRight">
         <div class="row">
@@ -510,7 +510,6 @@
                             </table>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

@@ -20,7 +20,6 @@
                                 </div>
                                 {!! Form::close() !!}
                             </div>
-
                             <div class="hr-line-dashed"></div>
                             <ul>
                                 @foreach ($projects as $project)
@@ -32,7 +31,6 @@
                         </div>
                    </div>
                 </div>
-
                 <div class="col-sm-4">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
@@ -88,11 +86,10 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-sm-4">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>Recent toegevoegde reacties</h5>
+                            <h5>Meest recente reacties</h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -141,44 +138,18 @@
                                     <small class="block text-muted"><i class="fa fa-clock-o"></i> 2 minuts ago</small>
                                 </li>
                             </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-sm-2">
-
-
-
-
-
-                </div>
+                    <div class="col-sm-2">
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        </div>
-        </div>
-
-
-
+                    </div>
             </div>
-
-
+        </div>
+    </div>
 @endsection
