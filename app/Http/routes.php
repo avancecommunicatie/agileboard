@@ -16,3 +16,4 @@ Route::get('/', ['as' => 'home', 'uses' => 'DashboardController@index']);
 Route::get('taskboard', ['as' => 'taskboard.index', 'uses' => 'TaskboardController@index']);
 Route::put('taskboard', ['as' => 'taskboard.update-status', 'uses' => 'TaskboardController@updateStatus']);
 Route::get('issuetracker', ['as' => 'issuetracker.index', 'uses' => 'IssuetrackerController@index']);
+Route::get('ticket', ['as' => 'ticket.index', 'uses' => 'TicketController@index']);
