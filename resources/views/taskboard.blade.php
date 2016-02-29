@@ -1,18 +1,45 @@
 @extends('master')
 
 @section('content')
-    <div class="row wrapper nav-wrapper border-bottom white-bg page-heading">
+    <div class="row wrapper nav-wrapper border-bottom white-bg page-heading no-padding">
         <nav class="navbar navbar-default border-bottom">
-            <div class="col-lg-1 col-md-4 col-sm-10 col-xs-12 pull-left" style="margin-top: 15px; margin-left:10px;">
-                <a href="{{route('home')}}" class="btn btn-sm btn-primary">Terug</a>
+            <div class="col-lg-9 col-md-4 col-sm-10 col-xs-12">
+                <h2 style="margin-left: 1em;">{{ $projectName }}: Taskboard</h2>
             </div>
-            <div class="col-lg-7 col-md-4 col-sm-10 col-xs-12 no-padding">
-                <h2>{{ $projectName }}: Taskboard</h2>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-10 col-xs-12 pull-right">
-                <a href="http://in2008.nl/mantis/my_view_page.php"><h2>Ga naar Mantis</h2></a>
+            <div class="col-lg-3 col-md-4 col-sm-10 col-xs-12">
+                <div class="row" style="margin-left: 0.8em;">
+                    <div class="col-lg-offset-3 col-lg-1 col-md-4 col-sm-10 col-sm-offset-2 col-xs-12 no-padding home-btn-div">
+                        <a href="{{route('home')}}" class="btn btn-sm btn-primary" style="border-radius: 15px;"><i class="fa fa-home fa-2x""></i></a>
+                    </div>
+                    <div class="col-lg-offset-1 col-lg-6 col-md-8 col-sm-2 col-xs-12">
+                        <a href="http://in2008.nl/mantis/my_view_page.php"><h2>Ga naar Mantis</h2></a>
+                    </div>
+                </div>
             </div>
         </nav>
+        {!! Form::open(['url' => route('taskboard.change-sprint'), 'method' => 'PUT']) !!}
+        <div class="container-fluid">
+            <div class="input-group">
+                <div class="form-group">
+                    <div class="row" id="select-sprint-section">
+                        <div class="col-lg-1 col-sm-8 input-sprint">
+                            {!! Form::label('sprint_id', 'Sprint #') !!}
+                        </div>
+                        <div class="col-lg-1 col-sm-2 no-padding">
+                            {!! Form::select2('sprint_id', $sprints, null, ['class' => 'select-sprint']) !!}
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+                            <span class="input-group-btn">
+                                {!! Form::hidden('project_id', $projectId) !!}
+                                <button type="submit" class="btn btn-xs btn-primary" id="select-sprint-btn"> Bekijk</button>
+                            </span>
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
     <div class="wrapper wrapper-content  animated fadeInRight">
         <div class="row">
@@ -20,26 +47,9 @@
                 <div class="ibox">
                     <div class="ibox-content">
                         <h3>To Do</h3>
-                        <p class="small"><i class="fa fa-info-circle"></i> Taak toewijzen aan teamlid en toevoegen aan To Do</p>
-                        {!! Form::open(['url' => route('taskboard.change-sprint'), 'method' => 'PUT']) !!}
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="input-group">
-                                    {!! Form::label('sprint_id', 'Sprint #') !!}
-                                    {!! Form::select2('sprint_id', $sprints) !!}
-                                    {!! Form::hidden('project_id', $projectId) !!}
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4 no-padding">
-                                <span class="input-group-btn">
-                                    <button type="submit" class="btn btn-sm btn-primary" id="add-ticket-btn"> Bekijk</button>
-                                </span>
-                            </div>
-                        </div>
-                        {!! Form::close() !!}
-                        <div class="hr-line-dashed"></div>
                         <p class="small"><i class="fa fa-info-circle"></i> Taken die nog opgepakt moeten worden</p>
                         <ul class="sortable-list connectList agile-list" id="todo">
+                            @include('partials.progressbar', ['percentage' => 10, 'color' => ' background-color: #EC5B5B;'])
                             @foreach ($toDo as $ticket)
                                 @include('partials.task-item')
                             @endforeach
@@ -53,6 +63,7 @@
                         <h3>In Behandeling</h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Taken die op dit moment worden uitgevoerd</p>
                         <ul class="sortable-list connectList agile-list" id="inprogress">
+                            @include('partials.progressbar', ['percentage' => 30, 'color' => ' background-color: ##21C2CA;'])
                             @foreach ($inProgress as $ticket)
                                 @include('partials.task-item')
                             @endforeach
@@ -66,6 +77,7 @@
                         <h3>Feedback</h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Taken in afwachting van feedback</p>
                         <ul class="sortable-list connectList agile-list" id="feedback">
+                            @include('partials.progressbar', ['percentage' => 80, 'color' => ' background-color: #E081E0;'])
                             @foreach ($feedback as $ticket)
                                 @include('partials.task-item')
                             @endforeach
@@ -79,6 +91,7 @@
                         <h3>Afgerond</h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Voltooide taken</p>
                         <ul class="sortable-list connectList agile-list" id="completed">
+                            @include('partials.progressbar', ['percentage' => 100,  'color' => ' background-color: #4CC34C;'])
                             @foreach ($completed as $ticket)
                                 @include('partials.task-item')
                             @endforeach

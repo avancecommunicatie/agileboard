@@ -1,22 +1,44 @@
+#select-sprint-btn {
+    border-radius: 2px;
+}
+
+#select-sprint-section {
+    margin-left: 1em;
+}
 
 .container-fluid {
     min-height: 100%;
+}
+
+.home-btn-div {
+    margin-top: 1.1em;
+    margin-left: 1em;
+    width: 5.2%;
+}
+
+.input-sprint {
+    padding: 0;
+    width: 3.5%;
 }
 
 .nav-wrapper {
     min-height: 5.5em;
 }
 
-.top-buffer {
-    margin-top: 0.6em;
+.select-sprint {
+    max-height: 1.65em;
 }
 
-#add-ticket-btn {
-    margin-top: 2em;
+.top-buffer {
+    margin-top: 0.6em;
 }
 
 .ticket-assign-to {
     height: 2.6em;
     font-size: 0.8em;
     padding: 0;
+}
+
+.taskboard-progressbar {
+    height: 5px;
 }
