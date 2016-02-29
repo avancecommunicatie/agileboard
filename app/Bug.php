@@ -15,4 +15,24 @@ class Bug extends Model
 	public function user() {
 		return $this->belongsTo('App\User', 'handler_id');
 	}
+
+	public function bugText() {
+		return $this->belongsTo('App\BugText');
+	}
+
+	public function bugnote() {
+		return $this->hasMany('App\Bugnote');
+	}
+
+	public function project() {
+		return $this->belongsTo('App\Project');
+	}
+
+	public function category() {
+		return $this->belongsTo('App\Category');
+	}
+
+	public function fields() {
+		return $this->belongsToMany('App\CustomField', 'mantis_custom_field_string_table', 'bug_id', 'field_id')->withPivot('value');
+	}
 }

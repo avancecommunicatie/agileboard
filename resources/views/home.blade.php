@@ -18,8 +18,8 @@
                                 <div class="col-sm-2">
                                     <button type="submit" class="btn btn-sm btn-primary">Ga</button>
                                 </div>
-                                {!! Form::close() !!}
                             </div>
+                            {!! Form::close() !!}
                             <div class="hr-line-dashed"></div>
                             <ul>
                                 @foreach ($projects as $project)

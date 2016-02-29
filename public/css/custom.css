@@ -6,3 +6,17 @@
 .nav-wrapper {
     min-height: 5.5em;
 }
+
+.top-buffer {
+    margin-top: 0.6em;
+}
+
+#add-ticket-btn {
+    margin-top: 2em;
+}
+
+.ticket-assign-to {
+    height: 2.6em;
+    font-size: 0.8em;
+    padding: 0;
+}
