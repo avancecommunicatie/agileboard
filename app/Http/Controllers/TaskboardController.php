@@ -18,30 +18,36 @@ class TaskboardController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  int $project_id
+     * @param  int $sprint_id
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($project_id, $sprint_id = 0)
     {
-        $projectId          = Input::get('project_id');
-        $sprintId           = Input::get('sprint_id', 1);
-
         $users = collectionToSelect(User::orderBy('realname', 'DESC')->get(), false, 'realname');
 
-        if ($projectId && $sprintId) {
-            $project        = Project::with('fields.bugs')->find($projectId);
+        if ($project_id) {
+            $project        = Project::with('fields.bugs')->find($project_id);
             $projectName    = $project->name;
-            $sprints        = $project->fields->first()->bugs()->distinct()->lists('value')->toArray();
 
-            $toDo       = Bug::where('project_id', $projectId)->where('status', 10)->with('user', 'bugText', 'bugnote')->get();
-            $inProgress = Bug::where('project_id', $projectId)->where('status', 50)->with('user', 'bugText', 'bugnote')->get();
-            $feedback   = Bug::where('project_id', $projectId)->where('status', 20)->with('user', 'bugText', 'bugnote')->get();
-            $completed  = Bug::where('project_id', $projectId)->where('status', 80)->with('user', 'bugText', 'bugnote')->get();
+            if ($sprint_id == 0) {
+                $sprint_id = $project->fields->first()->bugs()->orderBy('value', 'desc')->pluck('value');
+            }
+
+            $tickets    = $project->fields->where('id', 6)->first()->bugs()->where('value', $sprint_id)->with('user', 'bugText', 'bugnote')->get();
+            $sprints    = $project->fields->first()->bugs()->distinct()->lists('value')->toArray();
+
+            $toDo       = $tickets->where('status', 10);
+            $inProgress = $tickets->where('status', 50);
+            $feedback   = $tickets->where('status', 20);
+            $completed  = $tickets->where('status', 80);
 
         } else {
-            return redirect(route('home'));
+            $flash['error'] = 'Kies een project om door te gaan';
+            return redirect(route('home'))->with($flash);
         }
 
-        return view('taskboard', ['users' => $users, 'projectId' => $projectId, 'projectName' => $projectName, 'toDo' => $toDo, 'inProgress' => $inProgress, 'feedback' => $feedback, 'completed' => $completed, 'sprints' => $sprints]);
+        return view('taskboard', ['users' => $users, 'projectId' => $project_id, 'sprintId' => $sprint_id, 'projectName' => $projectName, 'toDo' => $toDo, 'inProgress' => $inProgress, 'feedback' => $feedback, 'completed' => $completed, 'sprints' => array_combine($sprints, $sprints)]);
     }
 
     /**
@@ -52,6 +58,9 @@ class TaskboardController extends Controller
      */
     public function updateStatus(Request $request)
     {
+        $response['success'] = false;
+        $ticket = false;
+
         switch ($request->get('dropId')) {
             case 'todo':
                 $ticket = Bug::find($request->get('dragId'));
@@ -79,7 +88,11 @@ class TaskboardController extends Controller
             break;
             default:
         }
-       return;
+        if ($ticket) {
+            $response['success'] = true;
+        }
+
+       return $response;
     }
 
     /**
@@ -104,12 +117,14 @@ class TaskboardController extends Controller
     public function changeHandler(Request $request)
     {
         $ticket = Bug::find($request->get('ticketId'));
+        $response['success'] = false;
 
         if ($ticket) {
             $ticket->handler_id = $request->get('handlerId');
             $ticket->save();
+            $response['success'] = true;
         }
 
-        return;
+        return $response;
     }
 }

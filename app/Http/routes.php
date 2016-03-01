@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', ['as' => 'home', 'uses' => 'DashboardController@index']);
+Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 
-Route::get('taskboard', ['as' => 'taskboard.index', 'uses' => 'TaskboardController@index']);
+Route::get('taskboard/{project_id}/{sprint_id?}', ['as' => 'taskboard.index', 'uses' => 'TaskboardController@index']);
 Route::put('taskboard/update-status', ['as' => 'taskboard.update-status', 'uses' => 'TaskboardController@updateStatus']);
 Route::put('taskboard/change-handler', ['as' => 'taskboard.change-handler', 'uses' => 'TaskboardController@changeHandler']);
 Route::put('taskboard/change-sprint', ['as' => 'taskboard.change-sprint', 'uses' => 'TaskboardController@changeSprint']);

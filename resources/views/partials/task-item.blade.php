@@ -3,10 +3,19 @@
 	<div class="hr-line-dashed ticket-description no-padding"></div>
 	<p class="ticket-description">{{ $ticket->bugText->description }}</p>
 	<div class="agile-detail">
-		<span class="pull-right">{!! Form::select2('assign_to_id', $users, ($ticket->user ? $ticket->user->id : false), ['class' => 'ticket-assign-to']) !!}</span>
-		<div class="no-padding col-lg-4 col-md-8 col-sm-8 col-xs-10 pull-left">
-			<i class="fa fa-clock-o"></i> {{ date('d-m-Y', $ticket->date_submitted) }}
+		<div class="row">
+			<div class="col-lg-4 col-md-8 col-sm-8 col-xs-10" style="margin-top: 4px; padding-right: 0;">
+				<i class="fa fa-clock-o"></i> {{ date('d-m-Y', $ticket->date_submitted) }}
+			</div>
+			<div class="no-padding col-lg-1" style="margin-top: 4px;">
+				<i class="fa fa-comment-o"></i> {{ $ticket->bugnote->count() }}
+			</div>
+			<div class="no-padding col-lg-offset-1 col-lg-2" style="margin-top: 1px;">
+				<a href="http://in2008.nl/mantis/view.php?id={{ $ticket->id }}" class="btn btn-xs btn-primary"><i class="fa fa-eye"></i> Ticket</a>
+			</div>
+			<div class="col-lg-4" style="padding-left: 1px;">
+				<span>{!! Form::select2('assign_to_id', $users, ($ticket->user ? $ticket->user->id : false), ['class' => 'ticket-assign-to']) !!}</span>
+			</div>
 		</div>
-		<i class="fa fa-comment-o"></i> {{ $ticket->bugnote->count() }}
 	</div>
 </li>

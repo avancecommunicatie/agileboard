@@ -4,7 +4,7 @@
     <div class="row wrapper nav-wrapper border-bottom white-bg page-heading no-padding">
         <nav class="navbar navbar-default border-bottom">
             <div class="col-lg-9 col-md-4 col-sm-10 col-xs-12">
-                <h2 style="margin-left: 1em;">{{ $projectName }}: Taskboard</h2>
+                <h2 style="margin-left: 0.6em;">{{ $projectName }}: Taskboard</h2>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-10 col-xs-12">
                 <div class="row" style="margin-left: 0.8em;">
@@ -17,17 +17,17 @@
                 </div>
             </div>
         </nav>
-        {!! Form::open(['url' => route('taskboard.change-sprint'), 'method' => 'PUT']) !!}
         <div class="container-fluid">
             <div class="input-group">
                 <div class="form-group">
                     <div class="row" id="select-sprint-section">
+                        {!! Form::open(['url' => route('taskboard.change-sprint'), 'method' => 'PUT']) !!}
                         <div class="col-lg-1 col-sm-8 input-sprint">
                             {!! Form::label('sprint_id', 'Sprint #') !!}
                         </div>
                         <div class="col-lg-1 col-sm-2 no-padding">
                             @if ($sprints)
-                                {!! Form::select2('sprint_id', $sprints, null, ['class' => 'select-sprint']) !!}
+                                {!! Form::select2('sprint_id', $sprints, $sprintId, ['class' => 'select-sprint']) !!}
                             @endif
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
@@ -35,8 +35,8 @@
                                 {!! Form::hidden('project_id', $projectId) !!}
                                 <button type="submit" class="btn btn-xs btn-primary" id="select-sprint-btn"> Bekijk</button>
                             </span>
-                            {!! Form::close() !!}
                         </div>
+                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>
@@ -104,47 +104,65 @@
     </div>
 @endsection
 
-@section('bottom-includes')
-    @parent
-    <script type="text/javascript">
-        $(document).ready(function() {
-            var ticket_description = $('.ticket-description');
-            var task_item = $('.ticket-summary');
-            var token = '{{ csrf_token() }}';
+@section('bottom-script')
+@parent
+<script type="text/javascript">
+    $(document).ready(function() {
+        var ticket_description = $('.ticket-description');
+        var task_item = $('.ticket-summary');
+        var token = '{{ csrf_token() }}';
 
-            ticket_description.hide();
+        ticket_description.hide();
 
-            task_item.on('click', function() {
-                $(this).siblings('.ticket-description').toggle('slide', { direction: "left"}, 500);
-            });
-
-            $('#todo').droppable({drop: Drop});
-            $('#inprogress').droppable({drop: Drop});
-            $('#feedback').droppable({drop: Drop});
-            $('#completed').droppable({drop: Drop});
-
-            $('.ticket-assign-to').on('change', function() {
-                var ticketId = $(this).parents('.task-item').attr('id');
-                var handlerId = $(this).val();
-
-                $.ajax({
-                    method: 'PUT'
-                    , url: '{{ route('taskboard.change-handler') }}'
-                    , data: {_token: token, ticketId: ticketId, handlerId: handlerId}
-                });
-            });
-
-            function Drop(event, ui) {
-                var draggableId = ui.draggable.attr("id");
+        $("#todo, #inprogress, #feedback, #completed").sortable({
+            connectWith: ".connectList",
+            receive: function(event, ui) {
+                var todo        = $("#todo").sortable( "toArray" );
+                var inprogress  = $( "#inprogress" ).sortable( "toArray" );
+                var feedback    = $('#feedback').sortable("toArray");
+                var completed   = $( "#completed" ).sortable( "toArray" );
+                var draggableId = ui.item.attr("id");
                 var droppableId = $(this).attr("id");
-                var handlerId   = ui.helper.find('option').val();
+                var handlerId   = ui.item.find('option').val();
+                $('.output').html("ToDo: " + window.JSON.stringify(todo) + "<br/>" + "In Progress: " + window.JSON.stringify(inprogress) + "Feedback: " + window.JSON.stringify(feedback) + "<br/>" + "Completed: " + window.JSON.stringify(completed));
 
                 $.ajax({
                         method: 'PUT'
                         , url: '{{ route('taskboard.update-status') }}'
                         , data: {_token: token, dragId: draggableId, dropId: droppableId, handlerId: handlerId}
+
+                    }).done(function(response) {
+                        if(response.success){
+                            toastr.success('De status van dit ticket is gewijzigd', 'Status gewijzigd!');
+                        }else{
+                            toastr.error('Er ging iets mis', 'Fout');
+                        }
                     });
             }
+        }).disableSelection();
+
+
+        task_item.on('click', function() {
+            $(this).siblings('.ticket-description').toggle('slide', { direction: "left"}, 500);
         });
-    </script>
+
+        $('.ticket-assign-to').on('change', function() {
+            var ticketId = $(this).parents('.task-item').attr('id');
+            var handlerId = $(this).val();
+
+            $.ajax({
+                method: 'PUT'
+                , url: '{{ route('taskboard.change-handler') }}'
+                , data: {_token: token, ticketId: ticketId, handlerId: handlerId}
+
+            }).done(function( response ) {
+                if(response.success){
+                    toastr.success('Ticket succesvol toegewezen', 'Gelukt!');
+                }else{
+                    toastr.error('Er ging iets mis', 'Fout');
+                }
+            });
+        });
+    });
+</script>
 @endsection
