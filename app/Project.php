@@ -10,8 +10,8 @@ class Project extends Model
 	protected $fillable = ['name', 'status', 'enabled', 'view_state', 'access_min', 'file_path', 'description', 'category_id', 'inherit_global'];
 	public $timestamps 	= false;
 
-	public function bug() {
-		return $this->hasMany('App\Project');
+	public function bugs() {
+		return $this->hasMany('App\Bug');
 	}
 
 	public function fields() {

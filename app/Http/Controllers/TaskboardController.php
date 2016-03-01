@@ -30,17 +30,19 @@ class TaskboardController extends Controller
             $project        = Project::with('fields.bugs')->find($project_id);
             $projectName    = $project->name;
 
-            if ($sprint_id == 0) {
-                $sprint_id = $project->fields->first()->bugs()->orderBy('value', 'desc')->pluck('value');
-            }
-
-            $tickets    = $project->fields->where('id', 6)->first()->bugs()->where('value', $sprint_id)->with('user', 'bugText', 'bugnote')->get();
-            $sprints    = $project->fields->first()->bugs()->distinct()->lists('value')->toArray();
-
-            $toDo       = $tickets->where('status', 10);
-            $inProgress = $tickets->where('status', 50);
-            $feedback   = $tickets->where('status', 20);
-            $completed  = $tickets->where('status', 80);
+//            if ($sprint_id == 0) {
+//                $sprint_id = $project->bugs()->get()->fields;
+//                dd($sprint_id);
+////                bugs()->orderBy('value', 'desc')->pluck('value');
+//            }
+//
+//            $tickets    = $project->fields->where('id', 6)->first()->bugs()->where('value', $sprint_id)->with('user', 'bugText', 'bugnote')->get();
+//            $sprints    = $project->fields->first()->bugs()->distinct()->lists('value')->toArray();
+//
+//            $toDo       = $tickets->where('status', 10);
+//            $inProgress = $tickets->where('status', 50);
+//            $feedback   = $tickets->where('status', 20);
+//            $completed  = $tickets->where('status', 80);
 
         } else {
             $flash['error'] = 'Kies een project om door te gaan';
