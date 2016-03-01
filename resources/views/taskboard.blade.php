@@ -9,7 +9,7 @@
             <div class="col-lg-3 col-md-4 col-sm-10 col-xs-12">
                 <div class="row" style="margin-left: 0.8em;">
                     <div class="col-lg-offset-3 col-lg-1 col-md-4 col-sm-10 col-sm-offset-2 col-xs-12 no-padding home-btn-div">
-                        <a href="{{route('home')}}" class="btn btn-sm btn-primary" style="border-radius: 15px;"><i class="fa fa-home fa-2x""></i></a>
+                        <a href="{{route('home')}}" class="btn btn-sm btn-primary" style="border-radius: 15px;"><i class="fa fa-home fa-2x"></i></a>
                     </div>
                     <div class="col-lg-offset-1 col-lg-6 col-md-8 col-sm-2 col-xs-12">
                         <a href="http://in2008.nl/mantis/my_view_page.php"><h2>Ga naar Mantis</h2></a>
@@ -26,7 +26,9 @@
                             {!! Form::label('sprint_id', 'Sprint #') !!}
                         </div>
                         <div class="col-lg-1 col-sm-2 no-padding">
-                            {!! Form::select2('sprint_id', $sprints, null, ['class' => 'select-sprint']) !!}
+                            @if ($sprints)
+                                {!! Form::select2('sprint_id', $sprints, null, ['class' => 'select-sprint']) !!}
+                            @endif
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
                             <span class="input-group-btn">
@@ -40,7 +42,6 @@
             </div>
         </div>
     </div>
-    </div>
     <div class="wrapper wrapper-content  animated fadeInRight">
         <div class="row">
             <div class="col-lg-3">
@@ -48,8 +49,8 @@
                     <div class="ibox-content">
                         <h3>To Do</h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Taken die nog opgepakt moeten worden</p>
+                        @include('partials.progressbar', ['percentage' => 10, 'color' => ' background-color: #EC5B5B;'])
                         <ul class="sortable-list connectList agile-list" id="todo">
-                            @include('partials.progressbar', ['percentage' => 10, 'color' => ' background-color: #EC5B5B;'])
                             @foreach ($toDo as $ticket)
                                 @include('partials.task-item')
                             @endforeach
@@ -62,8 +63,8 @@
                     <div class="ibox-content">
                         <h3>In Behandeling</h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Taken die op dit moment worden uitgevoerd</p>
+                        @include('partials.progressbar', ['percentage' => 30, 'color' => ' background-color: ##21C2CA;'])
                         <ul class="sortable-list connectList agile-list" id="inprogress">
-                            @include('partials.progressbar', ['percentage' => 30, 'color' => ' background-color: ##21C2CA;'])
                             @foreach ($inProgress as $ticket)
                                 @include('partials.task-item')
                             @endforeach
@@ -76,8 +77,8 @@
                     <div class="ibox-content">
                         <h3>Feedback</h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Taken in afwachting van feedback</p>
+                        @include('partials.progressbar', ['percentage' => 80, 'color' => ' background-color: #E081E0;'])
                         <ul class="sortable-list connectList agile-list" id="feedback">
-                            @include('partials.progressbar', ['percentage' => 80, 'color' => ' background-color: #E081E0;'])
                             @foreach ($feedback as $ticket)
                                 @include('partials.task-item')
                             @endforeach
@@ -90,8 +91,8 @@
                     <div class="ibox-content">
                         <h3>Afgerond</h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Voltooide taken</p>
+                        @include('partials.progressbar', ['percentage' => 100,  'color' => ' background-color: #4CC34C;'])
                         <ul class="sortable-list connectList agile-list" id="completed">
-                            @include('partials.progressbar', ['percentage' => 100,  'color' => ' background-color: #4CC34C;'])
                             @foreach ($completed as $ticket)
                                 @include('partials.task-item')
                             @endforeach

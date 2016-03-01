@@ -23,7 +23,7 @@ class TaskboardController extends Controller
     public function index()
     {
         $projectId          = Input::get('project_id');
-        $sprintId           = Input::get('sprint_id');
+        $sprintId           = Input::get('sprint_id', 1);
 
         $users = collectionToSelect(User::orderBy('realname', 'DESC')->get(), false, 'realname');
 
@@ -37,19 +37,7 @@ class TaskboardController extends Controller
             $feedback   = Bug::where('project_id', $projectId)->where('status', 20)->with('user', 'bugText', 'bugnote')->get();
             $completed  = Bug::where('project_id', $projectId)->where('status', 80)->with('user', 'bugText', 'bugnote')->get();
 
-        } elseif ($projectId) {
-            $project        = Project::with('fields.bugs')->find($projectId);
-            $projectName    = $project->name;
-            $sprints        = [];
-
-            $toDo       = Bug::where('project_id', $projectId)->where('status', 10)->with('user', 'bugText', 'bugnote')->get();
-            $inProgress = Bug::where('project_id', $projectId)->where('status', 50)->with('user', 'bugText', 'bugnote')->get();
-            $feedback   = Bug::where('project_id', $projectId)->where('status', 20)->with('user', 'bugText', 'bugnote')->get();
-            $completed  = Bug::where('project_id', $projectId)->where('status', 80)->with('user', 'bugText', 'bugnote')->get();
         } else {
-            $projectName    = false;
-            $sprints        = [];
-
             return redirect(route('home'));
         }
 
