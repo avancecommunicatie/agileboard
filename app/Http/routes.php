@@ -17,3 +17,13 @@ Route::get('taskboard/{project_id}/{sprint_id?}', ['as' => 'taskboard.index', 'u
 Route::put('taskboard/update-status', ['as' => 'taskboard.update-status', 'uses' => 'TaskboardController@updateStatus']);
 Route::put('taskboard/change-handler', ['as' => 'taskboard.change-handler', 'uses' => 'TaskboardController@changeHandler']);
 Route::put('taskboard/change-sprint', ['as' => 'taskboard.change-sprint', 'uses' => 'TaskboardController@changeSprint']);
+
+
+// Plaats in controller
+
+//Route::any('pusher', function() {
+//    $pusher = new Pusher('public','secret','app');
+//    $pusher->trigger('refreshChannel', 'changeStatus', []);
+//
+//    return;
+//});
