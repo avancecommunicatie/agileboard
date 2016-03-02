@@ -27,17 +27,30 @@ class TaskboardController extends Controller
         $users = collectionToSelect(User::orderBy('realname', 'DESC')->get(), false, 'realname');
 
         if ($project_id) {
-            $project        = Project::with('fields.bugs')->find($project_id);
+            $project        = Project::with('bugs')->find($project_id);
             $projectName    = $project->name;
+            $sprints = \DB::table('mantis_project_table')
+                ->select('mantis_custom_field_string_table.value')
+                ->where('mantis_project_table.id', $project_id)
+				->where('mantis_custom_field_string_table.field_id', 6)
+                ->join('mantis_bug_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
+                ->join('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
+                ->groupBy('mantis_custom_field_string_table.value')
+                ->orderBy(\DB::raw('convert(mantis_custom_field_string_table.value,decimal)'))->get();
+			$sprintsObj = array_reverse($sprints);
 
             if ($sprint_id == 0) {
-                $sprint_id = $project->bugs()->where('field_id', 3)->get();
-                dd($sprint_id);
-//                bugs()->orderBy('value', 'desc')->pluck('value');
+				if (!empty($sprintsObj) ) {
+					$sprint_id = $sprintsObj[0]->value;
+				}
             }
 
+			$sprints = [];
+			foreach($sprintsObj as $s){
+				$sprints[$s->value] = $s->value;
+			}
+
             $tickets    = $project->fields->where('id', 6)->first()->bugs()->where('value', $sprint_id)->with('user', 'bugText', 'bugnote')->get();
-            $sprints    = $project->fields->first()->bugs()->distinct()->lists('value')->toArray();
 
             $toDo       = $tickets->where('status', 10);
             $inProgress = $tickets->where('status', 50);
@@ -49,7 +62,7 @@ class TaskboardController extends Controller
             return redirect(route('home'))->with($flash);
         }
 
-        return view('taskboard', ['users' => $users, 'projectId' => $project_id, 'sprintId' => $sprint_id, 'projectName' => $projectName, 'toDo' => $toDo, 'inProgress' => $inProgress, 'feedback' => $feedback, 'completed' => $completed, 'sprints' => array_combine($sprints, $sprints)]);
+        return view('taskboard', ['users' => $users, 'projectId' => $project_id, 'sprintId' => $sprint_id, 'projectName' => $projectName, 'toDo' => $toDo, 'inProgress' => $inProgress, 'feedback' => $feedback, 'completed' => $completed, 'sprints' => $sprints]);
     }
 
     /**
@@ -92,8 +105,8 @@ class TaskboardController extends Controller
         }
         if ($ticket) {
             $response['success'] = true;
-            $pusher = new Pusher('public','secret','app');
-            $pusher->trigger('refreshChannel', 'changeStatus', []);
+            $pusher = new \Pusher(env('PUSHER_KEY'), env('PUSHER_SECRET'), env('PUSHER_APP_ID'));
+            $pusher->trigger('refreshChannel', 'changeStatus', ['id' => $ticket->id, 'drop_id' => $request->get('dropId')]);
         }
 
        return $response;
@@ -127,8 +140,8 @@ class TaskboardController extends Controller
             $ticket->handler_id = $request->get('handlerId');
             $ticket->save();
             $response['success'] = true;
-            $pusher = new Pusher('public','secret','app');
-            $pusher->trigger('refreshChannel', 'changeHandler', []);
+            $pusher = new \Pusher(env('PUSHER_KEY'), env('PUSHER_SECRET'), env('PUSHER_APP_ID'));
+            $pusher->trigger('refreshChannel', 'changeHandler', ['id' => $ticket->id, 'handler' => $ticket->handler_id]);
         }
 
         return $response;

@@ -18,26 +18,24 @@
             </div>
         </nav>
         <div class="container-fluid">
-            <div class="input-group">
-                <div class="form-group">
-                    <div class="row" id="select-sprint-section">
-                        {!! Form::open(['url' => route('taskboard.change-sprint'), 'method' => 'PUT']) !!}
-                        <div class="col-lg-1 col-sm-8 input-sprint">
-                            {!! Form::label('sprint_id', 'Sprint #') !!}
-                        </div>
-                        <div class="col-lg-1 col-sm-2 no-padding">
-                            @if ($sprints)
-                                {!! Form::select2('sprint_id', $sprints, $sprintId, ['class' => 'select-sprint']) !!}
-                            @endif
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-                            <span class="input-group-btn">
-                                {!! Form::hidden('project_id', $projectId) !!}
-                                <button type="submit" class="btn btn-xs btn-primary" id="select-sprint-btn"> Bekijk</button>
-                            </span>
-                        </div>
-                        {!! Form::close() !!}
+            <div class="form-group">
+                <div class="row" id="select-sprint-section">
+                    {!! Form::open(['url' => route('taskboard.change-sprint'), 'method' => 'PUT']) !!}
+                    <div class="col-lg-1 col-sm-8 input-sprint">
+                        {!! Form::label('sprint_id', 'Sprint #') !!}
                     </div>
+                    <div class="col-lg-1 col-sm-2 no-padding">
+                        @if ($sprints)
+                            {!! Form::select2('sprint_id', $sprints, $sprintId, ['class' => 'select-sprint']) !!}
+                        @endif
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+                        <span class="input-group-btn">
+                            {!! Form::hidden('project_id', $projectId) !!}
+                            <button type="submit" class="btn btn-xs btn-primary" id="select-sprint-btn"> Bekijk</button>
+                        </span>
+                    </div>
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>
@@ -108,14 +106,13 @@
 @parent
 <script type="text/javascript">
     $(document).ready(function() {
-        var ticket_description = $('.ticket-description');
-        var task_item = $('.ticket-summary');
+        var description_btn = $('.description-btn');
         var token = '{{ csrf_token() }}';
-
-        ticket_description.hide();
 
         $("#todo, #inprogress, #feedback, #completed").sortable({
             connectWith: ".connectList",
+            handle: '.handle',
+            scroll: false,
             receive: function(event, ui) {
                 var todo        = $("#todo").sortable( "toArray" );
                 var inprogress  = $( "#inprogress" ).sortable( "toArray" );
@@ -139,11 +136,12 @@
                         }
                     });
             }
-        }).disableSelection();
+        });
 
 
-        task_item.on('click', function() {
-            $(this).siblings('.ticket-description').toggle('slide', { direction: "left"}, 500);
+        description_btn.on('click', function() {
+            $(this).toggleClass('fa-angle-double-down fa-angle-double-up');
+            $(this).siblings('.handle').children('.ticket-description').toggle('slide', { direction: "left"}, 500);
         });
 
         $('.ticket-assign-to').on('change', function() {
@@ -165,4 +163,5 @@
         });
     });
 </script>
+    @include('partials.pusher_script')
 @endsection
