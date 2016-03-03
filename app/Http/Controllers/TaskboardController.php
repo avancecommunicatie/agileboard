@@ -50,7 +50,7 @@ class TaskboardController extends Controller
 				$sprints[$s->value] = $s->value;
 			}
 
-            $fields = $project->fields->where('id', 6)->first();
+            $fields = $project->fields()->where('id', 6)->first();
 
             if ($fields && $fields->count() > 0) {
                 $bugs = $fields->bugs()->where('value', $sprint_id)->with('user', 'bugText', 'bugnote')->get();
@@ -63,10 +63,28 @@ class TaskboardController extends Controller
                 return redirect(route('home'))->with('info', 'Dit project heeft geen sprints');
             }
 
-            $toDo       = $tickets->where('status', 10);
-            $inProgress = $tickets->where('status', 50);
-            $feedback   = $tickets->where('status', 20);
-            $completed  = $tickets->where('status', 80);
+            $toDo       = [];//$tickets->where('status', 10);
+            $inProgress = [];//$tickets->where('status', 50);
+            $feedback   = [];//$tickets->where('status', 20);
+            $completed  = [];//$tickets->where('status', 80);
+
+            foreach ($tickets as $ticket) {
+                switch ($ticket) {
+                    case 10:
+                        $todo[] = $ticket;
+                        break;
+                    case 50:
+                        $inProgress[] = $ticket;
+                        break;
+                    case 20:
+                        $feedback[] = $ticket;
+                        break;
+                    case 80:
+                        $completed[] = $ticket;
+                        break;
+                }
+            }
+
 
         } else {
             $flash['error'] = 'Kies een project om door te gaan';
