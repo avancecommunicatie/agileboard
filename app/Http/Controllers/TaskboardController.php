@@ -70,16 +70,16 @@ class TaskboardController extends Controller
 
             foreach ($tickets as $ticket) {
                 switch ($ticket->status) {
-                    case '10':
+                    case 10:
                         $todo[] = $ticket;
                         break;
-                    case '50':
+                    case 50:
                         $inProgress[] = $ticket;
                         break;
-                    case '20':
+                    case 20:
                         $feedback[] = $ticket;
                         break;
-                    case '80':
+                    case 80:
                         $completed[] = $ticket;
                         break;
                 }
