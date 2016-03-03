@@ -17,6 +17,7 @@
                             </div>
                         </div>
                         <div class="ibox-content">
+                            <p class="small text-center"><i class="fa fa-info-circle"></i> Projectnamen en aantal sprints gekoppeld aan het project</p>
                             <div style="margin-top: 10px;">
                                 @foreach ($projects as $project)
                                     <div class="searchable" data-name="{{ $project->name }}">
@@ -36,13 +37,6 @@
     @parent
 <script>
     $(document).ready(function() {
-        var select = $("select[name='project_id']");
-
-        select.on('change', function() {
-            var id = $(this).val();
-            window.location.replace("{{ route('taskboard.index') }}/"+id);
-        });
-
         @if(session()->has('error') || session()->has('warning') || session()->has('success') || session()->has('info') || $errors->any())
 
             @foreach(['error', 'warning', 'success', 'info'] as $flash_value)
