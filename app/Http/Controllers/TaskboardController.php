@@ -24,7 +24,7 @@ class TaskboardController extends Controller
      */
     public function index($project_id, $sprint_id = -1)
     {
-        $users = collectionToSelect(User::orderBy('realname', 'DESC')->get(), true, 'realname');
+        $users = collectionToSelect(User::orderBy('realname', 'ASC')->get(), true, 'realname');
 
         if ($project_id) {
             $project        = Project::with('bugs')->find($project_id);
