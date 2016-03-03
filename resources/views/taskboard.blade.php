@@ -20,7 +20,7 @@
         <div class="container-fluid">
             <div class="form-group">
                 <div class="row" id="select-sprint-section">
-                    {!! Form::open(['url' => route('taskboard.change-sprint'), 'method' => 'PUT']) !!}
+                    {!! Form::open(['url' => route('taskboard.change-sprint'), 'method' => 'POST']) !!}
                     <div class="col-lg-1 col-sm-8 input-sprint">
                         {!! Form::label('sprint_id', 'Sprint #') !!}
                     </div>
@@ -125,7 +125,7 @@
                 $('.output').html("ToDo: " + window.JSON.stringify(todo) + "<br/>" + "In Progress: " + window.JSON.stringify(inprogress) + "Feedback: " + window.JSON.stringify(feedback) + "<br/>" + "Completed: " + window.JSON.stringify(completed));
 
                 $.ajax({
-                        method: 'PUT',
+                        method: 'POST',
                         url: '{{ route('taskboard.update-status') }}',
                         data: {
                             _token: token,
@@ -156,7 +156,7 @@
             var handlerId = $(this).val();
 
             $.ajax({
-                method: 'PUT'
+                method: 'POST'
                 , url: '{{ route('taskboard.change-handler') }}'
                 , data: {_token: token, ticketId: ticketId, handlerId: handlerId}
 
