@@ -107,25 +107,21 @@ class TaskboardController extends Controller
         switch ($request->get('dropId')) {
             case 'todo':
                 $ticket = Bug::find($request->get('dragId'));
-                $ticket->handler_id = $request->get('handlerId');
                 $ticket->status = 10;
                 $ticket->save();
             break;
             case 'inprogress':
                 $ticket = Bug::find($request->get('dragId'));
-                $ticket->handler_id = $request->get('handlerId');
                 $ticket->status = 50;
                 $ticket->save();
             break;
             case 'feedback':
                 $ticket = Bug::find($request->get('dragId'));
-                $ticket->handler_id = $request->get('handlerId');
                 $ticket->status = 20;
                 $ticket->save();
             break;
             case 'completed':
                 $ticket = Bug::find($request->get('dragId'));
-                $ticket->handler_id = $request->get('handlerId');
                 $ticket->status = 80;
                 $ticket->save();
             break;

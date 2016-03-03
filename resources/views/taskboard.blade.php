@@ -121,7 +121,6 @@
                 var completed   = $( "#completed" ).sortable( "toArray" );
                 var draggableId = ui.item.attr("id");
                 var droppableId = $(this).attr("id");
-                var handlerId   = ui.item.find('option').val();
                 $('.output').html("ToDo: " + window.JSON.stringify(todo) + "<br/>" + "In Progress: " + window.JSON.stringify(inprogress) + "Feedback: " + window.JSON.stringify(feedback) + "<br/>" + "Completed: " + window.JSON.stringify(completed));
 
                 $.ajax({
@@ -131,7 +130,6 @@
                             _token: token,
                             dragId: draggableId,
                             dropId: droppableId,
-                            handlerId: handlerId,
                             user: user
                         }
 
