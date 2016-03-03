@@ -106,7 +106,7 @@ class TaskboardController extends Controller
         if ($ticket) {
             $response['success'] = true;
             $pusher = new \Pusher(env('PUSHER_KEY'), env('PUSHER_SECRET'), env('PUSHER_APP_ID'));
-            $pusher->trigger('refreshChannel', 'changeStatus', ['id' => $ticket->id, 'drop_id' => $request->get('dropId')]);
+            $pusher->trigger('refreshChannel', 'changeStatus', ['id' => $ticket->id, 'drop_id' => $request->get('dropId'), 'user' => $request->get('user')]);
         }
 
        return $response;
@@ -141,7 +141,7 @@ class TaskboardController extends Controller
             $ticket->save();
             $response['success'] = true;
             $pusher = new \Pusher(env('PUSHER_KEY'), env('PUSHER_SECRET'), env('PUSHER_APP_ID'));
-            $pusher->trigger('refreshChannel', 'changeHandler', ['id' => $ticket->id, 'handler' => $ticket->handler_id]);
+            $pusher->trigger('refreshChannel', 'changeHandler', ['id' => $ticket->id, 'handler' => $ticket->handler_id, 'handlerName' => $ticket->user->realname]);
         }
 
         return $response;

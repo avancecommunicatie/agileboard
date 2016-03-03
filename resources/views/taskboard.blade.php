@@ -105,6 +105,7 @@
 @section('bottom-script')
 @parent
 <script type="text/javascript">
+    var user = "{{ str_random(8).date('dHis') }}";
     $(document).ready(function() {
         var description_btn = $('.description-btn');
         var token = '{{ csrf_token() }}';
@@ -124,13 +125,19 @@
                 $('.output').html("ToDo: " + window.JSON.stringify(todo) + "<br/>" + "In Progress: " + window.JSON.stringify(inprogress) + "Feedback: " + window.JSON.stringify(feedback) + "<br/>" + "Completed: " + window.JSON.stringify(completed));
 
                 $.ajax({
-                        method: 'PUT'
-                        , url: '{{ route('taskboard.update-status') }}'
-                        , data: {_token: token, dragId: draggableId, dropId: droppableId, handlerId: handlerId}
+                        method: 'PUT',
+                        url: '{{ route('taskboard.update-status') }}',
+                        data: {
+                            _token: token,
+                            dragId: draggableId,
+                            dropId: droppableId,
+                            handlerId: handlerId,
+                            user: user
+                        }
 
                     }).done(function(response) {
                         if(response.success){
-                            toastr.success('De status van dit ticket is gewijzigd', 'Status gewijzigd!');
+//                            toastr.success('De status van dit ticket is gewijzigd', 'Status gewijzigd!');
                         }else{
                             toastr.error('Er ging iets mis', 'Fout');
                         }
@@ -155,7 +162,7 @@
 
             }).done(function( response ) {
                 if(response.success){
-                    toastr.success('Ticket succesvol toegewezen', 'Gelukt!');
+//                    toastr.success('Ticket succesvol toegewezen', 'Gelukt!');
                 }else{
                     toastr.error('Er ging iets mis', 'Fout');
                 }

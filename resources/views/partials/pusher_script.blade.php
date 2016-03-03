@@ -6,13 +6,20 @@
 		var channel = pusher.subscribe('refreshChannel');
 
 		channel.bind('changeStatus', function(data) {
-			$('#'+data.id).prependTo('#'+data.drop_id);
-			toastr.info('Update plaats gevonden');
+			if (data.user != user) {
+				$('#'+data.id).prependTo('#'+data.drop_id);
+			}
+			$('.changed-item').removeClass('changed-item');
+			$('#'+data.id).addClass('changed-item');
+
+			toastr.info('De status van ticket #'+data.id+' is gewijzigd', 'Update!');
 		});
 
 		channel.bind('changeHandler', function(data) {
 			$('#'+data.id+' .ticket-assign-to').val(data.handler);
-			toastr.info('Update plaats gevonden');
+			$('.changed-item').removeClass('changed-item');
+			$('#'+data.id).addClass('changed-item');
+			toastr.info('Ticket #'+data.id+' is toegewezen aan '+data.handlerName, 'Update!');
 		});
 
 	});
