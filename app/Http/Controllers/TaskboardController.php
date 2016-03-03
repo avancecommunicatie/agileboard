@@ -69,7 +69,7 @@ class TaskboardController extends Controller
             $completed  = [];//$tickets->where('status', 80);
 
             foreach ($tickets as $ticket) {
-                switch ($ticket) {
+                switch ($ticket->status) {
                     case '10':
                         $todo[] = $ticket;
                         break;
@@ -84,7 +84,7 @@ class TaskboardController extends Controller
                         break;
                 }
             }
-            
+
         } else {
             $flash['error'] = 'Kies een project om door te gaan';
             return redirect(route('home'))->with($flash);
