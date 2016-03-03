@@ -17,13 +17,11 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <div>
-                                {!! Form::select2('project_id', $selectValues) !!}
-                            </div>
-                            <div class="hr-line-dashed"></div>
-                            <div class="list-group">
+                            <div style="margin-top: 10px;">
                                 @foreach ($projects as $project)
-                                    <a href="{{ route('taskboard.index', ['project_id' => $project->id]) }}" class="list-group-item">{{ $project->name }}</a>
+                                    <div class="searchable" data-name="{{ $project->name }}">
+                                        <a href="{{ route('taskboard.index', ['project_id' => $project->id]) }}" class="list-group-item">{{ $project->name }} <span class="label label-default pull-right">{{ $project->sprints }}</span></a>
+                                    </div>
                                 @endforeach
                             </div>
                         </div>

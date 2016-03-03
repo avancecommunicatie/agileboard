@@ -7,8 +7,8 @@
 }
 
 .agile-detail {
-    padding: 10px 10px 0 10px;
     margin-top: 0;
+    padding: 10px 0 0;
 }
 
 .container-fluid {
@@ -36,7 +36,7 @@
 
 .input-sprint {
     padding: 0;
-    width: 3.5%;
+    width: 5%;
 }
 
 .nav-wrapper {
