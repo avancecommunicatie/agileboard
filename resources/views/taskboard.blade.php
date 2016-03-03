@@ -21,15 +21,15 @@
             <div class="form-group">
                 <div class="row" id="select-sprint-section">
                     {!! Form::open(['url' => route('taskboard.change-sprint'), 'method' => 'POST']) !!}
-                    <div class="col-lg-4 col-md-4 col-sm-8 input-sprint">
+                    <div class="col-lg-4 col-md-3 col-sm-8 col-xs-4 input-sprint">
                         {!! Form::label('sprint_id', 'Sprint #') !!}
                     </div>
-                    <div class="col-lg-1 col-md-4 col-sm-2 no-padding">
+                    <div class="col-lg-1 col-md-3 col-sm-2 col-xs-4">
                         @if ($sprints)
-                            {!! Form::select2('sprint_id', $sprints, $sprintId, ['class' => 'select-sprint']) !!}
+                            {!! Form::select('sprint_id', $sprints, $sprintId, ['class' => 'select-sprint', 'style' => 'min-width: 120%;']) !!}
                         @endif
                     </div>
-                    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-4">
+                    <div class="col-lg-7 col-md-6 col-sm-2 col-xs-4">
                         <span class="input-group-btn">
                             {!! Form::hidden('project_id', $projectId) !!}
                             <button type="submit" class="btn btn-xs btn-primary" id="select-sprint-btn"> Bekijk</button>

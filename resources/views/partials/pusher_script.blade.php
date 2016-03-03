@@ -5,7 +5,6 @@
 		var channel = pusher.subscribe('refreshChannel'+project_id+sprint_id+env);
 
 		channel.bind('changeStatus', function(data) {
-			console.log(data);
 			$('#'+data.id+' .ticket-assign-to').val(data.handler);
 			if (data.user != user) {
 				$('#'+data.id).prependTo('#'+data.drop_id);
