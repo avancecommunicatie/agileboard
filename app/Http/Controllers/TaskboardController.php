@@ -50,7 +50,18 @@ class TaskboardController extends Controller
 				$sprints[$s->value] = $s->value;
 			}
 
-            $tickets    = $project->fields->where('id', 6)->first()->bugs()->where('value', $sprint_id)->with('user', 'bugText', 'bugnote')->get();
+            $fields = $project->fields->where('id', 6)->first();
+
+            if ($fields && $fields->count() > 0) {
+                $bugs = $fields->bugs()->where('value', $sprint_id)->with('user', 'bugText', 'bugnote')->get();
+                if ($bugs && $bugs->count() > 0) {
+                    $tickets = $bugs;
+                } else {
+                    return redirect(route('home'))->with('info', 'Dit project heeft geen sprints');
+                }
+            } else {
+                return redirect(route('home'))->with('info', 'Dit project heeft geen sprints');
+            }
 
             $toDo       = $tickets->where('status', 10);
             $inProgress = $tickets->where('status', 50);
