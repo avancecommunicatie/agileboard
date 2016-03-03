@@ -23,7 +23,7 @@
                             <div class="hr-line-dashed"></div>
                             <div class="list-group">
                                 @foreach ($projects as $project)
-                                    <a href="{{ route('taskboard.index', ['project_id' => $project->id, 'sprint_id' => '0']) }}" class="list-group-item">{{ $project->name }}</a>
+                                    <a href="{{ route('taskboard.index', ['project_id' => $project->id]) }}" class="list-group-item">{{ $project->name }}</a>
                                 @endforeach
                             </div>
                         </div>

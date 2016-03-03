@@ -22,7 +22,7 @@ class TaskboardController extends Controller
      * @param  int $sprint_id
      * @return \Illuminate\Http\Response
      */
-    public function index($project_id, $sprint_id = 0)
+    public function index($project_id, $sprint_id = -1)
     {
         $users = collectionToSelect(User::orderBy('realname', 'DESC')->get(), true, 'realname');
 
@@ -33,13 +33,14 @@ class TaskboardController extends Controller
                 ->select('mantis_custom_field_string_table.value')
                 ->where('mantis_project_table.id', $project_id)
 				->where('mantis_custom_field_string_table.field_id', 6)
+                ->where('mantis_custom_field_string_table.value', '!=', '')
                 ->join('mantis_bug_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
                 ->join('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
                 ->groupBy('mantis_custom_field_string_table.value')
                 ->orderBy(\DB::raw('convert(mantis_custom_field_string_table.value,decimal)'))->get();
 			$sprintsObj = array_reverse($sprints);
 
-            if ($sprint_id == 0) {
+            if ($sprint_id == -1) {
 				if (!empty($sprintsObj) ) {
 					$sprint_id = $sprintsObj[0]->value;
 				}
