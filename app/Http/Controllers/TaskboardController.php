@@ -131,7 +131,16 @@ class TaskboardController extends Controller
         if ($ticket) {
             $response['success'] = true;
             $pusher = new \Pusher(env('PUSHER_KEY'), env('PUSHER_SECRET'), env('PUSHER_APP_ID'));
-            $pusher->trigger('refreshChannel', 'changeStatus', ['id' => $ticket->id, 'drop_id' => $request->get('dropId'), 'user' => $request->get('user')]);
+            $pusher->trigger(
+                'refreshChannel'.$request->get('project_id').$request->get('sprint_id').$request->get('env'),
+                'changeStatus',
+                [
+                    'id' => $ticket->id,
+                    'drop_id' => $request->get('dropId'),
+                    'user' => $request->get('user'),
+                    'handler' => $ticket->handler_id
+                ]
+            );
         }
 
        return $response;
@@ -166,7 +175,15 @@ class TaskboardController extends Controller
             $ticket->save();
             $response['success'] = true;
             $pusher = new \Pusher(env('PUSHER_KEY'), env('PUSHER_SECRET'), env('PUSHER_APP_ID'));
-            $pusher->trigger('refreshChannel', 'changeHandler', ['id' => $ticket->id, 'handler' => $ticket->handler_id, 'handlerName' => ($ticket->user ? $ticket->user->realname : 'niemand')]);
+            $pusher->trigger(
+                'refreshChannel'.$request->get('project_id').$request->get('sprint_id').$request->get('env'),
+                'changeHandler',
+                [
+                    'id' => $ticket->id,
+                    'handler' => $ticket->handler_id,
+                    'handlerName' => ($ticket->user ? $ticket->user->realname : 'niemand')
+                ]
+            );
         }
 
         return $response;

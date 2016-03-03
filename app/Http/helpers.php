@@ -4,7 +4,7 @@ function collectionToSelect($collection, $addEmpty = false, $value = 'name', $ke
 	if(is_object($collection)){
 	$array = (array_combine($collection->lists($key)->toArray(), $collection->lists($value)->toArray()));
 	if($addEmpty) {
-	$array = array('' => 'Geen') + $array;
+	$array = array(0 => 'Geen') + $array;
 	}
 	return $array;
 	}

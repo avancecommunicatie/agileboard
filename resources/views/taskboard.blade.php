@@ -106,6 +106,10 @@
 @parent
 <script type="text/javascript">
     var user = "{{ str_random(8).date('dHis') }}";
+    var project_id = '{{ $projectId }}';
+    var sprint_id = '{{ $sprintId }}';
+    var env = '{{ env('APP_ENV') }}';
+
     $(document).ready(function() {
         var description_btn = $('.description-btn');
         var token = '{{ csrf_token() }}';
@@ -130,7 +134,10 @@
                             _token: token,
                             dragId: draggableId,
                             dropId: droppableId,
-                            user: user
+                            user: user,
+                            project_id: project_id,
+                            sprint_id: sprint_id,
+                            env: env
                         }
 
                     }).done(function(response) {
@@ -156,7 +163,14 @@
             $.ajax({
                 method: 'POST'
                 , url: '{{ route('taskboard.change-handler') }}'
-                , data: {_token: token, ticketId: ticketId, handlerId: handlerId}
+                , data: {
+                    _token: token,
+                    ticketId: ticketId,
+                    handlerId: handlerId,
+                    project_id: project_id,
+                    sprint_id: sprint_id,
+                    env: env
+                }
 
             }).done(function( response ) {
                 if(response.success){
