@@ -15,7 +15,7 @@
 				<i class="fa fa-comment-o"></i> {{ $ticket->bugnote->count() }}
 			</div>
 			<div class="no-padding col-lg-offset-1 col-lg-2" style="margin-top: 1px;">
-				<a href="http://in2008.nl/mantis/view.php?id={{ $ticket->id }}" class="btn btn-xs btn-primary"><i class="fa fa-eye"></i> Ticket</a>
+				<a href="http://in2008.nl/mantis/view.php?id={{ $ticket->id }}" class="btn btn-xs btn-primary" target="_blank"><i class="fa fa-eye"></i> Ticket</a>
 			</div>
 			<div class="col-lg-4" style="padding-left: 5px;">
 				{!! Form::select('assign_to_id', $users, ($ticket->user ? $ticket->user->id : false), ['class' => 'ticket-assign-to']) !!}
