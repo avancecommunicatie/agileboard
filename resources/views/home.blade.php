@@ -17,13 +17,19 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <p class="small text-center"><i class="fa fa-info-circle"></i> Projectnamen en aantal sprints gekoppeld aan het project</p>
+                            @if ($projects->count() > 0)
+                                <p class="small text-center"><i class="fa fa-info-circle"></i> {{ ($projects->count() > 1 ? 'Projectnamen' : 'Projectnaam') }} en aantal sprints gekoppeld aan het project</p>
+                            @endif
                             <div style="margin-top: 10px;">
-                                @foreach ($projects as $project)
-                                    <div class="searchable" data-name="{{ $project->name }}">
-                                        <a href="{{ route('taskboard.index', ['project_id' => $project->id]) }}" class="list-group-item">{{ $project->name }} <span class="label label-default pull-right">{{ $project->sprints }}</span></a>
-                                    </div>
-                                @endforeach
+                                @if ($projects->count() > 0)
+                                    @foreach ($projects as $project)
+                                        <div class="searchable" data-name="{{ $project->name }}">
+                                            <a href="{{ route('taskboard.index', ['project_id' => $project->id]) }}" class="list-group-item">{{ $project->name }} <span class="label label-default pull-right">{{ $project->sprints }}</span></a>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <p>Geen projecten om weer te geven</p>
+                                @endif
                             </div>
                         </div>
                    </div>
