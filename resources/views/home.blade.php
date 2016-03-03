@@ -28,7 +28,7 @@
                                         </div>
                                     @endforeach
                                 @else
-                                    <p>Geen projecten om weer te geven</p>
+                                    <p class="text-center">Geen projecten om weer te geven</p>
                                 @endif
                             </div>
                         </div>
