@@ -74,6 +74,6 @@
     display: block;
 }
 
-.agile-list li.success-element.changed-item {
-    background-color: #EFEFEF;
+.agile-list li.changed-item {
+    background-color: #fffcd9;
 }

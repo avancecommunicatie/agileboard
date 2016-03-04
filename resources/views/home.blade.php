@@ -17,12 +17,19 @@
                             </div>
                         </div>
                         <div class="ibox-content">
+                            @if ($projects->count() > 0)
+                                <p class="small text-center"><i class="fa fa-info-circle"></i> {{ ($projects->count() > 1 ? 'Projectnamen' : 'Projectnaam') }} en aantal sprints gekoppeld aan het project</p>
+                            @endif
                             <div style="margin-top: 10px;">
-                                @foreach ($projects as $project)
-                                    <div class="searchable" data-name="{{ $project->name }}">
-                                        <a href="{{ route('taskboard.index', ['project_id' => $project->id]) }}" class="list-group-item">{{ $project->name }} <span class="label label-default pull-right">{{ $project->sprints }}</span></a>
-                                    </div>
-                                @endforeach
+                                @if ($projects->count() > 0)
+                                    @foreach ($projects as $project)
+                                        <div class="searchable" data-name="{{ $project->name }}">
+                                            <a href="{{ route('taskboard.index', ['project_id' => $project->id]) }}" class="list-group-item">{{ $project->name }} <span class="label label-default pull-right">{{ $project->sprints }}</span></a>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <p class="text-center">Geen projecten om weer te geven</p>
+                                @endif
                             </div>
                         </div>
                    </div>
@@ -36,13 +43,6 @@
     @parent
 <script>
     $(document).ready(function() {
-        var select = $("select[name='project_id']");
-
-        select.on('change', function() {
-            var id = $(this).val();
-            window.location.replace("{{ route('taskboard.index') }}/"+id);
-        });
-
         @if(session()->has('error') || session()->has('warning') || session()->has('success') || session()->has('info') || $errors->any())
 
             @foreach(['error', 'warning', 'success', 'info'] as $flash_value)
