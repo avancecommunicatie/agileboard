@@ -35,4 +35,11 @@ class Bug extends Model
 	public function fields() {
 		return $this->belongsToMany('App\CustomField', 'mantis_custom_field_string_table', 'bug_id', 'field_id')->withPivot('value');
 	}
+
+	public function scopeBySprint($query, $sprint_id){
+		$query->select('mantis_bug_table.*')
+			->leftJoin('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
+			->where('mantis_custom_field_string_table.field_id', 6)
+			->where('mantis_custom_field_string_table.value', $sprint_id);
+	}
 }

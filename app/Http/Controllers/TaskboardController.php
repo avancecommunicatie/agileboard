@@ -27,8 +27,6 @@ class TaskboardController extends Controller
         $users = collectionToSelect(User::orderBy('realname', 'ASC')->get(), true, 'realname');
 
         if ($project_id) {
-            $project        = Project::with('bugs')->find($project_id);
-            $projectName    = $project->name;
             $sprints = \DB::table('mantis_project_table')
                 ->select('mantis_custom_field_string_table.value')
                 ->where('mantis_project_table.id', $project_id)
@@ -39,7 +37,6 @@ class TaskboardController extends Controller
                 ->groupBy('mantis_custom_field_string_table.value')
                 ->orderBy(\DB::raw('convert(mantis_custom_field_string_table.value,decimal)'))->get();
 			$sprintsObj = array_reverse($sprints);
-
             if ($sprint_id == -1) {
 				if (!empty($sprintsObj) ) {
 					$sprint_id = $sprintsObj[0]->value;
@@ -51,18 +48,15 @@ class TaskboardController extends Controller
 				$sprints[$s->value] = $s->value;
 			}
 
-            $fields = $project->fields()->where('id', 6)->first();
-
-            if ($fields && $fields->count() > 0) {
-                $bugs = $fields->bugs()->where('value', $sprint_id)->with('user', 'bugText', 'bugnote')->get();
-                if ($bugs && $bugs->count() > 0) {
-                    $tickets = $bugs;
-                } else {
-                    return redirect(route('home'))->with('info', 'Dit project heeft geen sprints');
-                }
-            } else {
+            if (count($sprints) == 0) {
                 return redirect(route('home'))->with('info', 'Dit project heeft geen sprints');
             }
+
+            $project = Project::find($project_id);
+
+            $tickets = $project->bugs()->bySprint($sprint_id)->get();
+
+            $projectName = $project->name;
 
             $toDo       = [];//$tickets->where('status', 10);
             $inProgress = [];//$tickets->where('status', 50);
