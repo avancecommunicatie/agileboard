@@ -1,3 +1,8 @@
+body {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
 #select-sprint-btn {
     border-radius: 2px;
 }

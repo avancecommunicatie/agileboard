@@ -11,7 +11,7 @@
                     <div class="col-lg-offset-2 col-lg-1 col-md-3 col-sm-10 col-sm-offset-2 col-xs-12 no-padding home-btn-div">
                         <a href="{{route('home')}}" class="btn btn-sm btn-primary" style="border-radius: 15px;"><i class="fa fa-home fa-2x"></i></a>
                     </div>
-                    <div class="col-lg-offset-1 col-lg-7 col-md-9 col-sm-2 col-xs-12">
+                    <div class="col-lg-offset-1 col-lg-7 col-md-9 col-sm-2 col-xs-12" style="min-width: 80%;">
                         <a href="http://in2008.nl/mantis/my_view_page.php"><h2>Ga naar Mantis</h2></a>
                     </div>
                 </div>
@@ -139,17 +139,15 @@
                             sprint_id: sprint_id,
                             env: env
                         }
-
                     }).done(function(response) {
                         if(response.success){
-//                            toastr.success('De status van dit ticket is gewijzigd', 'Status gewijzigd!');
+//                           toastr.success('De status van dit ticket is gewijzigd', 'Status gewijzigd!');
                         }else{
                             toastr.error('Er ging iets mis', 'Fout');
                         }
                     });
             }
         });
-
 
         description_btn.on('click', function() {
             $(this).toggleClass('fa-angle-double-down fa-angle-double-up');
