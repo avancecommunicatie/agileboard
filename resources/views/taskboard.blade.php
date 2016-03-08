@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('content')
-    <div class="row wrapper nav-wrapper border-bottom white-bg page-heading no-padding">
+    <div id="taskboard-header" class="row wrapper nav-wrapper border-bottom white-bg page-heading no-padding">
         <nav class="navbar navbar-default border-bottom">
             <div class="col-lg-9 col-md-4 col-sm-10 col-xs-12">
                 <h2 style="margin-left: 0.6em;">{{ $projectName }}: Taskboard</h2>
@@ -40,59 +40,59 @@
             </div>
         </div>
     </div>
-    <div class="wrapper wrapper-content  animated fadeInRight">
+    <div id="taskboard-content" class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-3">
-                <div class="ibox">
+                <div class="ibox task-section">
                     <div class="ibox-content">
                         <h3>To Do</h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Taken die nog opgepakt moeten worden</p>
                         @include('partials.progressbar', ['percentage' => 10, 'color' => ' background-color: #EC5B5B;'])
                         <ul class="sortable-list connectList agile-list" id="todo">
                             @foreach ($toDo as $ticket)
-                                @include('partials.task-item')
+                                @include('partials.task_item')
                             @endforeach
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="ibox">
+                <div class="ibox task-section">
                     <div class="ibox-content">
                         <h3>In Behandeling</h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Taken die op dit moment worden uitgevoerd</p>
                         @include('partials.progressbar', ['percentage' => 30, 'color' => ' background-color: ##21C2CA;'])
                         <ul class="sortable-list connectList agile-list" id="inprogress">
                             @foreach ($inProgress as $ticket)
-                                @include('partials.task-item')
+                                @include('partials.task_item')
                             @endforeach
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="ibox">
+                <div class="ibox task-section">
                     <div class="ibox-content">
                         <h3>Feedback</h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Taken in afwachting van feedback</p>
                         @include('partials.progressbar', ['percentage' => 80, 'color' => ' background-color: #E081E0;'])
                         <ul class="sortable-list connectList agile-list" id="feedback">
                             @foreach ($feedback as $ticket)
-                                @include('partials.task-item')
+                                @include('partials.task_item')
                             @endforeach
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="ibox">
+                <div class="ibox task-section">
                     <div class="ibox-content">
                         <h3>Afgerond</h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Voltooide taken</p>
                         @include('partials.progressbar', ['percentage' => 100,  'color' => ' background-color: #4CC34C;'])
                         <ul class="sortable-list connectList agile-list" id="completed">
                             @foreach ($completed as $ticket)
-                                @include('partials.task-item')
+                                @include('partials.task_item')
                             @endforeach
                         </ul>
                     </div>
@@ -104,6 +104,7 @@
 
 @section('bottom-script')
 @parent
+@include('partials.responsive_script')
 <script type="text/javascript">
     var user = "{{ str_random(8).date('dHis') }}";
     var project_id = '{{ $projectId }}';
