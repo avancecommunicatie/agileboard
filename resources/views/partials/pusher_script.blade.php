@@ -1,5 +1,5 @@
 <script>
-	$(document).ready(function() {
+	$(function() {
 		var pusher = new Pusher('c6ca1d090dec336e071a');
 		var channel = pusher.subscribe('refreshChannel'+project_id+sprint_id+env);
 

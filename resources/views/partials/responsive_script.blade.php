@@ -1,16 +1,18 @@
 <script>
-    $(document).ready(function() {
-       var windowHeight     = window.innerHeight;
-       var headerHeight     = $('#taskboard-header').height();
-       var taskboardContent = $('#taskboard-content');
-
-       var taskSectionHeight =  windowHeight - headerHeight - taskboardContent.css('padding-top') - taskboardContent.css('padding-bottom');
-
-       console.log(windowHeight);
-       console.log(headerHeight);
-       console.log(taskSectionHeight);
-
-       $('body').css('max-height', windowHeight);
-//       $('.task-section').css('max-height', );
+    $(function(){
+        resizeBlocks();
+        $(window).resize(function(){
+            resizeBlocks();
+        });
     });
+
+    function resizeBlocks(){
+        var windowHeight = $(window).height();
+        var headerHeight = $('#taskboard-header').height();
+        var paddings = 60+150;
+
+        var newHeight = windowHeight-headerHeight-paddings;
+
+        $('.sortable-list').height(newHeight);
+    }
 </script>

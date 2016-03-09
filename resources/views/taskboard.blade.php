@@ -111,7 +111,7 @@
     var sprint_id = '{{ $sprintId }}';
     var env = '{{ env('APP_ENV') }}';
 
-    $(document).ready(function() {
+    $(function() {
         var description_btn = $('.description-btn');
         var token = '{{ csrf_token() }}';
 
