@@ -2,6 +2,10 @@ body, html {
     height: 100%;
 }
 
+#home-btn {
+    margin-top: 12px;
+}
+
 #select-sprint-btn {
     border-radius: 2px;
 }
@@ -19,6 +23,10 @@ body, html {
     min-height: 100%;
 }
 
+.description-btn {
+    padding-top: 5px;
+}
+
 .handle {
     cursor: move;
 }
@@ -32,29 +40,15 @@ body, html {
     margin-bottom: 0;
 }
 
-.home-btn-div {
-    margin-top: 1.1em;
-    margin-left: 1em;
-    width: 5.2%;
-}
-
 .input-sprint {
     padding: 0;
     width: 5%;
-}
-
-.nav-wrapper {
-    min-height: 5.5em;
 }
 
 .select-sprint {
     padding: 0;
     height: 1.8em;
     font-size: 12px;
-}
-
-.top-buffer {
-    margin-top: 0.6em;
 }
 
 .ticket-assign-to {

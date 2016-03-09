@@ -1,5 +1,5 @@
 <li class="drag-box task-item {{ ($ticket->priority <= 30 ? 'success-element' : '') }} {{ ($ticket->priority > 30 && $ticket->priority <= 40 ? 'warning-element' : '') }} {{ ($ticket->priority > 40 ? 'danger-element' : '') }}" id="{{ $ticket->id }}">
-	<i class="pull-right fa fa-angle-double-down fa-lg description-btn" style="padding-top: 5px;"></i>
+	<i class="pull-right fa fa-angle-double-down fa-lg description-btn"></i>
 	<div class="clearfix handle">
 		<strong class="ticket-summary">{{ $ticket->summary }}</strong>
 		<div class="hr-line-dashed ticket-description no-padding"></div>
@@ -16,7 +16,7 @@
 					<i class="fa fa-comment-o"></i> {{ $ticket->bugnote->count() }}
 				</div>
 			</div>
-			<div class="row" style="margin-top: 10px;">
+			<div class="row">
 				<div class="col-xl-3 col-lg-5 col-md-6 col-sm-6 col-xs-6">
 					<a href="http://in2008.nl/mantis/view.php?id={{ $ticket->id }}" class="btn btn-xs btn-primary" target="_blank"><i class="fa fa-eye"></i>  Toon ticket</a>
 				</div>

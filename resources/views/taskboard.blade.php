@@ -1,18 +1,18 @@
 @extends('master')
 
 @section('content')
-    <div id="taskboard-header" class="row wrapper nav-wrapper border-bottom white-bg page-heading no-padding">
-        <nav class="navbar navbar-default border-bottom">
+    <div id="taskboard-header" class="row wrapper border-bottom white-bg">
+        <nav class="navbar border-bottom">
             <div class="col-lg-9 col-md-4 col-sm-10 col-xs-12">
-                <h2 style="margin-left: 0.6em;">{{ $projectName }}: Taskboard</h2>
+                <h2 style="margin-left: 1%;">{{ $projectName }}: Taskboard</h2>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-10 col-xs-12">
-                <div class="row clearfix" style="margin-left: 0.8em;">
-                    <div class="col-lg-offset-2 col-lg-1 col-md-3 col-sm-10 col-sm-offset-2 col-xs-12 no-padding home-btn-div">
-                        <a href="{{route('home')}}" class="btn btn-sm btn-primary" style="border-radius: 15px;"><i class="fa fa-home fa-2x"></i></a>
+                <div class="row clearfix">
+                    <div class="col-lg-offset-2 col-lg-1 col-md-3 col-sm-10 col-sm-offset-2 col-xs-12">
+                        <a href="{{route('home')}}" id="home-btn" class="btn btn-sm btn-primary" style="border-radius: 15px;"><i class="fa fa-home fa-2x"></i></a>
                     </div>
-                    <div class="col-lg-offset-1 col-lg-7 col-md-9 col-sm-2 col-xs-12" style="min-width: 80%;">
-                        <a href="http://in2008.nl/mantis/my_view_page.php"><h2>Ga naar Mantis</h2></a>
+                    <div class="col-lg-offset-1 col-lg-7 col-md-9 col-sm-2 col-xs-12">
+                        <a href="http://in2008.nl/mantis/my_view_page.php"><h2 style="white-space: nowrap">Ga naar Mantis</h2></a>
                     </div>
                 </div>
             </div>
@@ -21,16 +21,16 @@
             <div class="form-group">
                 <div class="row" id="select-sprint-section">
                     {!! Form::open(['url' => route('taskboard.change-sprint'), 'method' => 'POST']) !!}
-                    <div class="col-lg-4 col-md-3 col-sm-8 col-xs-4 input-sprint">
-                        {!! Form::label('sprint_id', 'Sprint #') !!}
+                    <div class="col-lg-4 col-md-3 col-sm-8 col-xs-8 input-sprint">
+                        {!! Form::label('sprint_id', 'Sprint #', ['style' => 'white-space: nowrap;']) !!}
                     </div>
-                    <div class="col-lg-1 col-md-3 col-sm-2 col-xs-4">
+                    <div class="col-lg-1 col-md-3 col-sm-2 col-xs-2">
                         @if ($sprints)
                             {!! Form::select('sprint_id', $sprints, $sprintId, ['class' => 'select-sprint', 'style' => 'min-width: 120%;']) !!}
                         @endif
                     </div>
-                    <div class="col-lg-7 col-md-6 col-sm-2 col-xs-4">
-                        <span class="input-group-btn">
+                    <div class="col-lg-7 col-md-6 col-sm-2 col-xs-2">
+                        <span class="form-group-btn">
                             {!! Form::hidden('project_id', $projectId) !!}
                             <button type="submit" class="btn btn-xs btn-primary" id="select-sprint-btn"> Bekijk</button>
                         </span>
