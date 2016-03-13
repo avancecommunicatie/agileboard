@@ -17,3 +17,6 @@ Route::get('taskboard/{project_id}/{sprint_id?}', ['as' => 'taskboard.index', 'u
 Route::post('taskboard/update-status', ['as' => 'taskboard.update-status', 'uses' => 'TaskboardController@updateStatus']);
 Route::post('taskboard/change-handler', ['as' => 'taskboard.change-handler', 'uses' => 'TaskboardController@changeHandler']);
 Route::post('taskboard/change-sprint', ['as' => 'taskboard.change-sprint', 'uses' => 'TaskboardController@changeSprint']);
+Route::post('taskboard/change-project', ['as' => 'taskboard.change-project', 'uses' => 'TaskboardController@changeProject']);
+
+Route::get('dashboard', ['as' => 'dashboard.index', 'uses' => 'DashboardController@index']);

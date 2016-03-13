@@ -14,6 +14,10 @@ class Project extends Model
 		return $this->hasMany('App\Bug');
 	}
 
+	public function stories() {
+		return $this->hasMany('App\Story');
+	}
+
 	public function fields() {
 		return $this->belongsToMany('App\CustomField', 'lg_mantis.mantis_custom_field_project_table', 'project_id', 'field_id')->withPivot('sequence');
 	}

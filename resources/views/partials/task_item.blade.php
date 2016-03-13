@@ -21,7 +21,11 @@
 					<a href="http://in2008.nl/mantis/view.php?id={{ $ticket->id }}" class="btn btn-xs btn-primary" target="_blank"><i class="fa fa-eye"></i>  Toon ticket</a>
 				</div>
 				<div class="col-xl-4 col-lg-offset-1 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					@if(count($users) > 0)
 					{!! Form::select('assign_to_id', $users, ($ticket->user ? $ticket->user->id : false), ['class' => 'ticket-assign-to']) !!}
+					@else
+						<p><strong>Ticketgroep</strong> #</p>
+					@endif
 				</div>
 			</div>
 		</div>

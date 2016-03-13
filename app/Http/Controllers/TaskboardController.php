@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Project;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -24,6 +23,7 @@ class TaskboardController extends Controller
     public function index($project_id, $sprint_id = -1)
     {
         $users = collectionToSelect(User::orderBy('realname', 'ASC')->get(), true, 'realname');
+        $projects = collectionToSelect(Project::orderBy('name', 'ASC')->get(), true, 'name');
 
         if ($project_id) {
             $sprints = \DB::table('mantis_project_table')
@@ -52,39 +52,19 @@ class TaskboardController extends Controller
             }
 
             $project = Project::find($project_id);
-
             $tickets = $project->bugs()->bySprint($sprint_id)->get();
 
-            $projectName = $project->name;
-
-            $toDo       = [];//$tickets->where('status', 10);
-            $inProgress = [];//$tickets->where('status', 50);
-            $feedback   = [];//$tickets->where('status', 20);
-            $completed  = [];//$tickets->where('status', 80);
-
-            foreach ($tickets as $ticket) {
-                switch ($ticket->status) {
-                    case 10:
-                        $toDo[] = $ticket;
-                        break;
-                    case 50:
-                        $inProgress[] = $ticket;
-                        break;
-                    case 20:
-                        $feedback[] = $ticket;
-                        break;
-                    case 80:
-                        $completed[] = $ticket;
-                        break;
-                }
-            }
+            $toDo = $tickets->where('status', 10);
+            $inProgress = $tickets->where('status', 50);
+            $feedback   = $tickets->where('status', 20);
+            $completed  = $tickets->where('status', 80);
 
         } else {
             $flash['error'] = 'Kies een project om door te gaan';
             return redirect(route('home'))->with($flash);
         }
 
-        return view('taskboard', ['users' => $users, 'projectId' => $project_id, 'sprintId' => $sprint_id, 'projectName' => $projectName, 'toDo' => $toDo, 'inProgress' => $inProgress, 'feedback' => $feedback, 'completed' => $completed, 'sprints' => $sprints]);
+        return view('taskboard.index', ['users' => $users, 'projects' => $projects, 'project' => $project, 'sprintId' => $sprint_id, 'toDo' => $toDo, 'inProgress' => $inProgress, 'feedback' => $feedback, 'completed' => $completed, 'sprints' => $sprints]);
     }
 
     /**
@@ -141,16 +121,14 @@ class TaskboardController extends Controller
     }
 
     /**
-     * Add a ticket to the to-do list.
+     * Change the current sprint.
      *
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */
     public function changeSprint(Request $request)
     {
-        $projectId = $request->get('project_id');
-
-        return redirect(route('taskboard.index', ['project_id' => $projectId, 'sprint_id' => $request->get('sprint_id')]));
+        return redirect(route('taskboard.index', ['project_id' => $request->get('project_id'), 'sprint_id' => $request->get('sprint_id')]));
     }
 
     /**
@@ -181,5 +159,16 @@ class TaskboardController extends Controller
         }
 
         return $response;
+    }
+
+    /**
+     * Change the current project.
+     *
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function changeProject(Request $request)
+    {
+        return redirect(route('taskboard.index', ['project_id' => $request->get('project_id'), 'sprint_id' => $request->get('sprint_id')]));
     }
 }
