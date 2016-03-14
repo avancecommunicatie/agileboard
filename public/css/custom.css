@@ -16,6 +16,50 @@ body, html {
     border-radius: 2px;
 }
 
+#todo, #inprogress, #feedback, #completed {
+    position:relative;
+}
+
+#todo:before {
+    font-family: FontAwesome;
+    content: "\f0f6";
+    z-index: 1;
+    font-size: 15em;
+    color: #DADADA;
+    padding: 0.6em;
+    margin: auto;
+}
+
+#inprogress:before {
+    font-family: FontAwesome;
+    content: "\f109";
+    z-index: 1;
+    font-size: 15em;
+    color: #DADADA;
+    padding: 0.6em;
+    margin: auto;
+}
+
+#feedback:before {
+    font-family: FontAwesome;
+    content: "\f27b";
+    z-index: 1;
+    font-size: 15em;
+    color: #DADADA;
+    padding: 0.6em;
+    margin: auto;
+}
+
+#completed:before {
+    font-family: FontAwesome;
+    content: "\f046";
+    z-index: 1;
+    font-size: 15em;
+    color: #DADADA;
+    padding: 0.6em;
+    margin: auto;
+}
+
 .agile-detail {
     margin-top: 0;
     padding: 10px 0 0;
@@ -29,12 +73,19 @@ body, html {
     padding-top: 5px;
 }
 
-.handle {
-    cursor: move;
+.drag-box {
+    z-index: 10;
 }
 
-.drag-box {
-    padding: 5px 10px 0;
+/*.fa-15x:after {*/
+    /*z-index: 1;*/
+    /*margin: 1em auto;*/
+    /*font-size: 15em;*/
+    /*color: #DADADA;*/
+/*}*/
+
+.handle {
+    cursor: move;
 }
 
 .hr-line-dashed {

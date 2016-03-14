@@ -20,35 +20,27 @@
         <div class="container-fluid">
             <div class="form-group">
                 <div class="row" id="select-sprint-section">
-                    <div class="col-lg-4">
-                        <div class="row">
-                            {!! Form::open(['id' => 'change-project', 'url' => route('taskboard.change-project'), 'method' => 'POST']) !!}
-                            <div class="col-lg-2 col-md-6 col-sm-8 col-xs-8 input-sprint">
-                                {!! Form::hidden('sprint_id', $sprintId) !!}
-                                {!! Form::label('project_id', 'Project #', ['style' => 'float: right; white-space: nowrap;']) !!}
-                            </div>
-                            <div class="col-lg-10 col-md-6 col-sm-4 col-xs-2">
-                                @if ($projects)
-                                    {!! Form::select('project_id', $projects, $project->id, ['id' => 'select-project']) !!}
-                                @endif
-                            </div>
-                            {!! Form::close() !!}
+                    <div class="col-lg-3">
+                        {!! Form::open(['id' => 'change-project', 'url' => route('taskboard.change-project'), 'method' => 'POST']) !!}
+                        <div class="form-group">
+                            {!! Form::hidden('sprint_id', $sprintId) !!}
+                            {!! Form::label('project_id', 'Project #', ['style' => 'white-space: nowrap;']) !!}
+                            @if ($projects)
+                                {!! Form::select('project_id', $projects, $project->id, ['id' => 'select-project']) !!}
+                            @endif
                         </div>
+                        {!! Form::close() !!}
                     </div>
-                    <div class="col-lg-8">
-                        <div class="row">
-                            {!! Form::open(['id' => 'change-sprint', 'url' => route('taskboard.change-sprint'), 'method' => 'POST']) !!}
-                            <div class="col-lg-1 col-md-6 col-sm-9 col-xs-10 input-sprint">
-                                {!! Form::hidden('project_id', $project->id) !!}
-                                {!! Form::label('sprint_id', 'Sprint #', ['style' => 'float: right; white-space: nowrap;']) !!}
-                            </div>
-                            <div class="col-lg-11 col-md-6 col-sm-3 col-xs-2">
-                                @if ($sprints)
-                                    {!! Form::select('sprint_id', $sprints, $sprintId, ['id' => 'select-sprint']) !!}
-                                @endif
-                            </div>
-                            {!! Form::close() !!}
+                    <div class="col-lg-9">
+                        {!! Form::open(['id' => 'change-sprint', 'url' => route('taskboard.change-sprint'), 'method' => 'POST']) !!}
+                        <div class="form-group input-sprint">
+                            {!! Form::hidden('project_id', $project->id) !!}
+                            {!! Form::label('sprint_id', 'Sprint #', ['style' => 'white-space: nowrap;']) !!}
+                            @if ($sprints)
+                                {!! Form::select('sprint_id', $sprints, $sprintId, ['id' => 'select-sprint']) !!}
+                            @endif
                         </div>
+                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>
