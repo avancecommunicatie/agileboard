@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Bug;
+use App\Story;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class DashboardController extends Controller
+class StoryboardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +19,9 @@ class DashboardController extends Controller
     public function index()
     {
         $tickets = Bug::where('status', 50)->get();
+        $stories = Story::orderBy('created_at', 'DESC')->get();
 
-        return view('dashboard.index', ['tickets' => $tickets, 'users' => []]);
+        return view('storyboard.index', ['tickets' => $tickets, 'stories' => $stories, 'users' => []]);
     }
 
     /**
@@ -40,7 +42,10 @@ class DashboardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $story = new Story($request->all());
+        $story->save();
+
+        return redirect(route('storyboard.index'));
     }
 
     /**

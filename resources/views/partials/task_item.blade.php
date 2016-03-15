@@ -16,7 +16,7 @@
 					<i class="fa fa-comment-o"></i> {{ $ticket->bugnote->count() }}
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" style="margin-top: 10px;">
 				<div class="col-xl-3 col-lg-5 col-md-6 col-sm-6 col-xs-6">
 					<a href="http://in2008.nl/mantis/view.php?id={{ $ticket->id }}" class="btn btn-xs btn-primary" target="_blank"><i class="fa fa-eye"></i>  Toon ticket</a>
 				</div>

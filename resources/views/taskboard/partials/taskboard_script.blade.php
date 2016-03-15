@@ -36,9 +36,7 @@
                         env: env
                     }
                 }).done(function(response) {
-                    if(response.success){
-//                           toastr.success('De status van dit ticket is gewijzigd', 'Status gewijzigd!');
-                    }else{
+                    if(!response.success){
                         toastr.error('Er ging iets mis', 'Fout');
                     }
                 });
@@ -67,9 +65,7 @@
                 }
 
             }).done(function( response ) {
-                if(response.success){
-//                    toastr.success('Ticket succesvol toegewezen', 'Gelukt!');
-                }else{
+                if(!response.success){
                     toastr.error('Er ging iets mis', 'Fout');
                 }
             });
@@ -81,6 +77,10 @@
 
         select_sprint.on('change', function() {
             $('#change-sprint').submit();
-        })
+        });
     });
+
+    setTimeout(function(){
+        location.reload();
+    }, 300000);
 </script>

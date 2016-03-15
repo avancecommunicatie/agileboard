@@ -19,4 +19,5 @@ Route::post('taskboard/change-handler', ['as' => 'taskboard.change-handler', 'us
 Route::post('taskboard/change-sprint', ['as' => 'taskboard.change-sprint', 'uses' => 'TaskboardController@changeSprint']);
 Route::post('taskboard/change-project', ['as' => 'taskboard.change-project', 'uses' => 'TaskboardController@changeProject']);
 
-Route::get('dashboard', ['as' => 'dashboard.index', 'uses' => 'DashboardController@index']);
+Route::get('storyboard', ['as' => 'storyboard.index', 'uses' => 'StoryboardController@index']);
+Route::post('storyboard', ['as' => 'storyboard.store', 'uses' => 'StoryboardController@store']);
