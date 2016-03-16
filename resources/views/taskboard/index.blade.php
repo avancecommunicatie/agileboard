@@ -22,7 +22,7 @@
                             {!! Form::hidden('sprint_id', $sprintId) !!}
                             {!! Form::label('project_id', 'Project #', ['style' => 'white-space: nowrap;']) !!}
                             @if ($projects)
-                                {!! Form::select('project_id', $projects, $project->id, ['id' => 'select-project']) !!}
+                                {!! Form::select('project_id', $projects, $project->id, ['id' => 'select-project', 'style' => 'width: 75%;']) !!}
                             @endif
                         </div>
                         {!! Form::close() !!}

@@ -84,7 +84,7 @@
         $(function() {
             $('.handle').css('cursor', 'default');
 
-            $('.description_btn').on('click', function() {
+            $('.description-btn').on('click', function() {
                 $(this).toggleClass('fa-angle-double-down fa-angle-double-up');
                 $(this).siblings('.handle').children('.ticket-description').toggle('slide', { direction: "left"}, 500);
             });
