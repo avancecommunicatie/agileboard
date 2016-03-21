@@ -1,7 +1,6 @@
 @extends('master')
 
 @section('content')
-
 <div id="taskboard-header" class="row wrapper border-bottom white-bg">
     <nav class="navbar border-bottom">
         <div class="col-lg-9 col-md-6 col-sm-6 col-xs-12">
@@ -44,7 +43,6 @@
                 <div class="ibox-content">
                     {!! Form::open(['url' => route('storyboard.store'), 'method' => 'POST']) !!}
                     <div class="form-group">
-                        {{--{!! Form::label('subject', 'Onderwerp', ['class'=>'control-label']) !!}--}}
                         {!! Form::bsText('subject', false, ['class' => 'form-control', 'placeholder' => 'Onderwerp']) !!}
                     </div>
                     <div class="form-group">
