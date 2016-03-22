@@ -21,4 +21,9 @@ class Project extends Model
 	public function fields() {
 		return $this->belongsToMany('App\CustomField', 'lg_mantis.mantis_custom_field_project_table', 'project_id', 'field_id')->withPivot('sequence');
 	}
+
+	public function projectgroups()
+	{
+		return $this->belongsToMany('App\Projectgroup', 'projectgroups_project', 'project_id', 'projectgroup_id');
+	}
 }

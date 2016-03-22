@@ -63,7 +63,7 @@
                         </div>
                         <i class="fa fa-comment-o fa-3x pull-left"></i>
                         <h3 style="display: inline-block">{{ $story->subject }}</h3>
-                        <small class="text-muted" style="display: block"><i class="fa fa-clock-o"></i>  {{ $story->created_at }}</small>
+                        <small class="text-muted" style="display: block"><i class="fa fa-clock-o"></i>  {{ date('d-m-Y H:s:i', strtotime($story->created_at)) }}</small>
                     </div>
                     <div class="ibox-content">
                         <p>{!! nl2br($story->content) !!}</p>
