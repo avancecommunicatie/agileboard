@@ -16,49 +16,6 @@ body, html {
     position:relative;
 }
 
-/*#todo:before {*/
-    /*position: absolute;*/
-    /*font-family: FontAwesome;*/
-    /*content: "\f0f6";*/
-    /*z-index: 1;*/
-    /*font-size: 15em;*/
-    /*color: #DADADA;*/
-    /*padding: 0.6em;*/
-    /*margin: auto;*/
-/*}*/
-
-/*#inprogress:before {*/
-    /*position: absolute;*/
-    /*font-family: FontAwesome;*/
-    /*content: "\f109";*/
-    /*z-index: 1;*/
-    /*font-size: 15em;*/
-    /*color: #DADADA;*/
-    /*margin: auto;*/
-/*}*/
-
-/*#feedback:before {*/
-    /*position: absolute;*/
-    /*font-family: FontAwesome;*/
-    /*content: "\f27b";*/
-    /*z-index: 1;*/
-    /*font-size: 15em;*/
-    /*color: #DADADA;*/
-    /*padding: 0.6em;*/
-    /*margin: auto;*/
-/*}*/
-
-/*#completed:before {*/
-    /*position: absolute;*/
-    /*font-family: FontAwesome;*/
-    /*content: "\f046";*/
-    /*z-index: 1;*/
-    /*font-size: 15em;*/
-    /*color: #DADADA;*/
-    /*padding: 0.6em;*/
-    /*margin: auto;*/
-/*}*/
-
 .agile-detail {
     margin-top: 0;
     padding: 10px 0 0;
@@ -128,4 +85,8 @@ body, html {
 
 .agile-list li.changed-item {
     background-color: #fffcd9;
+}
+
+.wrapper-content {
+    padding-bottom: 0;
 }
