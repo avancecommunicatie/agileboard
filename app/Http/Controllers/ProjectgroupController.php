@@ -34,7 +34,7 @@ class ProjectgroupController extends Controller
         $projectgroup = new Projectgroup();
         $projects = Project::orderBy('name', 'asc')->get();
 
-        return view('projectgroup,create', ['projectgroup' => $projectgroup, 'projects' => $projects]);
+        return view('projectgroup.create', ['projectgroup' => $projectgroup, 'projects' => $projects]);
     }
 
     /**

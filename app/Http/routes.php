@@ -21,3 +21,5 @@ Route::post('taskboard/change-project', ['as' => 'taskboard.change-project', 'us
 
 Route::get('storyboard', ['as' => 'storyboard.index', 'uses' => 'StoryboardController@index']);
 Route::post('storyboard', ['as' => 'storyboard.store', 'uses' => 'StoryboardController@store']);
+
+Route::resource('projectgroup', 'ProjectgroupController');

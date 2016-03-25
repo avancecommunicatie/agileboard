@@ -11,6 +11,6 @@ class Projectgroup extends Model
 
     public function projects()
     {
-        return $this->belongsToMany('App\Project', 'projectgroups_project', 'projectgroup_id', 'project_id');
+        return $this->belongsToMany('App\Project', 'projectgroups_projects', 'projectgroup_id', 'project_id');
     }
 }
