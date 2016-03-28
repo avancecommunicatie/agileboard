@@ -32,7 +32,7 @@ class ProjectgroupController extends Controller
     public function create()
     {
         $projectgroup = new Projectgroup();
-        $projects = Project::orderBy('name', 'asc')->get();
+        $projects = $projects = Project::withSprints()->get();
 
         return view('projectgroup.create', ['projectgroup' => $projectgroup, 'projects' => $projects]);
     }
@@ -45,7 +45,19 @@ class ProjectgroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $projectgroup = new Projectgroup();
+        $projectgroup->name = $request->get('name');
+        $projectgroup->save();
+
+        $sync = [];
+        if ($request->has('projects')) {
+            foreach ($request->get('projects') as $id => $name) {
+                $sync[] = $id;
+            }
+        }
+        $projectgroup->projects()->sync($sync);
+
+        return redirect(route('projectgroup.index'))->with('success', 'Projectgroup opgeslagen');
     }
 
     /**
@@ -56,7 +68,7 @@ class ProjectgroupController extends Controller
      */
     public function show($id)
     {
-        //
+        return redirect(route('projectgroup.index'));
     }
 
     /**
@@ -67,12 +79,13 @@ class ProjectgroupController extends Controller
      */
     public function edit($id)
     {
-        $projectgroup = Projectgroup::find($id);
+        $projectgroup = Projectgroup::with('projects')->find($id);
 
         if ($projectgroup) {
-            $projects = Project::orderBy('name', 'asc')->get();
+            $projects = $projects = Project::withSprints()->get();
+//                Project::with('projectgroups')->orderBy('name', 'asc')->get();
 
-            return view('projectgroup,edit', ['projectgroup' => $projectgroup, 'projects' => $projects]);
+            return view('projectgroup.edit', ['projectgroup' => $projectgroup, 'projects' => $projects]);
         }
         return redirect()->route('projectgroup.index')->with('error', 'Kon projectgroup niet vinden');
     }
@@ -86,7 +99,19 @@ class ProjectgroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $projectgroup = Projectgroup::find($id);
+        $projectgroup->name = $request->get('name');
+        $projectgroup->save();
+
+        $sync = [];
+        if ($request->has('projects')) {
+            foreach ($request->get('projects') as $id => $name) {
+                $sync[] = $id;
+            }
+        }
+        $projectgroup->projects()->sync($sync);
+
+        return redirect(route('projectgroup.index'))->with('success', 'Projectgroup gewijzigd');
     }
 
     /**

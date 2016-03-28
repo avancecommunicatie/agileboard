@@ -62,6 +62,10 @@ body, html {
     margin-bottom: 2%;
 }
 
+.new-project-btn {
+    margin-top: 3%;
+}
+
 .ticket-assign-to {
     height: 2.6em;
     width: 100%;
