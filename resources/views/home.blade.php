@@ -21,7 +21,8 @@
                                 <p class="small text-center"><i class="fa fa-info-circle"></i> Agile Projecten zijn een verzameling van mantis projecten</p>
                                 <div class="hr-line-dashed"></div>
                             @endif
-                                <a href="{{route('projectgroup.create')}}" class="btn btn-xs btn-primary new-project-btn"><i class="fa fa-plus"></i> Nieuw</a>
+                                <a href="{{route('projectgroup.create')}}" class="btn btn-xs btn-success project-btn"><i class="fa fa-plus"></i> Nieuw</a>
+                                <a href="{{route('projectgroup.index')}}" class="btn btn-xs btn-default project-btn">Overzicht</a>
                             <div style="margin-top: 10px;">
                                 @if ($projectgroups->count() > 0)
                                     @foreach ($projectgroups as $projectgroup)

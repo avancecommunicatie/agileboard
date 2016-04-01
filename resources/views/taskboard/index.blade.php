@@ -7,9 +7,9 @@
                 <h2>{{ $projectgroup->name }}: Taskboard</h2>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 text-right">
-                <a href="{{route('storyboard.index')}}" class="btn btn-sm btn-primary nav-btn" style="border-radius: 15px;"><i class="fa fa-comments-o fa-2x"></i></a>
-                <a href="{{route('home')}}" class="btn btn-sm btn-primary nav-btn" style="border-radius: 15px;"><i class="fa fa-home fa-2x"></i></a>
-                <a href="http://in2008.nl/mantis/my_view_page.php" class="btn btn-sm btn-primary nav-btn" style="border-radius: 15px;"><span style="font-size: 1.4em; margin-right: 10%;">Mantis</span> <i class="fa fa-angle-double-right fa-customsize" style="padding-top: 5%;"></i>
+                <a href="{{route('storyboard.index')}}" class="btn btn-sm btn-success nav-btn" style="border-radius: 15px;"><i class="fa fa-comments-o fa-2x"></i></a>
+                <a href="{{route('home')}}" class="btn btn-sm btn-success nav-btn" style="border-radius: 15px;"><i class="fa fa-home fa-2x"></i></a>
+                <a href="http://in2008.nl/mantis/my_view_page.php" class="btn btn-sm btn-success nav-btn" style="border-radius: 15px;"><span style="font-size: 1.4em; margin-right: 10%;">Mantis</span> <i class="fa fa-angle-double-right fa-customsize" style="padding-top: 5%;"></i>
                 </a>
             </div>
         </nav>
@@ -21,7 +21,7 @@
                         <div class="form-group">
                             {!! Form::hidden('sprint_id', $sprintId) !!}
                             {!! Form::label('projectgroup_id', 'Agile project #', ['style' => 'white-space: nowrap;']) !!}
-                            @if ($projects)
+                            @if ($projectgroups)
                                 {!! Form::select('projectgroup_id', $projectgroups, $projectgroup->id, ['id' => 'select-project', 'style' => 'width: 75%;']) !!}
                             @endif
                         </div>

@@ -20,7 +20,7 @@
                 <div class="input-group" style="margin: 15px;">
                     <input type="text" id="search-input" class="form-control input-sm" placeholder="Zoeken...">
                     <span class="input-group-btn">
-                        <button id="search-btn" class="btn btn-primary btn-sm"><i class="fa fa-search"></i></button>
+                        <button id="search-btn" class="btn btn-success btn-sm"><i class="fa fa-search"></i></button>
                     </span>
                 </div>
             </div>
@@ -35,9 +35,7 @@
     </div>
 
     <div class="ibox-content lg-no-margins">
-        {!! Form::submit('Opslaan', ['class' => 'btn btn-sm btn-primary']) !!}
-        <a href="{{route('projectgroup.index')}}" class="btn btn-sm btn-default">Terug</a>
+        {!! Form::submit('Opslaan', ['class' => 'btn btn-sm btn-success']) !!}
+        <a href="{{ \URL::previous() }}" class="btn btn-sm btn-default">Terug</a>
     </div>
 </div>
-
-

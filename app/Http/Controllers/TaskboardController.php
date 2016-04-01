@@ -41,19 +41,6 @@ class TaskboardController extends Controller
                          ->orderBy(\DB::raw('convert(mantis_custom_field_string_table.value,decimal)'))
                          ->get();
 
-            /*
-             SELECT mcfst.value
-FROM lg_agile.projectgroups as pg
-JOIN lg_agile.projectgroups_projects pgp ON pg.id = pgp.projectgroup_id
-JOIN lg_mantis.mantis_project_table mpt ON pgp.project_id = mpt.id
-JOIN lg_mantis.mantis_bug_table mbt ON mpt.id = mbt.project_id
-JOIN lg_mantis.mantis_custom_field_string_table mcfst ON mbt.id = mcfst.bug_id
-WHERE pg.id = 2
-AND mcfst.field_id = 6 AND mcfst.field_id != ''
-GROUP BY mcfst.value
-ORDER BY convert(mcfst.value,decimal) DESC
-             */
-
 			$sprintsObj = array_reverse($sprints);
             if ($sprint_id == -1) {
 				if (!empty($sprintsObj) ) {
@@ -72,32 +59,14 @@ ORDER BY convert(mcfst.value,decimal) DESC
 
             $projectgroup = Projectgroup::with('projects')->find($projectgroup_id);
 
-//            $project = Project::find($project_id);
-//            $tickets = $project->bugs()->bySprint($sprint_id)->get();
-
-
-            $tickets = DB::table('lg_agile.projectgroups')
-                            ->join('lg_agile.projectgroups_projects', 'projectgroups.id', '=', 'projectgroups_projects.projectgroup_id')
-                            ->join('mantis_project_table', 'mantis_project_table.id', '=', 'projectgroups_projects.project_id')
-                            ->join('mantis_bug_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
-                            ->join('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
-                            ->where('projectgroups.id', $projectgroup_id)
+            $tickets = Bug::join('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
+                            ->join('mantis_project_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
+                            ->join('lg_agile.projectgroups_projects', 'mantis_project_table.id', '=', 'projectgroups_projects.project_id')
+                            ->join('lg_agile.projectgroups', 'projectgroups.id', '=', 'projectgroups_projects.projectgroup_id')
                             ->where('mantis_custom_field_string_table.field_id', 6)
-                            ->where('mantis_custom_field_string_table.value', '=', $sprint_id)
+                            ->where('projectgroups.id', $projectgroup_id)
+                            ->where('mantis_custom_field_string_table.value', $sprint_id)
                             ->get();
-
-
-//            $tickets = Bug::whereHas('project.projectgroups', function($query) use ($projectgroup_id) {
-//                                                        $query->where('projectgroup_id', $projectgroup_id, false);
-//                                                    })->get();
-
-            dd($tickets);
-
-
-
-
-
-
 
             $toDo       = $tickets->where('status', 10, false);
             $inProgress = $tickets->where('status', 50, false);

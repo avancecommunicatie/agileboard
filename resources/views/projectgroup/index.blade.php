@@ -7,9 +7,9 @@
                 <h2>Agile Projecten</h2>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 text-right">
-                <a href="{{route('taskboard.index')}}" class="btn btn-sm btn-primary nav-btn" style="border-radius: 15px;"><i class="fa fa-tasks fa-2x"></i></a>
-                <a href="{{route('home')}}" class="btn btn-sm btn-primary nav-btn" style="border-radius: 15px;"><i class="fa fa-home fa-2x"></i></a>
-                <a href="http://in2008.nl/mantis/my_view_page.php" class="btn btn-sm btn-primary nav-btn" style="border-radius: 15px;"><span style="font-size: 1.4em; margin-right: 10%;">Mantis</span> <i class="fa fa-angle-double-right fa-customsize" style="padding-top: 5%;"></i>
+                <a href="{{route('taskboard.index')}}" class="btn btn-sm btn-success nav-btn" style="border-radius: 15px;"><i class="fa fa-tasks fa-2x"></i></a>
+                <a href="{{route('home')}}" class="btn btn-sm btn-success nav-btn" style="border-radius: 15px;"><i class="fa fa-home fa-2x"></i></a>
+                <a href="http://in2008.nl/mantis/my_view_page.php" class="btn btn-sm btn-success nav-btn" style="border-radius: 15px;"><span style="font-size: 1.4em; margin-right: 10%;">Mantis</span> <i class="fa fa-angle-double-right fa-customsize" style="padding-top: 5%;"></i>
                 </a>
             </div>
         </nav>
@@ -38,7 +38,7 @@
                                 <p class="small text-center"><i class="fa fa-info-circle"></i> Agile Projecten zijn een verzameling van mantis projecten</p>
                                 <div class="hr-line-dashed"></div>
                             @endif
-                                <a href="{{route('projectgroup.create')}}" class="btn btn-xs btn-primary new-project-btn"><i class="fa fa-plus"></i> Nieuw</a>
+                                <a href="{{route('projectgroup.create')}}" class="btn btn-xs btn-success project-btn"><i class="fa fa-plus"></i> Nieuw</a>
                             <div style="margin-top: 10px;">
                                 @if ($projects->count() > 0)
                                     @foreach ($projectgroups as $projectgroup)
