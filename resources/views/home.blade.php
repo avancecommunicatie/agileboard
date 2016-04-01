@@ -9,41 +9,24 @@
                         <div class="ibox-title">
                             <div class="row">
                                 <div class="col-lg-offset-1 col-lg-1">
-                                    <i class="fa fa-calendar fa-3x"></i>
+                                    <i class="fa fa-tag fa-3x"></i>
                                 </div>
                                 <div class="col-lg-9">
-                                    <h2 class="text-center">Projectoverzicht</h2>
+                                    <h2 class="text-center">Agile Projecten</h2>
                                 </div>
                             </div>
                         </div>
-                        {{--<div class="ibox-content">--}}
-                            {{--@if ($projects->count() > 0)--}}
-                                {{--<p class="small text-center"><i class="fa fa-info-circle"></i> {{ ($projects->count() > 1 ? 'Projectnamen' : 'Projectnaam') }} en aantal sprints gekoppeld aan het project</p>--}}
-                            {{--@endif--}}
-                            {{--<div style="margin-top: 10px;">--}}
-                                {{--@if ($projects->count() > 0)--}}
-                                    {{--@foreach ($projects as $project)--}}
-                                        {{--<div class="searchable" data-name="{{ $project->name }}">--}}
-                                            {{--<a href="{{ route('taskboard.index', ['project_id' => $project->id]) }}" class="list-group-item">{{ $project->name }} <span class="label label-default pull-right">{{ $project->sprints }}</span></a>--}}
-                                        {{--</div>--}}
-                                    {{--@endforeach--}}
-                                {{--@else--}}
-                                    {{--<p class="text-center">Geen projecten om weer te geven</p>--}}
-                                {{--@endif--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-
                         <div class="ibox-content">
-                            @if ($projects->count() > 0)
+                            @if ($projectgroups->count() > 0)
                                 <p class="small text-center"><i class="fa fa-info-circle"></i> Agile Projecten zijn een verzameling van mantis projecten</p>
                                 <div class="hr-line-dashed"></div>
                             @endif
-                            <a href="{{route('projectgroup.create')}}" class="btn btn-xs btn-primary new-project-btn"><i class="fa fa-plus"></i> Nieuw</a>
+                                <a href="{{route('projectgroup.create')}}" class="btn btn-xs btn-primary new-project-btn"><i class="fa fa-plus"></i> Nieuw</a>
                             <div style="margin-top: 10px;">
-                                @if ($projects->count() > 0)
-                                    @foreach ($projects->projectgroups as $projectgroup)
+                                @if ($projectgroups->count() > 0)
+                                    @foreach ($projectgroups as $projectgroup)
                                         <div class="searchable" data-name="{{ $projectgroup->name }}">
-                                            <a href="{{ route('projectgroup.edit', $projectgroup->id) }}" class="list-group-item">{{ $projectgroup->name }} <span class="label label-default pull-right" title="Aantal projecten">{{ $projectgroup->projects->count() }}</span></a>
+                                            <a href="{{ route('taskboard.index', $projectgroup->id) }}" class="list-group-item">{{ $projectgroup->name }} <span class="label label-default pull-right" title="Aantal projecten">{{ ($projectgroup->projects ? $projectgroup->projects->count() : 0) }}</span></a>
                                         </div>
                                     @endforeach
                                 @else
@@ -51,7 +34,7 @@
                                 @endif
                             </div>
                         </div>
-                   </div>
+                    </div>
                 </div>
             </div>
         </div>

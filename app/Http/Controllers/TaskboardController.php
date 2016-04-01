@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Project;
+use App\Projectgroup;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -10,31 +10,50 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Bug;
 
+use DB;
 
 class TaskboardController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param  int $project_id
+     * @param  int $projectgroup_id
      * @param  int $sprint_id
      * @return \Illuminate\Http\Response
      */
-    public function index($project_id, $sprint_id = -1)
+    public function index($projectgroup_id, $sprint_id = -1)
     {
         $users = collectionToSelect(User::orderBy('realname', 'ASC')->get(), true, 'realname');
-        $projects = collectionToSelect(Project::orderBy('name', 'ASC')->get(), true, 'name');
+        $projectgroups = collectionToSelect(Projectgroup::orderBy('name', 'ASC')->get(), true, 'name');
 
-        if ($project_id) {
-            $sprints = \DB::table('mantis_project_table')
-                ->select('mantis_custom_field_string_table.value')
-                ->where('mantis_project_table.id', $project_id)
-				->where('mantis_custom_field_string_table.field_id', 6)
-                ->where('mantis_custom_field_string_table.value', '!=', '')
-                ->join('mantis_bug_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
-                ->join('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
-                ->groupBy('mantis_custom_field_string_table.value')
-                ->orderBy(\DB::raw('convert(mantis_custom_field_string_table.value,decimal)'))->get();
+        if ($projectgroup_id) {
+
+          $sprints = DB::table('lg_agile.projectgroups')
+                         ->select('mantis_custom_field_string_table.value')
+                         ->where('projectgroups.id', $projectgroup_id)
+                         ->where('mantis_custom_field_string_table.field_id', 6)
+                         ->where('mantis_custom_field_string_table.value', '!=', '')
+                         ->join('lg_agile.projectgroups_projects', 'projectgroups.id', '=', 'projectgroups_projects.projectgroup_id')
+                         ->join('mantis_project_table', 'mantis_project_table.id', '=', 'projectgroups_projects.project_id')
+                         ->join('mantis_bug_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
+                         ->join('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
+                         ->groupBy('mantis_custom_field_string_table.value')
+                         ->orderBy(\DB::raw('convert(mantis_custom_field_string_table.value,decimal)'))
+                         ->get();
+
+            /*
+             SELECT mcfst.value
+FROM lg_agile.projectgroups as pg
+JOIN lg_agile.projectgroups_projects pgp ON pg.id = pgp.projectgroup_id
+JOIN lg_mantis.mantis_project_table mpt ON pgp.project_id = mpt.id
+JOIN lg_mantis.mantis_bug_table mbt ON mpt.id = mbt.project_id
+JOIN lg_mantis.mantis_custom_field_string_table mcfst ON mbt.id = mcfst.bug_id
+WHERE pg.id = 2
+AND mcfst.field_id = 6 AND mcfst.field_id != ''
+GROUP BY mcfst.value
+ORDER BY convert(mcfst.value,decimal) DESC
+             */
+
 			$sprintsObj = array_reverse($sprints);
             if ($sprint_id == -1) {
 				if (!empty($sprintsObj) ) {
@@ -51,20 +70,46 @@ class TaskboardController extends Controller
                 return redirect(route('home'))->with('info', 'Dit project heeft geen sprints');
             }
 
-            $project = Project::find($project_id);
-            $tickets = $project->bugs()->bySprint($sprint_id)->get();
+            $projectgroup = Projectgroup::with('projects')->find($projectgroup_id);
 
-            $toDo = $tickets->where('status', 10);
-            $inProgress = $tickets->where('status', 50);
-            $feedback   = $tickets->where('status', 20);
-            $completed  = $tickets->where('status', 80);
+//            $project = Project::find($project_id);
+//            $tickets = $project->bugs()->bySprint($sprint_id)->get();
+
+
+            $tickets = DB::table('lg_agile.projectgroups')
+                            ->join('lg_agile.projectgroups_projects', 'projectgroups.id', '=', 'projectgroups_projects.projectgroup_id')
+                            ->join('mantis_project_table', 'mantis_project_table.id', '=', 'projectgroups_projects.project_id')
+                            ->join('mantis_bug_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
+                            ->join('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
+                            ->where('projectgroups.id', $projectgroup_id)
+                            ->where('mantis_custom_field_string_table.field_id', 6)
+                            ->where('mantis_custom_field_string_table.value', '=', $sprint_id)
+                            ->get();
+
+
+//            $tickets = Bug::whereHas('project.projectgroups', function($query) use ($projectgroup_id) {
+//                                                        $query->where('projectgroup_id', $projectgroup_id, false);
+//                                                    })->get();
+
+            dd($tickets);
+
+
+
+
+
+
+
+            $toDo       = $tickets->where('status', 10, false);
+            $inProgress = $tickets->where('status', 50, false);
+            $feedback   = $tickets->where('status', 20, false);
+            $completed  = $tickets->where('status', 80, false);
 
         } else {
             $flash['error'] = 'Kies een project om door te gaan';
             return redirect(route('home'))->with($flash);
         }
 
-        return view('taskboard.index', ['users' => $users, 'projects' => $projects, 'project' => $project, 'sprintId' => $sprint_id, 'toDo' => $toDo, 'inProgress' => $inProgress, 'feedback' => $feedback, 'completed' => $completed, 'sprints' => $sprints]);
+        return view('taskboard.index', ['users' => $users, 'projectgroups' => $projectgroups, 'projectgroup' => $projectgroup, 'sprintId' => $sprint_id, 'toDo' => $toDo, 'inProgress' => $inProgress, 'feedback' => $feedback, 'completed' => $completed, 'sprints' => $sprints]);
     }
 
     /**

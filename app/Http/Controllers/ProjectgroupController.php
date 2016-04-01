@@ -7,6 +7,7 @@ use App\Projectgroup;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Http\Requests\ProjectgroupRequest;
 use App\Http\Controllers\Controller;
 
 class ProjectgroupController extends Controller
@@ -43,7 +44,7 @@ class ProjectgroupController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProjectgroupRequest $request)
     {
         $projectgroup = new Projectgroup();
         $projectgroup->name = $request->get('name');
@@ -97,7 +98,7 @@ class ProjectgroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProjectgroupRequest $request, $id)
     {
         $projectgroup = Projectgroup::find($id);
         $projectgroup->name = $request->get('name');
@@ -125,7 +126,7 @@ class ProjectgroupController extends Controller
         $projectgroup = Projectgroup::find($id);
 
         if ($projectgroup) {
-            $projectgroup-detach();
+            $projectgroup->detach();
             $projectgroup->delete();
 
             return redirect()->route('projectgroup.index')->with('info', 'Projectgroep verwijderd');

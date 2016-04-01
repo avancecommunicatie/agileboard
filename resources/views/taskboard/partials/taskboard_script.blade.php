@@ -1,6 +1,6 @@
 <script type="text/javascript">
     var user = "{{ str_random(8).date('dHis') }}";
-    var project_id = '{{ $project->id }}';
+    var project_id = '{{ $projectgroup->id }}';
     var sprint_id = '{{ $sprintId }}';
     var env = '{{ env('APP_ENV') }}';
 

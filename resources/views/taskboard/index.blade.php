@@ -4,7 +4,7 @@
     <div id="taskboard-header" class="row wrapper border-bottom white-bg">
         <nav class="navbar border-bottom">
             <div class="col-lg-9 col-md-6 col-sm-6 col-xs-12">
-                <h2>{{ $project->name }}: Taskboard</h2>
+                <h2>{{ $projectgroup->name }}: Taskboard</h2>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 text-right">
                 <a href="{{route('storyboard.index')}}" class="btn btn-sm btn-primary nav-btn" style="border-radius: 15px;"><i class="fa fa-comments-o fa-2x"></i></a>
@@ -20,9 +20,9 @@
                         {!! Form::open(['id' => 'change-project', 'url' => route('taskboard.change-project'), 'method' => 'POST']) !!}
                         <div class="form-group">
                             {!! Form::hidden('sprint_id', $sprintId) !!}
-                            {!! Form::label('project_id', 'Project #', ['style' => 'white-space: nowrap;']) !!}
+                            {!! Form::label('projectgroup_id', 'Agile project #', ['style' => 'white-space: nowrap;']) !!}
                             @if ($projects)
-                                {!! Form::select('project_id', $projects, $project->id, ['id' => 'select-project', 'style' => 'width: 75%;']) !!}
+                                {!! Form::select('projectgroup_id', $projectgroups, $projectgroup->id, ['id' => 'select-project', 'style' => 'width: 75%;']) !!}
                             @endif
                         </div>
                         {!! Form::close() !!}
@@ -30,7 +30,7 @@
                     <div class="col-lg-9">
                         {!! Form::open(['id' => 'change-sprint', 'url' => route('taskboard.change-sprint'), 'method' => 'POST']) !!}
                         <div class="form-group input-sprint">
-                            {!! Form::hidden('project_id', $project->id) !!}
+                            {!! Form::hidden('projectgroup_id', $projectgroup->id) !!}
                             {!! Form::label('sprint_id', 'Sprint #', ['style' => 'white-space: nowrap;']) !!}
                             @if ($sprints)
                                 {!! Form::select('sprint_id', $sprints, $sprintId, ['id' => 'select-sprint']) !!}

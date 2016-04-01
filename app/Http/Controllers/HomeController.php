@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Project;
+use App\Projectgroup;
 
 class HomeController extends Controller
 {
@@ -17,8 +18,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-		$projects = Project::withSprints()->with('projectgroups')->get();
-	
-        return view('home', ['projects' => $projects]);
+        $projectgroups = Projectgroup::with('projects')->get();
+
+        return view('home', ['projectgroups' => $projectgroups]);
     }
 }
