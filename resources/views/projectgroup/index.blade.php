@@ -26,7 +26,7 @@
                         <div class="ibox-title">
                             <div class="row">
                                 <div class="col-lg-offset-1 col-lg-1">
-                                    <i class="fa fa-tag fa-3x"></i>
+                                    <i class="fa fa-pencil-square-o fa-3x"></i>
                                 </div>
                                 <div class="col-lg-9">
                                     <h2 class="text-center">Agile Projecten</h2>
@@ -35,7 +35,7 @@
                         </div>
                         <div class="ibox-content">
                             @if ($projectgroups->count() > 0)
-                                <p class="small text-center"><i class="fa fa-info-circle"></i> Agile Projecten zijn een verzameling van mantis projecten</p>
+                                <p class="small text-center"><i class="fa fa-info-circle"></i> Klik op een Agile Project om hem te wijzigen</p>
                                 <div class="hr-line-dashed"></div>
                             @endif
                                 <a href="{{route('projectgroup.create')}}" class="btn btn-xs btn-success project-btn"><i class="fa fa-plus"></i> Nieuw</a>

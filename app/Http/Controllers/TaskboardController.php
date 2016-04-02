@@ -23,8 +23,8 @@ class TaskboardController extends Controller
      */
     public function index($projectgroup_id, $sprint_id = -1)
     {
-        $users = collectionToSelect(User::orderBy('realname', 'ASC')->get(), true, 'realname');
-        $projectgroups = collectionToSelect(Projectgroup::orderBy('name', 'ASC')->get(), true, 'name');
+        $users = collectionToSelect(User::orderBy('realname', 'ASC')->get(), false, 'realname');
+        $projectgroups = collectionToSelect(Projectgroup::orderBy('name', 'ASC')->get(), false, 'name');
 
         if ($projectgroup_id) {
 
