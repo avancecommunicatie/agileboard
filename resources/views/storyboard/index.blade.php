@@ -4,15 +4,41 @@
 <div id="taskboard-header" class="row wrapper border-bottom white-bg">
     <nav class="navbar border-bottom">
         <div class="col-lg-9 col-md-6 col-sm-6 col-xs-12">
-            <h2>{{ 'Project' }}: Storyboard</h2>
+            <h2>{{ $projectgroup->name }}: Storyboard</h2>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 text-right">
-            <a href="{{route('taskboard.index')}}" class="btn btn-sm btn-success nav-btn" style="border-radius: 15px;"><i class="fa fa-tasks fa-2x"></i></a>
+            <a href="{{route('taskboard.index', ['projectgroup_id' => $projectgroup->id, 'sprint_id' => $sprintId])}}" class="btn btn-sm btn-success nav-btn" style="border-radius: 15px;"><i class="fa fa-tasks fa-2x"></i></a>
             <a href="{{route('home')}}" class="btn btn-sm btn-success nav-btn" style="border-radius: 15px;"><i class="fa fa-home fa-2x"></i></a>
             <a href="http://in2008.nl/mantis/my_view_page.php" class="btn btn-sm btn-success nav-btn" style="border-radius: 15px;"><span style="font-size: 1.4em; margin-right: 10%;">Mantis</span> <i class="fa fa-angle-double-right fa-customsize" style="padding-top: 5%;"></i>
             </a>
         </div>
     </nav>
+    <div class="container-fluid">
+        <div class="row" id="select-sprint-section">
+            <div class="col-lg-3">
+                {!! Form::open(['id' => 'change-project', 'url' => route('storyboard.change-project'), 'method' => 'POST']) !!}
+                <div class="form-group">
+                    {!! Form::hidden('sprint_id', $sprintId) !!}
+                    {!! Form::label('projectgroup_id', 'Agile project #', ['style' => 'white-space: nowrap;']) !!}
+                    @if ($projectgroups)
+                        {!! Form::select('projectgroup_id', $projectgroups, $projectgroup->id, ['id' => 'select-project']) !!}
+                    @endif
+                </div>
+                {!! Form::close() !!}
+            </div>
+            <div class="col-lg-9">
+                {!! Form::open(['id' => 'change-sprint', 'url' => route('storyboard.change-sprint'), 'method' => 'POST']) !!}
+                <div class="form-group input-sprint">
+                    {!! Form::hidden('projectgroup_id', $projectgroup->id) !!}
+                    {!! Form::label('sprint_id', 'Sprint #', ['style' => 'white-space: nowrap;']) !!}
+                    @if ($sprints)
+                        {!! Form::select('sprint_id', $sprints, $sprintId, ['id' => 'select-sprint']) !!}
+                    @endif
+                </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
 </div>
 <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
@@ -31,17 +57,18 @@
               </div>
         </div>
         <div class="col-lg-9">
-            <div class="ibox collapsed">
-                <div class="ibox-title">
-                    <h5 class="pull-left">Nieuw bericht</h5>
-                    <div class="ibox-tools">
-                        <a href="#" class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
+            <div class="ibox collapsed collapsed-new-story">
+                <a href="#" class="new-story">
+                    <div class="ibox-title">
+                        <h5 class="pull-left"><i class="fa fa-envelope-o"></i> Nieuw bericht</h5>
+                        <div class="ibox-tools">
+                            <i class="fa fa-chevron-up collapse-icon" style="color: #c4c4c4;"></i>
+                        </div>
                     </div>
-                </div>
+                </a>
                 <div class="ibox-content">
                     {!! Form::open(['url' => route('storyboard.store'), 'method' => 'POST']) !!}
+                    {!! Form::hidden('projectgroup_id', $projectgroup->id) !!}
                     <div class="form-group">
                         {!! Form::bsText('subject', false, ['class' => 'form-control', 'placeholder' => 'Onderwerp']) !!}
                     </div>
@@ -78,6 +105,7 @@
 
 @section('bottom-script')
     @parent
+    @include('partials.navigation_script')
     <script>
         $(function() {
             $('.handle').css('cursor', 'default');
@@ -85,6 +113,21 @@
             $('.description-btn').on('click', function() {
                 $(this).toggleClass('fa-angle-double-down fa-angle-double-up');
                 $(this).siblings('.handle').children('.ticket-description').toggle('slide', { direction: "left"}, 500);
+            });
+
+            $('.new-story').click(function(e) {
+                e.preventDefault();
+                var ibox = $(this).parent('div.ibox');
+                var button = $(this).find('i.collapse-icon');
+                var content = ibox.find('div.ibox-content');
+                ibox.toggleClass('collapsed-new-story');
+                content.slideToggle(200);
+                button.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
+                ibox.toggleClass('').toggleClass('border-bottom');
+                setTimeout(function () {
+                    ibox.resize();
+                    ibox.find('[id^=map-]').resize();
+                }, 50);
             });
         });
     </script>

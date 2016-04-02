@@ -19,7 +19,9 @@ Route::post('taskboard/change-handler', ['as' => 'taskboard.change-handler', 'us
 Route::post('taskboard/change-sprint', ['as' => 'taskboard.change-sprint', 'uses' => 'TaskboardController@changeSprint']);
 Route::post('taskboard/change-project', ['as' => 'taskboard.change-project', 'uses' => 'TaskboardController@changeProject']);
 
-Route::get('storyboard', ['as' => 'storyboard.index', 'uses' => 'StoryboardController@index']);
+Route::get('storyboard/{projectgroup_id?}/{sprint_id?}', ['as' => 'storyboard.index', 'uses' => 'StoryboardController@index']);
 Route::post('storyboard', ['as' => 'storyboard.store', 'uses' => 'StoryboardController@store']);
+Route::post('storyboard/change-sprint', ['as' => 'storyboard.change-sprint', 'uses' => 'StoryboardController@changeSprint']);
+Route::post('storyboard/change-project', ['as' => 'storyboard.change-project', 'uses' => 'StoryboardController@changeProject']);
 
 Route::resource('projectgroup', 'ProjectgroupController');

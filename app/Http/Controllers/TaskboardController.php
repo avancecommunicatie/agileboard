@@ -27,6 +27,7 @@ class TaskboardController extends Controller
         $projectgroups = collectionToSelect(Projectgroup::orderBy('name', 'ASC')->get(), false, 'name');
 
         if ($projectgroup_id) {
+          $projectgroup = Projectgroup::with('projects')->find($projectgroup_id);
 
           $sprints = DB::table('lg_agile.projectgroups')
                          ->select('mantis_custom_field_string_table.value')
@@ -57,16 +58,7 @@ class TaskboardController extends Controller
                 return redirect(route('home'))->with('info', 'Dit project heeft geen sprints');
             }
 
-            $projectgroup = Projectgroup::with('projects')->find($projectgroup_id);
-
-            $tickets = Bug::join('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
-                            ->join('mantis_project_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
-                            ->join('lg_agile.projectgroups_projects', 'mantis_project_table.id', '=', 'projectgroups_projects.project_id')
-                            ->join('lg_agile.projectgroups', 'projectgroups.id', '=', 'projectgroups_projects.projectgroup_id')
-                            ->where('mantis_custom_field_string_table.field_id', 6)
-                            ->where('projectgroups.id', $projectgroup_id)
-                            ->where('mantis_custom_field_string_table.value', $sprint_id)
-                            ->get();
+            $tickets = Bug::onSprint($projectgroup_id, $sprint_id)->get();
 
             $toDo       = $tickets->where('status', 10, false);
             $inProgress = $tickets->where('status', 50, false);
@@ -120,7 +112,7 @@ class TaskboardController extends Controller
             $response['success'] = true;
             $pusher = new \Pusher(env('PUSHER_KEY'), env('PUSHER_SECRET'), env('PUSHER_APP_ID'));
             $pusher->trigger(
-                'refreshChannel'.$request->get('project_id').$request->get('sprint_id').$request->get('env'),
+                'refreshChannel'.$request->get('projectgroup_id').$request->get('sprint_id').$request->get('env'),
                 'changeStatus',
                 [
                     'id' => $ticket->id,
@@ -142,7 +134,7 @@ class TaskboardController extends Controller
      */
     public function changeSprint(Request $request)
     {
-        return redirect(route('taskboard.index', ['project_id' => $request->get('project_id'), 'sprint_id' => $request->get('sprint_id')]));
+        return redirect(route('taskboard.index', ['projectgroup_id' => $request->get('projectgroup_id'), 'sprint_id' => $request->get('sprint_id')]));
     }
 
     /**
@@ -162,7 +154,7 @@ class TaskboardController extends Controller
             $response['success'] = true;
             $pusher = new \Pusher(env('PUSHER_KEY'), env('PUSHER_SECRET'), env('PUSHER_APP_ID'));
             $pusher->trigger(
-                'refreshChannel'.$request->get('project_id').$request->get('sprint_id').$request->get('env'),
+                'refreshChannel'.$request->get('projectgroup_id').$request->get('sprint_id').$request->get('env'),
                 'changeHandler',
                 [
                     'id' => $ticket->id,
@@ -174,7 +166,6 @@ class TaskboardController extends Controller
 
         return $response;
     }
-
     /**
      * Change the current project.
      *
@@ -183,6 +174,6 @@ class TaskboardController extends Controller
      */
     public function changeProject(Request $request)
     {
-        return redirect(route('taskboard.index', ['project_id' => $request->get('project_id'), 'sprint_id' => $request->get('sprint_id')]));
+        return redirect(route('taskboard.index', ['projectgroup_id' => $request->get('projectgroup_id'), 'sprint_id' => $request->get('sprint_id')]));
     }
 }

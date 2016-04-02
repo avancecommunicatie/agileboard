@@ -1,4 +1,4 @@
-<li class="drag-box task-item {{ ($ticket->priority <= 30 ? 'success-element' : '') }} {{ ($ticket->priority > 30 && $ticket->priority <= 40 ? 'warning-element' : '') }} {{ ($ticket->priority > 40 ? 'danger-element' : '') }}" id="{{ $ticket->id }}">
+<li class="drag-box task-item {{ ($ticket->priority <= 30 ? 'success-element' : '') }} {{ ($ticket->priority > 30 && $ticket->priority <= 40 ? 'warning-element' : '') }} {{ ($ticket->priority > 40 ? 'danger-element' : '') }}" id="{{ $ticket->bug_id }}">
 	<i class="pull-right fa fa-angle-double-down fa-lg description-btn"></i>
 	<div class="clearfix handle">
 		<strong class="ticket-summary">#{{ $ticket->id }}: {{ $ticket->summary }}</strong>
@@ -22,9 +22,9 @@
 				</div>
 				<div class="col-xl-4 col-lg-offset-1 col-lg-6 col-md-6 col-sm-6 col-xs-6">
 					@if(count($users) > 0)
-					{!! Form::select('assign_to_id', $users, ($ticket->user ? $ticket->user->id : false), ['class' => 'ticket-assign-to']) !!}
+					{!! Form::select('assign_to_id', $users, $ticket->handler_id, ['class' => 'ticket-assign-to']) !!}
 					@else
-						<p><strong>Ticketgroep</strong> #</p>
+						<p><strong>{{ $ticket->project->name }}</strong> </p>
 					@endif
 				</div>
 			</div>

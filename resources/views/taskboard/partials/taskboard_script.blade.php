@@ -1,13 +1,11 @@
 <script type="text/javascript">
     var user = "{{ str_random(8).date('dHis') }}";
-    var project_id = '{{ $projectgroup->id }}';
+    var projectgroup_id = '{{ $projectgroup->id }}';
     var sprint_id = '{{ $sprintId }}';
     var env = '{{ env('APP_ENV') }}';
 
     $(function() {
         var description_btn = $('.description-btn');
-        var select_project = $('#select-project');
-        var select_sprint = $('#select-sprint');
         var token = '{{ csrf_token() }}';
 
         $("#todo, #inprogress, #feedback, #completed").sortable({
@@ -31,7 +29,7 @@
                         dragId: draggableId,
                         dropId: droppableId,
                         user: user,
-                        project_id: project_id,
+                        projectgroup_id: projectgroup_id,
                         sprint_id: sprint_id,
                         env: env
                     }
@@ -59,7 +57,7 @@
                     _token: token,
                     ticketId: ticketId,
                     handlerId: handlerId,
-                    project_id: project_id,
+                    projectgroup_id: projectgroup_id,
                     sprint_id: sprint_id,
                     env: env
                 }
@@ -69,14 +67,6 @@
                     toastr.error('Er ging iets mis', 'Fout');
                 }
             });
-        });
-
-        select_project.on('change', function() {
-            $('#change-project').submit();
-        });
-
-        select_sprint.on('change', function() {
-            $('#change-sprint').submit();
         });
     });
 

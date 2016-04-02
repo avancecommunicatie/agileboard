@@ -36,10 +36,20 @@ class Bug extends Model
 		return $this->belongsToMany('App\CustomField', 'mantis_custom_field_string_table', 'bug_id', 'field_id')->withPivot('value');
 	}
 
-	public function scopeBySprint($query, $sprint_id){
-		$query->select('mantis_bug_table.*')
-			->leftJoin('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
+	/**
+	 * Scope for getting tickets grouped by projectgroup and sprint.
+	 * 
+	 * @param $query
+	 * @param $projectgroup_id
+	 * @param $sprint_id
+	 */
+	public function scopeOnSprint($query, $projectgroup_id, $sprint_id) {
+		$query->join('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
+			->join('mantis_project_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
+			->join('lg_agile.projectgroups_projects', 'mantis_project_table.id', '=', 'projectgroups_projects.project_id')
+			->join('lg_agile.projectgroups', 'projectgroups.id', '=', 'projectgroups_projects.projectgroup_id')
 			->where('mantis_custom_field_string_table.field_id', 6)
+			->where('projectgroups.id', $projectgroup_id)
 			->where('mantis_custom_field_string_table.value', $sprint_id);
 	}
 }

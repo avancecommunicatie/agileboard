@@ -1,7 +1,7 @@
 <script>
 	$(function() {
 		var pusher = new Pusher('c6ca1d090dec336e071a');
-		var channel = pusher.subscribe('refreshChannel'+project_id+sprint_id+env);
+		var channel = pusher.subscribe('refreshChannel'+projectgroup_id+sprint_id+env);
 
 		channel.bind('changeStatus', function(data) {
 			$('#'+data.id+' .ticket-assign-to').val(data.handler);

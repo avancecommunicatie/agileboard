@@ -10,8 +10,11 @@ class Projectgroup extends Model
     protected $fillable = ['name'];
     public $timestamps = false;
 
-    public function projects()
-    {
+    public function projects() {
         return $this->belongsToMany('App\Project', 'lg_agile.projectgroups_projects', 'projectgroup_id', 'project_id');
+    }
+
+    public function stories() {
+        return $this->hasMany('App\Story');
     }
 }
