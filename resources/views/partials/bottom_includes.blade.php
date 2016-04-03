@@ -15,4 +15,6 @@
 
 <script src="/js/pusher/pusher.js"></script>
 
+@include('partials.toastr_script')
+
 @yield('bottom-script')

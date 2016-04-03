@@ -84,7 +84,6 @@ class ProjectgroupController extends Controller
 
         if ($projectgroup) {
             $projects = $projects = Project::withSprints()->get();
-//                Project::with('projectgroups')->orderBy('name', 'asc')->get();
 
             return view('projectgroup.edit', ['projectgroup' => $projectgroup, 'projects' => $projects]);
         }
@@ -126,7 +125,15 @@ class ProjectgroupController extends Controller
         $projectgroup = Projectgroup::find($id);
 
         if ($projectgroup) {
-            $projectgroup->detach();
+            $stories = $projectgroup->stories()->get();
+
+            if ($stories) {
+                $stories->each(function($story) {
+                    $story->delete();
+                });
+            }
+
+            $projectgroup->projects()->detach();
             $projectgroup->delete();
 
             return redirect()->route('projectgroup.index')->with('info', 'Projectgroep verwijderd');
