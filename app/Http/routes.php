@@ -21,6 +21,7 @@ Route::post('taskboard/change-project', ['as' => 'taskboard.change-project', 'us
 
 Route::get('storyboard/{projectgroup_id?}/{sprint_id?}', ['as' => 'storyboard.index', 'uses' => 'StoryboardController@index']);
 Route::post('storyboard', ['as' => 'storyboard.store', 'uses' => 'StoryboardController@store']);
+Route::delete('storyboard/{id}', ['as' => 'storyboard.destroy', 'uses' => 'StoryboardController@destroy']);
 Route::post('storyboard/change-sprint', ['as' => 'storyboard.change-sprint', 'uses' => 'StoryboardController@changeSprint']);
 Route::post('storyboard/change-project', ['as' => 'storyboard.change-project', 'uses' => 'StoryboardController@changeProject']);
 

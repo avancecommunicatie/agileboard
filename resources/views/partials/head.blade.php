@@ -6,6 +6,8 @@
 
 	<link href="/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/css/metisMenu.css" rel="stylesheet">
+	<link href="/css/sweetalert.css" rel="stylesheet">
 
 	<!-- Toastr style -->
 	<link href="/css/toastr.min.css" rel="stylesheet">

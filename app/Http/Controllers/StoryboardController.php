@@ -93,7 +93,7 @@ class StoryboardController extends Controller
         $story = new Story($request->all());
         $story->save();
 
-        return redirect(route('storyboard.index', ['projectgroup_id' => $projectgroup->id]));
+        return redirect(route('storyboard.index', ['projectgroup_id' => $projectgroup->id]))->with('info', 'Bericht geplaatst');
     }
 
     /**
@@ -138,7 +138,14 @@ class StoryboardController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $story = Story::find($id);
+
+        if ($story) {
+            $story->delete();
+
+            return redirect()->back()->with('info', 'Story verwijderd');
+        }
+        return redirect()->back()->with('error', 'Kan Story niet verwijderen');
     }
 
     /**

@@ -28,7 +28,24 @@
                     }
                 });
             });
+        });
 
-        })
+        $('#delete-projectgroup-btn').on('click', function(e) {
+            e.preventDefault();
+            var form = $(this).parents('form');
+            swal({
+                title: "Let op!",
+                text: "Bij het verwijderen van dit project verwijder je ook alle bijbehorende Stories. Weet je zeker dat je dit Agile Project wilt verwijderen?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Verwijder!",
+                closeOnConfirm: true
+            }, function(isConfirm) {
+                if (isConfirm) {
+                    form.submit();
+                }
+            });
+        });
     });
 </script>

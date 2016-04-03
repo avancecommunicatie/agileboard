@@ -58,7 +58,7 @@ class ProjectgroupController extends Controller
         }
         $projectgroup->projects()->sync($sync);
 
-        return redirect(route('projectgroup.index'))->with('success', 'Projectgroup opgeslagen');
+        return redirect(route('projectgroup.index'))->with('info', 'Projectgroup opgeslagen');
     }
 
     /**

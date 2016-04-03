@@ -36,11 +36,11 @@
 
     <div class="ibox-content lg-no-margins">
         {!! Form::submit('Opslaan', ['class' => 'btn btn-sm btn-success']) !!}
+        <a href="{{ \URL::previous() }}" class="btn btn-sm btn-default">Terug</a>
         @if ($projectgroup->id)
         {!! Form::open(['route' => ['projectgroup.destroy', $projectgroup->id], 'method' => 'delete']) !!}
-        <button type="submit" class="btn btn-sm btn-danger">Verwijderen</button>
+        <button type="submit" id="delete-projectgroup-btn" class="btn btn-sm btn-danger">Agile project verwijderen</button>
         {!! Form::close() !!}
         @endif
-        <a href="{{ \URL::previous() }}" class="btn btn-sm btn-default">Terug</a>
     </div>
 </div>

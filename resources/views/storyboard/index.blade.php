@@ -48,11 +48,15 @@
                       <h2>Akkoord</h2>
                   </div>
                   <div class="ibox-content p-md">
+                      @if ($tickets && $tickets->count() > 0)
                       <ul class="sortable-list connectList agile-list">
                           @foreach ($tickets as $ticket)
                               @include('partials.task_item')
                           @endforeach
                       </ul>
+                      @else
+                          <p>Geen tickets om weer te geven</p>
+                      @endif
                   </div>
               </div>
         </div>
@@ -84,6 +88,16 @@
                 <div class="ibox">
                     <div class="ibox-title">
                         <div class="ibox-tools pull-right">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+
+                                    {!! Form::open(['route' => ['storyboard.destroy', $story->id], 'method' => 'delete']) !!}
+                                    <li id="delete-story" style="cursor: pointer;">Bericht verwijderen</li>
+                                    {!! Form::close() !!}
+
+                            </ul>
                             <a href="#" class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
                             </a>
@@ -106,29 +120,5 @@
 @section('bottom-script')
     @parent
     @include('partials.navigation_script')
-    <script>
-        $(function() {
-            $('.handle').css('cursor', 'default');
-
-            $('.description-btn').on('click', function() {
-                $(this).toggleClass('fa-angle-double-down fa-angle-double-up');
-                $(this).siblings('.handle').children('.ticket-description').toggle('slide', { direction: "left"}, 500);
-            });
-
-            $('.new-story').click(function(e) {
-                e.preventDefault();
-                var ibox = $(this).parent('div.ibox');
-                var button = $(this).find('i.collapse-icon');
-                var content = ibox.find('div.ibox-content');
-                ibox.toggleClass('collapsed-new-story');
-                content.slideToggle(200);
-                button.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
-                ibox.toggleClass('').toggleClass('border-bottom');
-                setTimeout(function () {
-                    ibox.resize();
-                    ibox.find('[id^=map-]').resize();
-                }, 50);
-            });
-        });
-    </script>
+    @include('storyboard.scripts.index_script')
 @endsection

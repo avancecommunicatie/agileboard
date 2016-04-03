@@ -12,6 +12,7 @@
 <!-- Peity -->
 <script src="/js/peity/jquery.peity.js"></script>
 <script src="/js/toastr/toastr.js"></script>
+<script src="/js/sweetalert/sweetalert.min.js"></script>
 
 <script src="/js/pusher/pusher.js"></script>
 
