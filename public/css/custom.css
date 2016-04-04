@@ -13,7 +13,7 @@ body, html {
 }
 
 #todo, #inprogress, #feedback, #completed {
-    position:relative;
+    position:inherit;
 }
 
 .agile-detail {
@@ -37,10 +37,6 @@ body, html {
 
 .description-btn {
     padding-top: 5px;
-}
-
-.drag-box {
-    z-index: 10;
 }
 
 .fa-customsize {

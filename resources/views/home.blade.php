@@ -21,13 +21,12 @@
                                 <p class="small text-center"><i class="fa fa-info-circle"></i> Agile Projecten zijn een verzameling van mantis projecten</p>
                                 <div class="hr-line-dashed"></div>
                             @endif
-                                <a href="{{route('projectgroup.create')}}" class="btn btn-xs btn-success project-btn"><i class="fa fa-plus"></i> Nieuw</a>
-                                <a href="{{route('projectgroup.index')}}" class="btn btn-xs btn-default project-btn">Overzicht</a>
+                                <a href="{{route('projectgroup.index')}}" class="btn btn-xs btn-success project-btn"><i class="fa fa-pencil-square-o"></i>  Beheren</a>
                             <div style="margin-top: 10px;">
                                 @if ($projectgroups->count() > 0)
                                     @foreach ($projectgroups as $projectgroup)
                                         <div class="searchable" data-name="{{ $projectgroup->name }}">
-                                            <a href="{{ route('taskboard.index', $projectgroup->id) }}" class="list-group-item">{{ $projectgroup->name }} <span class="label label-default pull-right" title="Aantal projecten">{{ ($projectgroup->projects ? $projectgroup->projects->count() : 0) }}</span></a>
+                                            <a href="{{ route('taskboard.index', $projectgroup->id) }}" class="list-group-item">{{ $projectgroup->name }} <span class="label label-default pull-right" title="Aantal sprints">{{ $projectgroup->sprints }}</span></a>
                                         </div>
                                     @endforeach
                                 @else

@@ -27,9 +27,6 @@
             </div>
         </div>
     </div>
-
-
-
 @endsection
 
 @section('bottom-script')

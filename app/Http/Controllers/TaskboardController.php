@@ -23,7 +23,7 @@ class TaskboardController extends Controller
      */
     public function index($projectgroup_id, $sprint_id = -1)
     {
-        $users = collectionToSelect(User::orderBy('realname', 'ASC')->get(), false, 'realname');
+        $users = collectionToSelect(User::orderBy('realname', 'ASC')->get(), true, 'realname');
         $projectgroups = collectionToSelect(Projectgroup::orderBy('name', 'ASC')->get(), false, 'name');
 
         if ($projectgroup_id) {
@@ -55,7 +55,7 @@ class TaskboardController extends Controller
 			}
 
             if (count($sprints) == 0) {
-                return redirect(route('home'))->with('info', 'Dit project heeft geen sprints');
+                return redirect(route('home'))->with('error', 'Dit project heeft geen sprints');
             }
 
             $tickets = Bug::onSprint($projectgroup_id, $sprint_id)->get();

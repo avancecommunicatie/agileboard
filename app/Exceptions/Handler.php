@@ -47,18 +47,19 @@ class Handler extends ExceptionHandler
 //        }
 //
 //        return parent::render($request, $e);
+       
         if($this->isHttpException($e))
         {
             switch ($e->getStatusCode())
             {
                 // not found
                 case 404:
-                    return redirect()->guest('/')->with('error', 'Kon pagina niet vinden');
+                    return redirect()->guest('/')->with('error', 'Kan pagina niet vinden');
                     break;
 
                 // internal error
                 case '500':
-                    return redirect()->guest('/')->with('error', 'Kon pagina niet vinden');
+                    return redirect()->guest('/')->with('error', 'Kan pagina niet vinden');
                     break;
 
                 default:

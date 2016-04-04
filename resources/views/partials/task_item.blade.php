@@ -1,7 +1,7 @@
-<li class="drag-box task-item {{ ($ticket->priority <= 30 ? 'success-element' : '') }} {{ ($ticket->priority > 30 && $ticket->priority <= 40 ? 'warning-element' : '') }} {{ ($ticket->priority > 40 ? 'danger-element' : '') }}" id="{{ $ticket->bug_id }}">
+<li class="task-item {{ ($ticket->priority <= 30 ? 'success-element' : '') }} {{ ($ticket->priority > 30 && $ticket->priority <= 40 ? 'warning-element' : '') }} {{ ($ticket->priority > 40 ? 'danger-element' : '') }}" id="{{ $ticket->id }}">
 	<i class="pull-right fa fa-angle-double-down fa-lg description-btn"></i>
 	<div class="clearfix handle">
-		<strong class="ticket-summary">#{{ $ticket->id }}: {{ $ticket->summary }}</strong>
+		<strong class="ticket-summary">#{{ $ticket->bug_id }}: {{ $ticket->summary }}</strong>
 		<div class="hr-line-dashed ticket-description no-padding"></div>
 		<p class="ticket-description">{{ $ticket->bugText->description }}</p>
 

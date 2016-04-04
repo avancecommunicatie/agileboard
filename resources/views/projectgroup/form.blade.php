@@ -28,7 +28,7 @@
         <ul class="list-group">
         @foreach($projects as $project)
             <li class="list-group-item">
-                {!! Form::icheck('projects['.$project->id.']', ($project->projectgroups && $project->projectgroups->where('id', $projectgroup->id)->first() ? true : false), $project->name) !!} {{ $project->name }}
+                {!! Form::icheck('projects['.$project->id.']', ($project->projectgroups && $project->projectgroups->where('id', $projectgroup->id)->first() ? true : false), $project->name) !!} {{ $project->name }} <span class="label label-default pull-right" title="Aantal sprints">{{ $project->sprints }}</span>
             </li>
         @endforeach
         </ul>
@@ -36,11 +36,9 @@
 
     <div class="ibox-content lg-no-margins">
         {!! Form::submit('Opslaan', ['class' => 'btn btn-sm btn-success']) !!}
-        <a href="{{ \URL::previous() }}" class="btn btn-sm btn-default">Terug</a>
+        <a href="{{ route('projectgroup.index') }}" class="btn btn-sm btn-default">Terug</a>
         @if ($projectgroup->id)
-        {!! Form::open(['route' => ['projectgroup.destroy', $projectgroup->id], 'method' => 'delete']) !!}
-        <button type="submit" id="delete-projectgroup-btn" class="btn btn-sm btn-danger">Agile project verwijderen</button>
-        {!! Form::close() !!}
+        <a href="#" id="delete-projectgroup-btn" class="btn btn-sm btn-danger">Agile project verwijderen</a>
         @endif
     </div>
 </div>

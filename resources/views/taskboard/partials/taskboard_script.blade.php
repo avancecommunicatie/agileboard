@@ -11,7 +11,12 @@
         $("#todo, #inprogress, #feedback, #completed").sortable({
             connectWith: ".connectList",
             handle: '.handle',
-            scroll: false,
+            scroll: true,
+            appendTo: '#todo #inprogress #feedback #completed',
+            tolerance: 'pointer',
+            revert: 'invalid',
+            helper: 'original',
+            forceHelperSize: true,
             receive: function(event, ui) {
                 var todo        = $("#todo").sortable( "toArray" );
                 var inprogress  = $( "#inprogress" ).sortable( "toArray" );

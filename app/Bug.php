@@ -44,10 +44,13 @@ class Bug extends Model
 	 * @param $sprint_id
 	 */
 	public function scopeOnSprint($query, $projectgroup_id, $sprint_id) {
-		$query->join('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
+		$query
+			->select('mantis_bug_table.*')
+			->join('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
 			->join('mantis_project_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
 			->join('lg_agile.projectgroups_projects', 'mantis_project_table.id', '=', 'projectgroups_projects.project_id')
 			->join('lg_agile.projectgroups', 'projectgroups.id', '=', 'projectgroups_projects.projectgroup_id')
+			->addSelect('mantis_bug_table.status')
 			->where('mantis_custom_field_string_table.field_id', 6)
 			->where('projectgroups.id', $projectgroup_id)
 			->where('mantis_custom_field_string_table.value', $sprint_id);

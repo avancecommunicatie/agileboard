@@ -92,11 +92,9 @@
                                 <i class="fa fa-wrench"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-user">
-
-                                    {!! Form::open(['route' => ['storyboard.destroy', $story->id], 'method' => 'delete']) !!}
-                                    <li id="delete-story" style="cursor: pointer;">Bericht verwijderen</li>
-                                    {!! Form::close() !!}
-
+                                {!! Form::open(['route' => ['storyboard.destroy', $story->id], 'method' => 'delete']) !!}
+                                <li id="delete-story" style="cursor: pointer;">Bericht verwijderen</li>
+                                {!! Form::close() !!}
                             </ul>
                             <a href="#" class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -112,7 +110,7 @@
                 </div>
                @endforeach
            @endif
-         </div>
+        </div>
    </div>
 </div>
 @endsection

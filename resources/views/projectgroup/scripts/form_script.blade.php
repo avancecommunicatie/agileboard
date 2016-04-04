@@ -30,9 +30,11 @@
             });
         });
 
+        @if ($projectgroup->id)
         $('#delete-projectgroup-btn').on('click', function(e) {
             e.preventDefault();
-            var form = $(this).parents('form');
+            var token = '{{ csrf_token() }}';
+            var id = {{ $projectgroup->id }};
             swal({
                 title: "Let op!",
                 text: "Bij het verwijderen van dit project verwijder je ook alle bijbehorende Stories. Weet je zeker dat je dit Agile Project wilt verwijderen?",
@@ -40,12 +42,41 @@
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "Verwijder!",
-                closeOnConfirm: true
+                closeOnConfirm: false
             }, function(isConfirm) {
                 if (isConfirm) {
-                    form.submit();
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ route('projectgroup.destroy', '') }}/' + id,
+                        data: {
+                            _method: 'DELETE',
+                            _token: token
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                swal({
+                                    title: 'Verwijderd',
+                                    text: 'Agile project is verwijderd',
+                                    type: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonColor: "#DD6B55",
+                                    confirmButtonText: "Ok!"
+                                }, function(isConfirm) {
+                                    if (isConfirm) {
+                                        window.location.replace('{{ route('projectgroup.index') }}');
+                                    }
+                                });
+                            } else {
+                                toastr.error('Kan project niet verwijderen');
+                            }
+                        },
+                        error: function() {
+                            toastr.error('Er ging iets mis!');
+                        }
+                    });
                 }
             });
         });
+        @endif
     });
 </script>

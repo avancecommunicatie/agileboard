@@ -33,7 +33,7 @@ class ProjectgroupController extends Controller
     public function create()
     {
         $projectgroup = new Projectgroup();
-        $projects = $projects = Project::withSprints()->get();
+        $projects = Project::withSprints()->get();
 
         return view('projectgroup.create', ['projectgroup' => $projectgroup, 'projects' => $projects]);
     }
@@ -41,7 +41,7 @@ class ProjectgroupController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ProjectgroupRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(ProjectgroupRequest $request)
@@ -58,7 +58,7 @@ class ProjectgroupController extends Controller
         }
         $projectgroup->projects()->sync($sync);
 
-        return redirect(route('projectgroup.index'))->with('info', 'Projectgroup opgeslagen');
+        return redirect(route('projectgroup.index'))->with('info', 'Agile Project opgeslagen');
     }
 
     /**
@@ -83,17 +83,17 @@ class ProjectgroupController extends Controller
         $projectgroup = Projectgroup::with('projects')->find($id);
 
         if ($projectgroup) {
-            $projects = $projects = Project::withSprints()->get();
+            $projects = Project::withSprints()->get();
 
             return view('projectgroup.edit', ['projectgroup' => $projectgroup, 'projects' => $projects]);
         }
-        return redirect()->route('projectgroup.index')->with('error', 'Kon projectgroup niet vinden');
+        return redirect()->route('projectgroup.index')->with('error', 'Kan Agile Project niet vinden');
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ProjectgroupRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -111,7 +111,7 @@ class ProjectgroupController extends Controller
         }
         $projectgroup->projects()->sync($sync);
 
-        return redirect(route('projectgroup.index'))->with('success', 'Projectgroup gewijzigd');
+        return redirect(route('projectgroup.index'))->with('success', 'Agile Project gewijzigd');
     }
 
     /**
@@ -122,12 +122,13 @@ class ProjectgroupController extends Controller
      */
     public function destroy($id)
     {
+        $response['success'] = false;
         $projectgroup = Projectgroup::find($id);
 
         if ($projectgroup) {
             $stories = $projectgroup->stories()->get();
 
-            if ($stories) {
+            if ($stories && $stories->count() > 0) {
                 $stories->each(function($story) {
                     $story->delete();
                 });
@@ -135,9 +136,8 @@ class ProjectgroupController extends Controller
 
             $projectgroup->projects()->detach();
             $projectgroup->delete();
-
-            return redirect()->route('projectgroup.index')->with('info', 'Projectgroep verwijderd');
+            $response['success'] = true;
         }
-        return redirect()->route('projectgroup.index')->with('error', 'Kon projectgroep niet vinden');
+        return $response;
     }
 }

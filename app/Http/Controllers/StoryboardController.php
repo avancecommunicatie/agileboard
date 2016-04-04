@@ -8,6 +8,7 @@ use App\Story;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Http\Requests\StoryboardRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +17,7 @@ class StoryboardController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  $project_id
+     * @param  $projectgroup_id
      * @param  $sprint_id
      * @return \Illuminate\Http\Response
      */
@@ -54,10 +55,10 @@ class StoryboardController extends Controller
             }
 
             if (count($sprints) == 0) {
-                return redirect(route('home'))->with('info', 'Dit project heeft geen sprints');
+                return redirect(route('home'))->with('error', 'Dit project heeft geen sprints');
             }
 
-            $tickets = Bug::onSprint($projectgroup_id, $sprint_id)->where('mantis_bug_table.status', 50)->get();
+            $tickets = Bug::onSprint($projectgroup_id, $sprint_id)->where('mantis_bug_table.status', 80)->get();
 
             return view('storyboard.index', ['tickets' => $tickets,
                 'stories' => $stories,
@@ -83,10 +84,10 @@ class StoryboardController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoryboardRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoryboardRequest $request)
     {
         $projectgroup = Projectgroup::find($request->get('projectgroup_id'));
 
