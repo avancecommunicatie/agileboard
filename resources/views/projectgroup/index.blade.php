@@ -43,7 +43,7 @@
                                         </div>
                                     @endforeach
                                 @else
-                                    <p class="text-center">Geen agileprojecten om weer te geven</p>
+                                    <p class="text-center">Geen Agile projecten om weer te geven</p>
                                 @endif
                             </div>
                         </div>

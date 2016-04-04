@@ -19,7 +19,7 @@
                     {!! Form::open(['id' => 'change-project', 'url' => route('taskboard.change-project'), 'method' => 'POST']) !!}
                     <div class="form-group">
                         {!! Form::hidden('sprint_id', $sprintId) !!}
-                        {!! Form::label('projectgroup_id', 'Agile project #', ['style' => 'white-space: nowrap;']) !!}
+                        {!! Form::label('projectgroup_id', 'Agile project', ['style' => 'white-space: nowrap;']) !!}
                         @if ($projectgroups)
                             {!! Form::select('projectgroup_id', $projectgroups, $projectgroup->id, ['id' => 'select-project']) !!}
                         @endif
