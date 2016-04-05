@@ -4,7 +4,7 @@
             {!! Form::label('name', 'Naam', ['class'=>'control-label']) !!}
         </div>
         <div class="col-lg-11">
-            {!! Form::bsText('name', $projectgroup->name) !!}
+            {!! Form::bsText('name', $projectgroup->name, ['placeholder' => '(verplicht)']) !!}
         </div>
     </div>
 

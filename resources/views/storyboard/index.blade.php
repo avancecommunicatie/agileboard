@@ -74,7 +74,7 @@
                     {!! Form::open(['url' => route('storyboard.store'), 'method' => 'POST']) !!}
                     {!! Form::hidden('projectgroup_id', $projectgroup->id) !!}
                     <div class="form-group">
-                        {!! Form::bsText('subject', false, ['class' => 'form-control', 'placeholder' => 'Onderwerp']) !!}
+                        {!! Form::bsText('subject', false, ['class' => 'form-control', 'placeholder' => 'Onderwerp (verplicht)']) !!}
                     </div>
                     <div class="form-group">
                         {!! Form::bsTextarea('content', false, ['class' => 'form-control', 'placeholder' => 'Plaats een nieuw bericht op het storyboard']) !!}
