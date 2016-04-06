@@ -87,19 +87,19 @@
                @foreach ($stories as $story)
                 <div class="ibox">
                     <div class="ibox-title">
+                        {!! Form::open(['route' => ['storyboard.destroy', $story->id], 'method' => 'delete']) !!}
                         <div class="ibox-tools pull-right">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 <i class="fa fa-wrench"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-user">
-                                {!! Form::open(['route' => ['storyboard.destroy', $story->id], 'method' => 'delete']) !!}
-                                <li id="delete-story" style="cursor: pointer;">Bericht verwijderen</li>
-                                {!! Form::close() !!}
+                                <li id="delete-story" style="cursor: pointer;"><a href="#">Bericht verwijderen</a></li>
                             </ul>
                             <a href="#" class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
                             </a>
                         </div>
+                        {!! Form::close() !!}
                         <i class="fa fa-comment-o fa-3x pull-left"></i>
                         <h3 style="display: inline-block">{{ $story->subject }}</h3>
                         <small class="text-muted" style="display: block"><i class="fa fa-clock-o"></i>  {{ date('d-m-Y H:s:i', strtotime($story->created_at)) }}</small>

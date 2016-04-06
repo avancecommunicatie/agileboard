@@ -3,6 +3,9 @@
 	<div class="clearfix handle">
 		<strong class="ticket-summary">#{{ $ticket->id }}: {{ $ticket->summary }}</strong>
 		<div class="hr-line-dashed ticket-description no-padding"></div>
+		@if(count($users) > 0)
+		<p class="ticket-description"><strong>Project:</strong> {{ $ticket->project->name }}</p>
+		@endif
 		<p class="ticket-description">{{ $ticket->bugText->description }}</p>
 
 		<div class="hr-line-dashed no-padding"></div>
