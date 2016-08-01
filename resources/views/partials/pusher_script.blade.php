@@ -4,6 +4,9 @@
 		var channel = pusher.subscribe('refreshChannel'+projectgroup_id+sprint_id+env);
 
 		channel.bind('changeStatus', function(data) {
+		    var ticket_count_label = $('#'+data.drop_id+'-ticket-count');
+            var ticket_count = parseInt(ticket_count_label.text());
+
 			$('#'+data.id+' .ticket-assign-to').val(data.handler);
 			if (data.user != user) {
 				$('#'+data.id).prependTo('#'+data.drop_id);
@@ -11,6 +14,8 @@
 			$('.changed-item').removeClass('changed-item');
 
 			$('#'+data.id).addClass('changed-item');
+
+            ticket_count_label.text(ticket_count+1);
 
 			toastr.info('De status van ticket #'+data.id+' is gewijzigd', 'Update!');
 		});

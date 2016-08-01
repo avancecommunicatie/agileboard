@@ -39,7 +39,13 @@
                         env: env
                     }
                 }).done(function(response) {
-                    if(!response.success){
+                    if(response.success){
+                        var srcId = ui.sender.attr('id');
+                        var $srcCount = $('#'+srcId+'-ticket-count');
+                        var oldVal = parseInt($srcCount.text());
+                        $srcCount.text(oldVal-1);
+
+                    } else {
                         toastr.error('Er ging iets mis', 'Fout');
                     }
                 });
