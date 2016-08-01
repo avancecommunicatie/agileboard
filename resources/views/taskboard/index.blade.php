@@ -45,7 +45,7 @@
             <div class="col-lg-3">
                 <div class="ibox task-section">
                     <div class="ibox-content">
-                        <h3>To Do</h3>
+                        <h3>To Do <span class="label label-default pull-right" title="Aantal tickets">{{ $toDo->count() }}</span></h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Taken die nog opgepakt moeten worden</p>
                         @include('taskboard.partials.progressbar', ['percentage' => 10, 'color' => ' background-color: #EC5B5B;'])
                         <ul class="sortable-list connectList agile-list" id="todo">
@@ -59,7 +59,7 @@
             <div class="col-lg-3">
                 <div class="ibox task-section">
                     <div class="ibox-content">
-                        <h3>In Behandeling</h3>
+                        <h3>In Behandeling <span class="label label-default pull-right" title="Aantal tickets">{{ $inProgress->count() }}</span></h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Taken die op dit moment worden uitgevoerd</p>
                         @include('taskboard.partials.progressbar', ['percentage' => 30, 'color' => ' background-color: ##21C2CA;'])
                         <ul class="sortable-list connectList agile-list" id="inprogress">
@@ -73,7 +73,7 @@
             <div class="col-lg-3">
                 <div class="ibox task-section">
                     <div class="ibox-content">
-                        <h3>Feedback</h3>
+                        <h3>Feedback <span class="label label-default pull-right" title="Aantal tickets">{{ $feedback->count() }}</span></h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Taken in afwachting van feedback</p>
                         @include('taskboard.partials.progressbar', ['percentage' => 80, 'color' => ' background-color: #E081E0;'])
                         <ul class="sortable-list connectList agile-list" id="feedback">
@@ -87,7 +87,7 @@
             <div class="col-lg-3">
                 <div class="ibox task-section">
                     <div class="ibox-content">
-                        <h3>Afgerond</h3>
+                        <h3>Afgerond <span class="label label-default pull-right" title="Aantal tickets">{{ $completed->count() }}</span></h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Voltooide taken</p>
                         @include('taskboard.partials.progressbar', ['percentage' => 100,  'color' => ' background-color: #4CC34C;'])
                         <ul class="sortable-list connectList agile-list" id="completed">
