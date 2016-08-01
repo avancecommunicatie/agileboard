@@ -118,7 +118,8 @@ class TaskboardController extends Controller
                     'id' => $ticket->id,
                     'drop_id' => $request->get('dropId'),
                     'user' => $request->get('user'),
-                    'handler' => $ticket->handler_id
+                    'handler' => $ticket->handler_id,
+                    'src_id' => $request->get('srcId')
                 ]
             );
         }

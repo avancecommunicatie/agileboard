@@ -31,6 +31,7 @@
                     url: '{{ route('taskboard.update-status') }}',
                     data: {
                         _token: token,
+                        srcId: ui.sender.attr('id'),
                         dragId: draggableId,
                         dropId: droppableId,
                         user: user,
@@ -39,13 +40,7 @@
                         env: env
                     }
                 }).done(function(response) {
-                    if(response.success){
-                        var srcId = ui.sender.attr('id');
-                        var $srcCount = $('#'+srcId+'-ticket-count');
-                        var oldVal = parseInt($srcCount.text());
-                        $srcCount.text(oldVal-1);
-
-                    } else {
+                    if(!response.success){
                         toastr.error('Er ging iets mis', 'Fout');
                     }
                 });

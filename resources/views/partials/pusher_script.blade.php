@@ -4,8 +4,10 @@
 		var channel = pusher.subscribe('refreshChannel'+projectgroup_id+sprint_id+env);
 
 		channel.bind('changeStatus', function(data) {
-		    var ticket_count_label = $('#'+data.drop_id+'-ticket-count');
-            var ticket_count = parseInt(ticket_count_label.text());
+		    var $target_ticket_count_label = $('#'+data.drop_id+'-ticket-count');
+            var $src_ticket_count_label = $('#'+data.src_id+'-ticket-count');
+            var target_ticket_count = parseInt($target_ticket_count_label.text());
+            var src_ticket_count = parseInt($src_ticket_count_label.text());
 
 			$('#'+data.id+' .ticket-assign-to').val(data.handler);
 			if (data.user != user) {
@@ -15,7 +17,9 @@
 
 			$('#'+data.id).addClass('changed-item');
 
-            ticket_count_label.text(ticket_count+1);
+            // Ticket counter
+            $target_ticket_count_label.text(target_ticket_count+1);
+            $src_ticket_count_label.text(src_ticket_count-1);
 
 			toastr.info('De status van ticket #'+data.id+' is gewijzigd', 'Update!');
 		});
