@@ -22,7 +22,7 @@
             }, 50);
         });
 
-        $('#delete-story').on('click', function(e) {
+        $('.delete-story').on('click', function(e) {
             e.preventDefault();
             var form = $(this).parents('form');
             swal({

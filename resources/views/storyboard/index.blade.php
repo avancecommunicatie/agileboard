@@ -93,7 +93,7 @@
                                 <i class="fa fa-wrench"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-user">
-                                <li id="delete-story" style="cursor: pointer;"><a href="#">Bericht verwijderen</a></li>
+                                <li class="delete-story" style="cursor: pointer;"><a href="#">Bericht verwijderen</a></li>
                             </ul>
                             <a href="#" class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
