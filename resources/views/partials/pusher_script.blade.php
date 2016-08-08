@@ -32,8 +32,39 @@
             $src_ticket_count_label.text(src_ticket_count-1);
 
             // Estimated time
-            $target_est_time.text( (target_est_time_val + ticket_est_time).toFixed(1) );
-            $src_est_time.text( (src_est_time_val - ticket_est_time).toFixed(1) );
+            var target_outcome = (target_est_time_val + ticket_est_time).toFixed(2);
+            var src_outcome = src_est_time_val - ticket_est_time;
+
+            // Float or integer
+            if (target_outcome - parseInt(target_outcome) === 0) {
+                console.log(1);
+                target_outcome = parseInt(target_outcome);
+            } else if ((parseFloat(target_outcome).toPrecision(2) - target_outcome) === 0) {
+                console.log(2);
+                target_outcome = parseFloat(target_outcome).toFixed(2);
+            } else if ((parseFloat(target_outcome).toFixed(2) - target_outcome) === 0) {
+                console.log(3);
+                target_outcome = parseFloat(target_outcome).toFixed(1);
+            } else {
+                console.log(4);
+                target_outcome = parseFloat(target_outcome).toFixed(2)
+            }
+            if (src_outcome - parseInt(src_outcome) === 0) {
+                console.log('a');
+                src_outcome = parseInt(src_outcome);
+            } else if ((parseFloat(src_outcome).toPrecision(2) - src_outcome) === 0) {
+                console.log('b');
+                src_outcome = parseFloat(src_outcome).toFixed(1);
+            } else if ((parseFloat(src_outcome).toFixed(2) - src_outcome) === 0) {
+                console.log('c');
+                src_outcome = parseFloat(src_outcome).toFixed(2);
+            } else {
+                console.log('d');
+                src_outcome = parseFloat(src_outcome).toFixed(2);
+            }
+
+            $target_est_time.text(target_outcome);
+            $src_est_time.text(src_outcome);
 
 			toastr.info('De status van ticket #'+data.id+' is gewijzigd', 'Update!');
 		});
