@@ -1,5 +1,6 @@
 <script>
     $(function() {
+        // Reserved for dynamic error messaging scripts.
         @if(session()->has('error') || session()->has('warning') || session()->has('success') || session()->has('info') || $errors->any())
 
             @foreach(['error', 'warning', 'success', 'info'] as $flash_value)

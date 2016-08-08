@@ -4,11 +4,23 @@
 		var channel = pusher.subscribe('refreshChannel'+projectgroup_id+sprint_id+env);
 
 		channel.bind('changeStatus', function(data) {
+            $('#'+data.id+' .ticket-assign-to').val(data.handler);
+            if (data.user != user) {
+                $('#'+data.id).prependTo('#'+data.drop_id);
+            }
+            $('.changed-item').removeClass('changed-item');
+
+            $('#'+data.id).addClass('changed-item');
+
 		    // Ticket count
 		    var $target_ticket_count_label = $('#'+data.drop_id+'-ticket-count');
             var $src_ticket_count_label = $('#'+data.src_id+'-ticket-count');
             var target_ticket_count = parseInt($target_ticket_count_label.text());
             var src_ticket_count = parseInt($src_ticket_count_label.text());
+
+            // Ticket counter
+            $target_ticket_count_label.text(target_ticket_count+1);
+            $src_ticket_count_label.text(src_ticket_count-1);
 
             // Estimated time
             var ticket_est_time = parseFloat($('#'+data.id).find('span.ticket-est-time').text());
@@ -19,19 +31,6 @@
             var $src_est_time = $src_est_time_label.find('.est-time-val');
             var src_est_time_val = parseFloat($src_est_time.text());
 
-			$('#'+data.id+' .ticket-assign-to').val(data.handler);
-			if (data.user != user) {
-				$('#'+data.id).prependTo('#'+data.drop_id);
-			}
-			$('.changed-item').removeClass('changed-item');
-
-			$('#'+data.id).addClass('changed-item');
-
-            // Ticket counter
-            $target_ticket_count_label.text(target_ticket_count+1);
-            $src_ticket_count_label.text(src_ticket_count-1);
-
-            // Estimated time
             if (isNaN(ticket_est_time)) {
                 ticket_est_time = 0;
             }
