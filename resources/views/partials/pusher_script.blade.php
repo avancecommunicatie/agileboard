@@ -32,29 +32,45 @@
             $src_ticket_count_label.text(src_ticket_count-1);
 
             // Estimated time
-            var target_outcome = (target_est_time_val + ticket_est_time).toFixed(2);
-            var src_outcome = src_est_time_val - ticket_est_time;
+            if (isNaN(ticket_est_time)) {
+                ticket_est_time = 0;
+            }
+
+            var target_outcome = (target_est_time_val + ticket_est_time).toFixed(2).toString();
+            var src_outcome = (src_est_time_val - ticket_est_time).toFixed(2).toString();
+            var target_split = target_outcome.split('.');
+            var src_split = src_outcome.split('.');
+            var target_decimals = 0;
+            var src_decimals = 0;
+            var target_decimals_len = 0;
+            var src_decimals_len = 0;
+
+            if (target_split && target_split.length > 1) {
+                target_decimals = target_split.splice(1, 2);
+                target_decimals_len = target_decimals[0].toString().length;
+            }
+            if (src_split && src_split.length > 1) {
+                src_decimals = src_split.splice(1,2);
+                src_decimals_len = src_decimals[0].toString().length;
+            }
 
             // Float or integer
-            if (target_outcome - parseInt(target_outcome) === 0) {
-                target_outcome = parseInt(target_outcome);
-            } else if ((parseFloat(target_outcome).toFixed(1) - target_outcome) <= 0) {
-                target_outcome = parseFloat(target_outcome).toFixed(1);
-            } else if ((parseFloat(target_outcome).toFixed(2) - target_outcome) <= 0) {
+            if (target_decimals_len > 1 && target_decimals != 0 && (parseInt(target_decimals) % 10 > 0)) {
                 target_outcome = parseFloat(target_outcome).toFixed(2);
+            } else if (target_decimals_len > 0 || (parseInt(target_decimals) % 10 === 0)) {
+                target_outcome = parseFloat(target_outcome).toFixed(1);
             } else {
-                target_outcome = parseFloat(target_outcome).toFixed(2)
+                target_outcome = parseInt(target_outcome);
             }
-            if (src_outcome - parseInt(src_outcome) === 0) {
-                src_outcome = parseInt(src_outcome);
-            } else if ((parseFloat(src_outcome).toFixed(1) - src_outcome) <= 0) {
+            if (src_decimals_len > 1 && src_decimals != 0 && (parseInt(src_decimals) % 10 > 0)) {
+                src_outcome = parseFloat(src_outcome).toFixed(2);
+            } else if (src_decimals_len > 0 || (parseInt(src_decimals) % 10 === 0)) {
                 src_outcome = parseFloat(src_outcome).toFixed(1);
-            } else if ((parseFloat(src_outcome).toFixed(2) - src_outcome) <= 0) {
-                src_outcome = parseFloat(src_outcome).toFixed(2);
             } else {
-                src_outcome = parseFloat(src_outcome).toFixed(2);
+                src_outcome = parseInt(src_outcome);
             }
 
+            // Update values
             $target_est_time.text(target_outcome);
             $src_est_time.text(src_outcome);
 
@@ -67,6 +83,5 @@
 			$('#'+data.id).addClass('changed-item');
 			toastr.info('Ticket #'+data.id+' is toegewezen aan '+data.handlerName, 'Update!');
 		});
-
 	});
 </script>
