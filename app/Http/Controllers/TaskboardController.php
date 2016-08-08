@@ -61,28 +61,36 @@ class TaskboardController extends Controller
             $tickets = Bug::with('fields')->onSprint($projectgroup_id, $sprint_id)->get();
 
             $toDo       = $tickets->where('status', 10, false);
-			$toDo->total_hours = 0;
-			$toDo->each(function($ticket) use ($toDo) {
-				$toDo->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
-			});
+			if ($toDo) {
+				$toDo->total_hours = 0;
+				$toDo->each(function($ticket) use ($toDo) {
+					$toDo->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+				});
+			}
 
             $inProgress = $tickets->where('status', 50, false);
-			$inProgress->total_hours = 0;
-			$inProgress->each(function($ticket) use ($inProgress) {
-				$inProgress->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
-			});
+			if ($inProgress) {
+				$inProgress->total_hours = 0;
+				$inProgress->each(function($ticket) use ($inProgress) {
+					$inProgress->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+				});
+			}
 
             $feedback   = $tickets->where('status', 20, false);
-			$feedback->total_hours = 0;
-			$feedback->each(function($ticket) use ($feedback) {
-				$feedback->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
-			});
+			if ($feedback) {
+				$feedback->total_hours = 0;
+				$feedback->each(function($ticket) use ($feedback) {
+					$feedback->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+				});
+			}
 
             $completed  = $tickets->where('status', 80, false);
-			$completed->total_hours = 0;
-			$completed->each(function($ticket) use ($completed) {
-				$completed->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
-			});
+			if ($completed) {
+				$completed->total_hours = 0;
+				$completed->each(function($ticket) use ($completed) {
+					$completed->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+				});
+			}
 
         } else {
             $flash['error'] = 'Kies een project om door te gaan';

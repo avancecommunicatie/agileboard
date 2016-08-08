@@ -45,7 +45,7 @@
             <div class="col-lg-3">
                 <div class="ibox task-section">
                     <div class="ibox-content">
-                        <h3>To Do <span id="todo-est-time-label" class="est-time label label-default pull-right" title="Totaal aantal uur"><span class="est-time-val">{{ $toDo->total_hours }}</span> uur</span> <span id="todo-ticket-count" class="label label-default pull-right" title="Aantal tickets">{{ $toDo->count() }}</span></h3>
+                        <h3>To Do <span id="todo-est-time-label" class="est-time label label-default pull-right" title="Totaal aantal uur"><span class="est-time-val">{{ ($toDo ? $toDo->total_hours : 0) }}</span> uur</span> <span id="todo-ticket-count" class="label label-default pull-right" title="Aantal tickets">{{ $toDo->count() }}</span></h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Taken die nog opgepakt moeten worden</p>
                         @include('taskboard.partials.progressbar', ['percentage' => 10, 'color' => ' background-color: #EC5B5B;'])
                         <ul class="sortable-list connectList agile-list" id="todo">
@@ -59,7 +59,7 @@
             <div class="col-lg-3">
                 <div class="ibox task-section">
                     <div class="ibox-content">
-                        <h3>In Behandeling <span id="inprogress-est-time-label" class="est-time label label-default pull-right" title="Totaal aantal uur"><span class="est-time-val">{{ $inProgress->total_hours }}</span> uur</span> <span id="inprogress-ticket-count" class="label label-default pull-right" title="Aantal tickets">{{ $inProgress->count() }}</span></h3>
+                        <h3>In Behandeling <span id="inprogress-est-time-label" class="est-time label label-default pull-right" title="Totaal aantal uur"><span class="est-time-val">{{ ($inProgress ? $inProgress->total_hours : '') }}</span> uur</span> <span id="inprogress-ticket-count" class="label label-default pull-right" title="Aantal tickets">{{ $inProgress->count() }}</span></h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Taken die op dit moment worden uitgevoerd</p>
                         @include('taskboard.partials.progressbar', ['percentage' => 30, 'color' => ' background-color: ##21C2CA;'])
                         <ul class="sortable-list connectList agile-list" id="inprogress">
@@ -73,7 +73,7 @@
             <div class="col-lg-3">
                 <div class="ibox task-section">
                     <div class="ibox-content">
-                        <h3>Feedback <span id="feedback-est-time-label" class="est-time label label-default pull-right" title="Totaal aantal uur"><span class="est-time-val">{{ $feedback->total_hours }}</span> uur</span> <span id="feedback-ticket-count" class="label label-default pull-right" title="Aantal tickets">{{ $feedback->count() }}</span></h3>
+                        <h3>Feedback <span id="feedback-est-time-label" class="est-time label label-default pull-right" title="Totaal aantal uur"><span class="est-time-val">{{ ($feedback ? $feedback->total_hours : '') }}</span> uur</span> <span id="feedback-ticket-count" class="label label-default pull-right" title="Aantal tickets">{{ $feedback->count() }}</span></h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Taken in afwachting van feedback</p>
                         @include('taskboard.partials.progressbar', ['percentage' => 80, 'color' => ' background-color: #E081E0;'])
                         <ul class="sortable-list connectList agile-list" id="feedback">
@@ -87,7 +87,7 @@
             <div class="col-lg-3">
                 <div class="ibox task-section">
                     <div class="ibox-content">
-                        <h3>Afgerond <span id="completed-est-time-label" class="est-time label label-default pull-right" title="Totaal aantal uur"><span class="est-time-val">{{ $completed->total_hours }}</span> uur</span> <span id="completed-ticket-count" class="label label-default pull-right" title="Aantal tickets">{{ $completed->count() }}</span></h3>
+                        <h3>Afgerond <span id="completed-est-time-label" class="est-time label label-default pull-right" title="Totaal aantal uur"><span class="est-time-val">{{ ($completed ? $completed->total_hours : '') }}</span> uur</span> <span id="completed-ticket-count" class="label label-default pull-right" title="Aantal tickets">{{ $completed->count() }}</span></h3>
                         <p class="small"><i class="fa fa-info-circle"></i> Voltooide taken</p>
                         @include('taskboard.partials.progressbar', ['percentage' => 100,  'color' => ' background-color: #4CC34C;'])
                         <ul class="sortable-list connectList agile-list" id="completed">
