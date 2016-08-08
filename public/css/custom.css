@@ -90,6 +90,10 @@ body, html {
     height: 5px;
 }
 
+.ticket-count {
+    margin-right: 5px;
+}
+
 .ticket-description {
     display: none;
     padding-top: 10px;
