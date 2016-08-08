@@ -39,6 +39,11 @@ body, html {
     padding-top: 5px;
 }
 
+.disable-auto-refresh {
+    margin-top: 0;
+    padding-right: 20px;
+}
+
 .est-time {
     margin-left: 15px;
 }
@@ -64,6 +69,10 @@ body, html {
     display: inline-block;
     margin-top: 2%;
     margin-bottom: 2%;
+}
+
+.no-padding-left {
+    padding-left: 0;
 }
 
 .project-btn {

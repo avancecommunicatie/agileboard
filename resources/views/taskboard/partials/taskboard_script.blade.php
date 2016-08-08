@@ -3,9 +3,11 @@
     var projectgroup_id = '{{ $projectgroup->id }}';
     var sprint_id = '{{ $sprintId }}';
     var env = '{{ env('APP_ENV') }}';
+    var timer = setAutoRefresh();
 
     $(function() {
-        var description_btn = $('.description-btn');
+        var $description_btn = $('.description-btn');
+        var $disable_refresh_checkbox = $('#disable-refresh-checkbox');
         var token = '{{ csrf_token() }}';
 
         $("#todo, #inprogress, #feedback, #completed").sortable({
@@ -47,7 +49,7 @@
             }
         });
 
-        description_btn.on('click', function() {
+        $description_btn.on('click', function() {
             $(this).toggleClass('fa-angle-double-down fa-angle-double-up');
             $(this).siblings('.handle').children('.ticket-description').toggle('slide', { direction: "left"}, 500);
         });
@@ -74,9 +76,26 @@
                 }
             });
         });
+
+        // Toggle auto-refresh
+        $disable_refresh_checkbox.on('change', function () {
+            var val = parseInt($(this).val());
+
+            if (val === 0) {
+                $(this).val(1);
+                clearTimeout(timer);
+            } else {
+                $(this).val(0);
+                timer = setAutoRefresh();
+            }
+        });
     });
 
-    setTimeout(function(){
-        location.reload();
-    }, 300000);
+    function setAutoRefresh() {
+        timer = setTimeout(function(){
+            location.reload();
+        }, 300000);
+
+        return timer;
+    }
 </script>

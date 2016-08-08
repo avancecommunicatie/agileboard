@@ -32,8 +32,8 @@
             $src_ticket_count_label.text(src_ticket_count-1);
 
             // Estimated time
-            $target_est_time.text( target_est_time_val + ticket_est_time );
-            $src_est_time.text( src_est_time_val - ticket_est_time );
+            $target_est_time.text( (target_est_time_val + ticket_est_time).toFixed(1) );
+            $src_est_time.text( (src_est_time_val - ticket_est_time).toFixed(1) );
 
 			toastr.info('De status van ticket #'+data.id+' is gewijzigd', 'Update!');
 		});

@@ -26,7 +26,7 @@
                     </div>
                     {!! Form::close() !!}
                 </div>
-                <div class="col-lg-9">
+                <div class="col-lg-6">
                     {!! Form::open(['id' => 'change-sprint', 'url' => route('taskboard.change-sprint'), 'method' => 'POST']) !!}
                     <div class="form-group input-sprint">
                         {!! Form::hidden('projectgroup_id', $projectgroup->id) !!}
@@ -36,6 +36,11 @@
                         @endif
                     </div>
                     {!! Form::close() !!}
+                </div>
+                <div class="pull-right">
+                    <div class="checkbox disable-auto-refresh" title="Pagina niet verversen na 5 minuten">
+                        <label><input type="checkbox" id="disable-refresh-checkbox" value="0"><strong>Niet verversen</strong></label>
+                    </div>
                 </div>
             </div>
         </div>

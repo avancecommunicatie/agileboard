@@ -60,7 +60,7 @@ class TaskboardController extends Controller
 
             $tickets = Bug::with('fields')->onSprint($projectgroup_id, $sprint_id)->get();
 
-            $toDo       = $tickets->where('status', 10, false);
+            $toDo = $tickets->where('status', 10, false);
 			if ($toDo) {
 				$toDo->total_hours = 0;
 				$toDo->each(function($ticket) use ($toDo) {

@@ -1,4 +1,4 @@
-<li class="task-item {{ ($ticket->priority <= 30 ? 'success-element' : '') }} {{ ($ticket->priority > 30 && $ticket->priority <= 40 ? 'warning-element' : '') }} {{ ($ticket->priority > 40 ? 'danger-element' : '') }}" id="{{ $ticket->id }}">
+<li class="task-item {{ ($ticket->priority <= 30 ? 'success-element' : '') }}{{ ($ticket->priority > 30 && $ticket->priority <= 40 ? 'warning-element' : '') }}{{ ($ticket->priority > 40 ? 'danger-element' : '') }}" id="{{ $ticket->id }}">
 	<i class="pull-right fa fa-angle-double-down fa-lg description-btn"></i>
 	<div class="clearfix handle">
 		<strong class="ticket-summary">#{{ $ticket->id }}: {{ $ticket->summary }}</strong>
@@ -19,7 +19,7 @@
 					<i class="fa fa-comment-o"></i> {{ $ticket->bugnote->count() }}
 				</div>
 				@if($ticket->fields->where('id', 1, false)->first() && !empty($ticket->fields->where('id', 1, false)->first()->pivot->value))
-					<div class="col-xl-2 col-lg-3 col-md-3 col-sm-3 col-xs-3" title="Urenindicatie">
+					<div class="col-xl-2 col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding-left" title="Urenindicatie">
 						<i class="fa fa-clock-o"></i> <span class="ticket-est-time">{{ ($ticket->fields->where('id', 1, false)->first()->pivot->value) }}</span>
 					</div>
 				@endif
