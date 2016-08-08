@@ -37,29 +37,21 @@
 
             // Float or integer
             if (target_outcome - parseInt(target_outcome) === 0) {
-                console.log(1);
                 target_outcome = parseInt(target_outcome);
-            } else if ((parseFloat(target_outcome).toPrecision(2) - target_outcome) === 0) {
-                console.log(2);
-                target_outcome = parseFloat(target_outcome).toFixed(2);
-            } else if ((parseFloat(target_outcome).toFixed(2) - target_outcome) === 0) {
-                console.log(3);
+            } else if ((parseFloat(target_outcome).toFixed(1) - target_outcome) <= 0) {
                 target_outcome = parseFloat(target_outcome).toFixed(1);
+            } else if ((parseFloat(target_outcome).toFixed(2) - target_outcome) <= 0) {
+                target_outcome = parseFloat(target_outcome).toFixed(2);
             } else {
-                console.log(4);
                 target_outcome = parseFloat(target_outcome).toFixed(2)
             }
             if (src_outcome - parseInt(src_outcome) === 0) {
-                console.log('a');
                 src_outcome = parseInt(src_outcome);
-            } else if ((parseFloat(src_outcome).toPrecision(2) - src_outcome) === 0) {
-                console.log('b');
+            } else if ((parseFloat(src_outcome).toFixed(1) - src_outcome) <= 0) {
                 src_outcome = parseFloat(src_outcome).toFixed(1);
-            } else if ((parseFloat(src_outcome).toFixed(2) - src_outcome) === 0) {
-                console.log('c');
+            } else if ((parseFloat(src_outcome).toFixed(2) - src_outcome) <= 0) {
                 src_outcome = parseFloat(src_outcome).toFixed(2);
             } else {
-                console.log('d');
                 src_outcome = parseFloat(src_outcome).toFixed(2);
             }
 
