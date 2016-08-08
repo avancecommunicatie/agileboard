@@ -64,7 +64,9 @@ class TaskboardController extends Controller
 			if ($toDo) {
 				$toDo->total_hours = 0;
 				$toDo->each(function($ticket) use ($toDo) {
-					$toDo->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+					if ($ticket->fields->where('id', 1, false)->first()) {
+						$toDo->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+					}
 				});
 			}
 
@@ -72,7 +74,9 @@ class TaskboardController extends Controller
 			if ($inProgress) {
 				$inProgress->total_hours = 0;
 				$inProgress->each(function($ticket) use ($inProgress) {
-					$inProgress->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+					if ($ticket->fields->where('id', 1, false)->first()) {
+						$inProgress->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+					}
 				});
 			}
 
@@ -80,7 +84,9 @@ class TaskboardController extends Controller
 			if ($feedback) {
 				$feedback->total_hours = 0;
 				$feedback->each(function($ticket) use ($feedback) {
-					$feedback->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+					if ($ticket->fields->where('id', 1, false)->first()) {
+						$feedback->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+					}
 				});
 			}
 
@@ -88,7 +94,9 @@ class TaskboardController extends Controller
 			if ($completed) {
 				$completed->total_hours = 0;
 				$completed->each(function($ticket) use ($completed) {
-					$completed->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+					if ($ticket->fields->where('id', 1, false)->first()) {
+						$completed->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+					}
 				});
 			}
 
