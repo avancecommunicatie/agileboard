@@ -57,14 +57,14 @@
             // Float or integer
             if (target_decimals_len > 1 && target_decimals != 0 && (parseInt(target_decimals) % 10 > 0)) {
                 target_outcome = parseFloat(target_outcome).toFixed(2);
-            } else if (target_decimals_len > 0 || (parseInt(target_decimals) % 10 === 0)) {
+            } else if ((target_decimals_len > 0 || (parseInt(target_decimals) % 10 === 0)) && target_decimals != 0) {
                 target_outcome = parseFloat(target_outcome).toFixed(1);
             } else {
                 target_outcome = parseInt(target_outcome);
             }
             if (src_decimals_len > 1 && src_decimals != 0 && (parseInt(src_decimals) % 10 > 0)) {
                 src_outcome = parseFloat(src_outcome).toFixed(2);
-            } else if (src_decimals_len > 0 || (parseInt(src_decimals) % 10 === 0)) {
+            } else if ((src_decimals_len > 0 || (parseInt(src_decimals) % 10 === 0)) && src_decimals != 0) {
                 src_outcome = parseFloat(src_outcome).toFixed(1);
             } else {
                 src_outcome = parseInt(src_outcome);
