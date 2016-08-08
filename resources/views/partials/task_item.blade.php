@@ -15,9 +15,14 @@
 				<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
 					<i class="fa fa-clock-o"></i> {{ date('d-m-Y', $ticket->date_submitted) }}
 				</div>
-				<div class="col-xl-2 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+				<div class="col-xl-2 col-lg-3 col-md-3 col-sm-3 col-xs-3" title="Reacties">
 					<i class="fa fa-comment-o"></i> {{ $ticket->bugnote->count() }}
 				</div>
+				@if($ticket->fields->where('id', 1, false)->first() && !empty($ticket->fields->where('id', 1, false)->first()->pivot->value))
+					<div class="col-xl-2 col-lg-3 col-md-3 col-sm-3 col-xs-3" title="Urenindicatie">
+						<i class="fa fa-clock-o"></i> <span class="ticket-est-time">{{ ($ticket->fields->where('id', 1, false)->first()->pivot->value) }}</span>
+					</div>
+				@endif
 			</div>
 			<div class="row" style="margin-top: 10px;">
 				<div class="col-xl-3 col-lg-5 col-md-6 col-sm-6 col-xs-6">

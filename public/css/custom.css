@@ -39,6 +39,10 @@ body, html {
     padding-top: 5px;
 }
 
+.est-time {
+    margin-left: 15px;
+}
+
 .fa-customsize {
     font-size: 1.2em;
 }
