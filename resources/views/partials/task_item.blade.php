@@ -13,7 +13,7 @@
 		<div class="agile-detail">
 			<div class="row">
 				<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
-					<i class="fa fa-clock-o"></i> {{ date('d-m-Y', $ticket->date_submitted) }}
+					<i class="fa fa-calendar-o"></i> {{ date('d-m-Y', $ticket->date_submitted) }}
 				</div>
 				<div class="col-xl-2 col-lg-3 col-md-3 col-sm-3 col-xs-3" title="Reacties">
 					<i class="fa fa-comment-o"></i> {{ $ticket->bugnote->count() }}
