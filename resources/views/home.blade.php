@@ -35,6 +35,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="text-center">
+                        <a class="btn btn-link" href="{{url('/auth/logout')}}">Uitloggen</a>
+                    </div>
                 </div>
             </div>
         </div>

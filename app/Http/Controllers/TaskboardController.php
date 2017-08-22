@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Projectgroup;
-use App\User;
+use App\MantisUser;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -23,7 +23,7 @@ class TaskboardController extends Controller
      */
     public function index($projectgroup_id, $sprint_id = -1)
     {
-        $users = collectionToSelect(User::orderBy('realname', 'ASC')->get(), true, 'realname');
+        $users = collectionToSelect(MantisUser::orderBy('realname', 'ASC')->get(), true, 'realname');
         $projectgroups = collectionToSelect(Projectgroup::orderBy('name', 'ASC')->get(), false, 'name');
 
         if ($projectgroup_id) {

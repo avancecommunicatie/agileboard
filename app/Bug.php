@@ -13,7 +13,7 @@ class Bug extends Model
 	public $timestamps 	= false;
 
 	public function user() {
-		return $this->belongsTo('App\User', 'handler_id');
+		return $this->belongsTo('App\MantisUser', 'handler_id');
 	}
 
 	public function bugText() {

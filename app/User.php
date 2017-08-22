@@ -10,14 +10,28 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-class User extends Model
+class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
-    protected $table    = 'mantis_user_table';
-    protected $fillable = ['username', 'realname', 'email', 'password', 'enabled', 'protected', 'access_level', 'login_count',
-                           'lost_password_request_count', 'failed_login_count', 'cookie_string', 'last_visit', 'date_created'];
-    public $timestamps  = false;
+    use Authenticatable, Authorizable, CanResetPassword;
 
-    public function bug() {
-        return $this->hasMany('App\Bug', 'handler_id');
-    }
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name', 'email', 'password'];
+
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['password', 'remember_token'];
 }
