@@ -14,6 +14,6 @@ class Projectgroup extends Model
     }
 
     public function stories() {
-        return $this->hasMany('App\Story');
+        return $this->hasMany('App\Story', 'project_id', 'id');
     }
 }
