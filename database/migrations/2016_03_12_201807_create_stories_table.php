@@ -12,12 +12,23 @@ class CreateStoriesTable extends Migration
      */
     public function up()
     {
-        Schema::connection('lg_agile')->create('stories', function (Blueprint $table) {
+        Schema::create('agile_stories', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('project_id');
             $table->string('subject');
             $table->text('content');
             $table->timestamps();
+        });
+
+        Schema::create('agile_projectgroups', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->timestamps();
+        });
+
+        Schema::create('agile_projectgroups_projects', function (Blueprint $table) {
+            $table->integer('projectgroup_id')->unsigned();
+            $table->integer('project_id')->unsigned();
         });
     }
 
@@ -28,6 +39,8 @@ class CreateStoriesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('stories');
+        Schema::drop('agile_stories');
+        Schema::drop('agile_projectgroups');
+        Schema::drop('agile_projectgroups_projects');
     }
 }

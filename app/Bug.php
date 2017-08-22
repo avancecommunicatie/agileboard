@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bug extends Model
 {
-	protected $table 	= 'lg_mantis.mantis_bug_table';
+	protected $table 	= 'mantis_bug_table';
 	protected $fillable = ['project_id', 'reporter_id', 'handler_id', 'duplicate_id', 'priority', 'severity', 'reproducibility', 'status', 'resolution', 'projection', 'eta',
 							'bug_text_id', 'os', 'os_build', 'platform', 'version', 'fixed_in_version', 'build', 'profile_id', 'view_state', 'summary', 'sponsorship_total',
 							'sticky', 'target_version', 'category_id', 'date_submitted', 'due_date', 'last_updated'];
@@ -48,11 +48,11 @@ class Bug extends Model
 			->select('mantis_bug_table.*')
 			->join('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
 			->join('mantis_project_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
-			->join('lg_agile.projectgroups_projects', 'mantis_project_table.id', '=', 'projectgroups_projects.project_id')
-			->join('lg_agile.projectgroups', 'projectgroups.id', '=', 'projectgroups_projects.projectgroup_id')
+			->join('agile_projectgroups_projects', 'mantis_project_table.id', '=', 'agile_projectgroups_projects.project_id')
+			->join('agile_projectgroups', 'agile_projectgroups.id', '=', 'agile_projectgroups_projects.projectgroup_id')
 			->addSelect('mantis_bug_table.status')
 			->where('mantis_custom_field_string_table.field_id', 6)
-			->where('projectgroups.id', $projectgroup_id)
+			->where('agile_projectgroups.id', $projectgroup_id)
 			->where('mantis_custom_field_string_table.value', $sprint_id);
 	}
 }

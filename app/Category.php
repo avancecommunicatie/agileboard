@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-	protected $table 	= 'lg_mantis.mantis_category_table';
+	protected $table 	= 'mantis_category_table';
 	protected $fillable = ['project_id', 'user_id', 'name', 'status'];
 	public $timestamps 	= false;
 

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Story extends Model
 {
-    protected $table 	= 'lg_agile.stories';
+    protected $table 	= 'agile_stories';
     protected $fillable = ['projectgroup_id', 'subject', 'content'];
 
     public function projectgroup() {

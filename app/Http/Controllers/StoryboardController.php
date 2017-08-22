@@ -29,13 +29,13 @@ class StoryboardController extends Controller
             $projectgroup = Projectgroup::with('projects')->find($projectgroup_id);
             $stories = Story::where('projectgroup_id', $projectgroup_id)->orderBy('created_at', 'DESC')->get();
             
-            $sprints = DB::table('lg_agile.projectgroups')
+            $sprints = DB::table('agile_projectgroups')
                 ->select('mantis_custom_field_string_table.value')
-                ->where('projectgroups.id', $projectgroup_id)
+                ->where('agile_projectgroups.id', $projectgroup_id)
                 ->where('mantis_custom_field_string_table.field_id', 6)
                 ->where('mantis_custom_field_string_table.value', '!=', '')
-                ->join('lg_agile.projectgroups_projects', 'projectgroups.id', '=', 'projectgroups_projects.projectgroup_id')
-                ->join('mantis_project_table', 'mantis_project_table.id', '=', 'projectgroups_projects.project_id')
+                ->join('agile_projectgroups_projects', 'agile_projectgroups.id', '=', 'agile_projectgroups_projects.projectgroup_id')
+                ->join('mantis_project_table', 'mantis_project_table.id', '=', 'agile_projectgroups_projects.project_id')
                 ->join('mantis_bug_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
                 ->join('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
                 ->groupBy('mantis_custom_field_string_table.value')

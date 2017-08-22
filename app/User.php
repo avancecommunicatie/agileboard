@@ -12,7 +12,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 class User extends Model
 {
-    protected $table    = 'lg_mantis.mantis_user_table';
+    protected $table    = 'mantis_user_table';
     protected $fillable = ['username', 'realname', 'email', 'password', 'enabled', 'protected', 'access_level', 'login_count',
                            'lost_password_request_count', 'failed_login_count', 'cookie_string', 'last_visit', 'date_created'];
     public $timestamps  = false;
