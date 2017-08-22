@@ -27,7 +27,7 @@ class StoryboardController extends Controller
             $projectgroups = collectionToSelect(Projectgroup::orderBy('name', 'ASC')->get(), false, 'name');
 
             $projectgroup = Projectgroup::with('projects')->find($projectgroup_id);
-            $stories = Story::where('projectgroup_id', $projectgroup_id)->orderBy('created_at', 'DESC')->get();
+            $stories = Story::where('project_id', $projectgroup_id)->orderBy('created_at', 'DESC')->get();
             
             $sprints = DB::table('agile_projectgroups')
                 ->select('mantis_custom_field_string_table.value')
