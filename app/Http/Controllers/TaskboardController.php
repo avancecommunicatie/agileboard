@@ -27,78 +27,37 @@ class TaskboardController extends Controller
         $projectgroups = collectionToSelect(Projectgroup::orderBy('name', 'ASC')->get(), false, 'name');
 
         if ($projectgroup_id) {
-          $projectgroup = Projectgroup::with('projects')->find($projectgroup_id);
+            $projectgroup = Projectgroup::with('projects')->find($projectgroup_id);
 
-          $sprints = DB::table('agile_projectgroups')
-                         ->select('mantis_custom_field_string_table.value')
-                         ->where('agile_projectgroups.id', $projectgroup_id)
-                         ->where('mantis_custom_field_string_table.field_id', 6)
-                         ->where('mantis_custom_field_string_table.value', '!=', '')
-                         ->join('agile_projectgroups_projects', 'agile_projectgroups.id', '=', 'agile_projectgroups_projects.projectgroup_id')
-                         ->join('mantis_project_table', 'mantis_project_table.id', '=', 'agile_projectgroups_projects.project_id')
-                         ->join('mantis_bug_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
-                         ->join('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
-                         ->groupBy('mantis_custom_field_string_table.value')
-                         ->orderBy(\DB::raw('convert(mantis_custom_field_string_table.value,decimal)'))
-                         ->get();
-
-			$sprintsObj = array_reverse($sprints);
-            if ($sprint_id == -1) {
-				if (!empty($sprintsObj) ) {
-					$sprint_id = $sprintsObj[0]->value;
-				}
-            }
-
-			$sprints = [];
-			foreach($sprintsObj as $s){
-				$sprints[$s->value] = $s->value;
-			}
-
-            if (count($sprints) == 0) {
-                return redirect(route('home'))->with('error', 'Dit project heeft geen sprints');
-            }
+            list($sprints, $sprint_id) = $this->getSprints($projectgroup_id, $sprint_id);
 
             $tickets = Bug::with('fields')->onSprint($projectgroup_id, $sprint_id)->get();
 
-            $toDo = $tickets->where('status', 10, false);
-			if ($toDo) {
-				$toDo->total_hours = 0;
-				$toDo->each(function($ticket) use ($toDo) {
-					if ($ticket->fields->where('id', 1, false)->first()) {
-						$toDo->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
-					}
-				});
-			}
+            list($toDo, $inProgress, $feedback, $completed) = $this->categorizeTickets($tickets);
 
-            $inProgress = $tickets->where('status', 50, false);
-			if ($inProgress) {
-				$inProgress->total_hours = 0;
-				$inProgress->each(function($ticket) use ($inProgress) {
-					if ($ticket->fields->where('id', 1, false)->first()) {
-						$inProgress->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
-					}
-				});
-			}
+        } else {
+            $flash['error'] = 'Kies een project om door te gaan';
+            return redirect(route('home'))->with($flash);
+        }
 
-            $feedback   = $tickets->where('status', 20, false);
-			if ($feedback) {
-				$feedback->total_hours = 0;
-				$feedback->each(function($ticket) use ($feedback) {
-					if ($ticket->fields->where('id', 1, false)->first()) {
-						$feedback->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
-					}
-				});
-			}
+        return view('taskboard.index', ['users' => $users, 'projectgroups' => $projectgroups, 'projectgroup' => $projectgroup, 'sprintId' => $sprint_id, 'toDo' => $toDo, 'inProgress' => $inProgress, 'feedback' => $feedback, 'completed' => $completed, 'sprints' => $sprints]);
+    }
 
-            $completed  = $tickets->where('status', 80, false);
-			if ($completed) {
-				$completed->total_hours = 0;
-				$completed->each(function($ticket) use ($completed) {
-					if ($ticket->fields->where('id', 1, false)->first()) {
-						$completed->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
-					}
-				});
-			}
+    public function sprintless($projectgroup_id)
+    {
+        $sprint_id = -1;
+        $users = collectionToSelect(MantisUser::orderBy('realname', 'ASC')->get(), true, 'realname');
+        $projectgroups = collectionToSelect(Projectgroup::orderBy('name', 'ASC')->get(), false, 'name');
+
+        if ($projectgroup_id) {
+            $projectgroup = Projectgroup::with('projects')->find($projectgroup_id);
+
+            list($sprints, $sprint_id) = $this->getSprints($projectgroup_id, $sprint_id);
+            $sprint_id = 'sprintless';
+
+            $tickets = Bug::with('fields')->sprintless($projectgroup_id)->get();
+
+            list($toDo, $inProgress, $feedback, $completed) = $this->categorizeTickets($tickets);
 
         } else {
             $flash['error'] = 'Kies een project om door te gaan';
@@ -125,27 +84,36 @@ class TaskboardController extends Controller
                 $ticket->handler_id = 0;
                 $ticket->status = 10;
                 $ticket->save();
-            break;
+                break;
             case 'inprogress':
                 $ticket = Bug::find($request->get('dragId'));
                 $ticket->status = 50;
                 $ticket->save();
-            break;
+                break;
             case 'feedback':
                 $ticket = Bug::find($request->get('dragId'));
                 $ticket->status = 20;
                 $ticket->save();
-            break;
+                break;
             case 'completed':
                 $ticket = Bug::find($request->get('dragId'));
                 $ticket->status = 80;
                 $ticket->save();
-            break;
+                break;
             default:
         }
         if ($ticket) {
             $response['success'] = true;
-            $pusher = new \Pusher(env('PUSHER_KEY'), env('PUSHER_SECRET'), env('PUSHER_APP_ID'));
+            $options = array(
+                'cluster' => 'eu',
+                'encrypted' => true
+            );
+            $pusher = new \Pusher(
+                config('broadcasting.connections.pusher.key'),
+                config('broadcasting.connections.pusher.secret'),
+                config('broadcasting.connections.pusher.app_id'),
+                $options
+            );
             $pusher->trigger(
                 'refreshChannel'.$request->get('projectgroup_id').$request->get('sprint_id').$request->get('env'),
                 'changeStatus',
@@ -159,7 +127,7 @@ class TaskboardController extends Controller
             );
         }
 
-       return $response;
+        return $response;
     }
 
     /**
@@ -188,7 +156,16 @@ class TaskboardController extends Controller
             $ticket->handler_id = $request->get('handlerId');
             $ticket->save();
             $response['success'] = true;
-            $pusher = new \Pusher(env('PUSHER_KEY'), env('PUSHER_SECRET'), env('PUSHER_APP_ID'));
+            $options = array(
+                'cluster' => 'eu',
+                'encrypted' => true
+            );
+            $pusher = new \Pusher(
+                config('broadcasting.connections.pusher.key'),
+                config('broadcasting.connections.pusher.secret'),
+                config('broadcasting.connections.pusher.app_id'),
+                $options
+            );
             $pusher->trigger(
                 'refreshChannel'.$request->get('projectgroup_id').$request->get('sprint_id').$request->get('env'),
                 'changeHandler',
@@ -211,5 +188,81 @@ class TaskboardController extends Controller
     public function changeProject(Request $request)
     {
         return redirect(route('taskboard.index', ['projectgroup_id' => $request->get('projectgroup_id'), 'sprint_id' => $request->get('sprint_id')]));
+    }
+
+    protected function getSprints($projectgroup_id, $sprint_id)
+    {
+        $sprints = DB::table('agile_projectgroups')
+            ->select('mantis_custom_field_string_table.value')
+            ->where('agile_projectgroups.id', $projectgroup_id)
+            ->where('mantis_custom_field_string_table.field_id', 6)
+            ->where('mantis_custom_field_string_table.value', '!=', '')
+            ->join('agile_projectgroups_projects', 'agile_projectgroups.id', '=', 'agile_projectgroups_projects.projectgroup_id')
+            ->join('mantis_project_table', 'mantis_project_table.id', '=', 'agile_projectgroups_projects.project_id')
+            ->join('mantis_bug_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
+            ->join('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
+            ->groupBy('mantis_custom_field_string_table.value')
+            ->orderBy(\DB::raw('convert(mantis_custom_field_string_table.value,decimal)'))
+            ->get();
+
+        $sprintsObj = array_reverse($sprints);
+        if ($sprint_id == -1) {
+            if (!empty($sprintsObj) ) {
+                $sprint_id = $sprintsObj[0]->value;
+            }
+        }
+
+        $sprints = [];
+        foreach($sprintsObj as $s){
+            $sprints[$s->value] = $s->value;
+        }
+        $sprints['sprintless'] = 'Punten zonder sprint';
+
+        return [$sprints, $sprint_id];
+    }
+
+    protected function categorizeTickets($tickets)
+    {
+        $toDo = $tickets->where('status', 10, false);
+        if ($toDo) {
+            $toDo->total_hours = 0;
+            $toDo->each(function($ticket) use ($toDo) {
+                if ($ticket->fields->where('id', 1, false)->first()) {
+                    $toDo->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+                }
+            });
+        }
+
+        $inProgress = $tickets->where('status', 50, false);
+        if ($inProgress) {
+            $inProgress->total_hours = 0;
+            $inProgress->each(function($ticket) use ($inProgress) {
+                if ($ticket->fields->where('id', 1, false)->first()) {
+                    $inProgress->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+                }
+            });
+        }
+
+        $feedback   = $tickets->where('status', 20, false);
+        if ($feedback) {
+            $feedback->total_hours = 0;
+            $feedback->each(function($ticket) use ($feedback) {
+                if ($ticket->fields->where('id', 1, false)->first()) {
+                    $feedback->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+                }
+            });
+        }
+
+        $completed  = $tickets->where('status', 80, false);
+        if ($completed) {
+            $completed->total_hours = 0;
+            $completed->each(function($ticket) use ($completed) {
+                if ($ticket->fields->where('id', 1, false)->first()) {
+                    $completed->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+                }
+            });
+        }
+
+        return [$toDo, $inProgress, $feedback, $completed];
     }
 }

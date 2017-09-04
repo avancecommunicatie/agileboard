@@ -6,6 +6,7 @@ Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index', 'middleware' => 'auth']);
 
+Route::get('taskboard/{projectgroup_id}/sprintless', ['as' => 'taskboard.sprintless', 'uses' => 'TaskboardController@sprintless', 'middleware' => 'auth']);
 Route::get('taskboard/{projectgroup_id}/{sprint_id?}', ['as' => 'taskboard.index', 'uses' => 'TaskboardController@index', 'middleware' => 'auth']);
 Route::post('taskboard/update-status', ['as' => 'taskboard.update-status', 'uses' => 'TaskboardController@updateStatus', 'middleware' => 'auth']);
 Route::post('taskboard/change-handler', ['as' => 'taskboard.change-handler', 'uses' => 'TaskboardController@changeHandler', 'middleware' => 'auth']);

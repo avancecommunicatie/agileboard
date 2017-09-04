@@ -1,6 +1,11 @@
 <script>
 	$(function() {
-		var pusher = new Pusher('c6ca1d090dec336e071a');
+        Pusher.logToConsole = true;
+		var pusher = new Pusher('{{config('broadcasting.connections.pusher.key')}}', {
+            cluster: 'eu',
+            encrypted: false
+        });
+
 		var channel = pusher.subscribe('refreshChannel'+projectgroup_id+sprint_id+env);
 
 		channel.bind('changeStatus', function(data) {
