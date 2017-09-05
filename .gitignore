@@ -6,3 +6,4 @@ Homestead.json
 vendor/bower_components
 .htaccess
 .idea
+composer.lock
