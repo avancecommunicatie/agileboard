@@ -5,3 +5,4 @@ Homestead.json
 .env
 vendor/bower_components
 .htaccess
+.idea

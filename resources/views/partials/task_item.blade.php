@@ -16,7 +16,7 @@
 					<i class="fa fa-calendar-o"></i> {{ date('d-m-Y', $ticket->date_submitted) }}
 				</div>
 				<div class="col-xl-2 col-lg-3 col-md-3 col-sm-3 col-xs-3" title="Reacties">
-					<i class="fa fa-comment-o"></i> {{ $ticket->bugnote->count() }}
+					<i class="fa fa-comment-o"></i> {{ $ticket->bugnotecounter }}
 				</div>
 				@if($ticket->fields->where('id', 1, false)->first() && !empty($ticket->fields->where('id', 1, false)->first()->pivot->value))
 					<div class="col-xl-2 col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding-left" title="Urenindicatie">

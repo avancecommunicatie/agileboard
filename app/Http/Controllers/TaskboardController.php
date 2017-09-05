@@ -31,7 +31,7 @@ class TaskboardController extends Controller
 
             list($sprints, $sprint_id) = $this->getSprints($projectgroup_id, $sprint_id);
 
-            $tickets = Bug::with('fields')->onSprint($projectgroup_id, $sprint_id)->get();
+            $tickets = Bug::with(['fields', 'bugText', 'project'])->onSprint($projectgroup_id, $sprint_id)->bugnoteCount()->get();
 
             list($toDo, $inProgress, $feedback, $completed) = $this->categorizeTickets($tickets);
 
@@ -55,7 +55,7 @@ class TaskboardController extends Controller
             list($sprints, $sprint_id) = $this->getSprints($projectgroup_id, $sprint_id);
             $sprint_id = 'sprintless';
 
-            $tickets = Bug::with('fields')->sprintless($projectgroup_id)->get();
+            $tickets = Bug::with(['fields', 'bugText', 'project'])->sprintless($projectgroup_id)->bugnoteCount()->get();
 
             list($toDo, $inProgress, $feedback, $completed) = $this->categorizeTickets($tickets);
 

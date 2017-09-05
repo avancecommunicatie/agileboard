@@ -148,7 +148,7 @@ return [
 
         Collective\Html\HtmlServiceProvider::class,
         App\Providers\MacroServiceProvider::class,
-//        Barryvdh\Debugbar\ServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 

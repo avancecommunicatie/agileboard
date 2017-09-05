@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d1eebb2e67a1ffd75afeb0a24780bbc9",
+    "content-hash": "230467aa93792ae8e7192676bd8de0d5",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
