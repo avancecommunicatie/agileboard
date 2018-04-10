@@ -228,7 +228,7 @@ class TaskboardController extends Controller
             $toDo->total_hours = 0;
             $toDo->each(function($ticket) use ($toDo) {
                 if ($ticket->fields->where('id', 1, false)->first()) {
-                    $toDo->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+                    $toDo->total_hours += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
                 }
             });
         }
@@ -238,7 +238,7 @@ class TaskboardController extends Controller
             $inProgress->total_hours = 0;
             $inProgress->each(function($ticket) use ($inProgress) {
                 if ($ticket->fields->where('id', 1, false)->first()) {
-                    $inProgress->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+                    $inProgress->total_hours += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
                 }
             });
         }
@@ -248,7 +248,7 @@ class TaskboardController extends Controller
             $feedback->total_hours = 0;
             $feedback->each(function($ticket) use ($feedback) {
                 if ($ticket->fields->where('id', 1, false)->first()) {
-                    $feedback->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+                    $feedback->total_hours += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
                 }
             });
         }
@@ -258,7 +258,7 @@ class TaskboardController extends Controller
             $completed->total_hours = 0;
             $completed->each(function($ticket) use ($completed) {
                 if ($ticket->fields->where('id', 1, false)->first()) {
-                    $completed->total_hours += $ticket->fields->where('id', 1, false)->first()->pivot->value;
+                    $completed->total_hours += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
                 }
             });
         }
