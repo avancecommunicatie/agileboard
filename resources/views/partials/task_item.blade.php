@@ -29,11 +29,20 @@
 					<a href="//mantis.avancecommunicatie.nl/view.php?id={{ $ticket->id }}" class="btn btn-xs btn-primary" target="_blank"><i class="fa fa-eye"></i>  Toon ticket</a>
 				</div>
 				<div class="col-xl-4 col-lg-offset-1 col-lg-6 col-md-6 col-sm-6 col-xs-6">
-					@if(count($users) > 0)
-					{!! Form::select('assign_to_id', $users, $ticket->handler_id, ['class' => 'ticket-assign-to']) !!}
-					@else
-						<p><strong>{{ $ticket->project->name }}</strong> </p>
-					@endif
+					{{--@if(count($users) > 0)--}}
+					{{--{!! Form::select('assign_to_id', $users, $ticket->handler_id, ['class' => 'ticket-assign-to']) !!}--}}
+					{{--@else--}}
+						{{--<p><strong>{{ $ticket->project->name }}</strong> </p>--}}
+					{{--@endif--}}
+					<div>
+						{{$ticket->user ? $ticket->user->realname : '...'}}
+					</div>
+				</div>
+				<div class="col-xs-12">
+					<p>
+					<div class="hr-line-dashed"></div>
+					</p>
+					{!! $ticket->status < 80 ? '<span class="fa fa-square-o"></span>' : '<span class="fa fa-check-square-o"></span>' !!} Afgesloten
 				</div>
 			</div>
 		</div>

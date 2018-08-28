@@ -31,7 +31,7 @@ class TaskboardController extends Controller
 
             list($sprints, $sprint_id) = $this->getSprints($projectgroup_id, $sprint_id);
 
-            $tickets = Bug::with(['fields', 'bugText', 'project'])->onSprint($projectgroup_id, $sprint_id)->bugnoteCount()->get();
+            $tickets = Bug::with(['fields', 'bugText', 'project', 'user'])->onSprint($projectgroup_id, $sprint_id)->bugnoteCount()->get();
 
             list($toDo, $inProgress, $feedback, $completed) = $this->categorizeTickets($tickets);
 
@@ -81,23 +81,24 @@ class TaskboardController extends Controller
         switch ($request->get('dropId')) {
             case 'todo':
                 $ticket = Bug::find($request->get('dragId'));
-                $ticket->handler_id = 0;
-                $ticket->status = 10;
+                $ticket->status = 50;
                 $ticket->save();
                 break;
             case 'inprogress':
                 $ticket = Bug::find($request->get('dragId'));
-                $ticket->status = 50;
+                $ticket->status = 20;
                 $ticket->save();
                 break;
             case 'feedback':
                 $ticket = Bug::find($request->get('dragId'));
+                $ticket->handler_id = 47;
                 $ticket->status = 20;
                 $ticket->save();
                 break;
             case 'completed':
                 $ticket = Bug::find($request->get('dragId'));
-                $ticket->status = 80;
+                $ticket->status = 20;
+                $ticket->handler_id = 44;
                 $ticket->save();
                 break;
             default:
@@ -223,44 +224,45 @@ class TaskboardController extends Controller
 
     protected function categorizeTickets($tickets)
     {
-        $toDo = $tickets->where('status', 10, false);
-        if ($toDo) {
-            $toDo->total_hours = 0;
-            $toDo->each(function($ticket) use ($toDo) {
-                if ($ticket->fields->where('id', 1, false)->first()) {
-                    $toDo->total_hours += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
-                }
-            });
-        }
+        $toDo = [
+            'total_hours' => 0,
+            'tickets' => []
+        ];
+        $inProgress = [
+            'total_hours' => 0,
+            'tickets' => []
+        ];
+        $feedback = [
+            'total_hours' => 0,
+            'tickets' => []
+        ];
+        $completed = [
+            'total_hours' => 0,
+            'tickets' => []
+        ];
 
-        $inProgress = $tickets->where('status', 50, false);
-        if ($inProgress) {
-            $inProgress->total_hours = 0;
-            $inProgress->each(function($ticket) use ($inProgress) {
+        foreach ($tickets as $ticket) {
+            if ($ticket->status == 80 || ($ticket->user && stristr($ticket->user->realname, 'LG'))) {
                 if ($ticket->fields->where('id', 1, false)->first()) {
-                    $inProgress->total_hours += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
+                    $completed['total_hours'] += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
                 }
-            });
-        }
-
-        $feedback   = $tickets->where('status', 20, false);
-        if ($feedback) {
-            $feedback->total_hours = 0;
-            $feedback->each(function($ticket) use ($feedback) {
+                $completed['tickets'][] = $ticket;
+            } elseif ($ticket->user && stristr($ticket->user->realname, 'edwin')) {
                 if ($ticket->fields->where('id', 1, false)->first()) {
-                    $feedback->total_hours += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
+                    $feedback['total_hours'] += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
                 }
-            });
-        }
-
-        $completed  = $tickets->where('status', 80, false);
-        if ($completed) {
-            $completed->total_hours = 0;
-            $completed->each(function($ticket) use ($completed) {
+                $feedback['tickets'][] = $ticket;
+            } elseif ($ticket->status == 20) {
                 if ($ticket->fields->where('id', 1, false)->first()) {
-                    $completed->total_hours += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
+                    $inProgress['total_hours'] += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
                 }
-            });
+                $inProgress['tickets'][] = $ticket;
+            } else {
+                if ($ticket->fields->where('id', 1, false)->first()) {
+                    $toDo['total_hours'] += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
+                }
+                $toDo['tickets'][] = $ticket;
+            }
         }
 
         return [$toDo, $inProgress, $feedback, $completed];
