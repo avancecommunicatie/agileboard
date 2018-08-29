@@ -252,7 +252,7 @@ class TaskboardController extends Controller
                     $feedback['total_hours'] += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
                 }
                 $feedback['tickets'][] = $ticket;
-            } elseif ($ticket->status == 20) {
+            } elseif ($ticket->status == 20 || ($ticket->user && stristr($ticket->user->realname, 'frontoffice testen'))) {
                 if ($ticket->fields->where('id', 1, false)->first()) {
                     $inProgress['total_hours'] += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
                 }
