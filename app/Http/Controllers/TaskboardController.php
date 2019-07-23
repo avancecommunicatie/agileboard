@@ -193,13 +193,10 @@ class TaskboardController extends Controller
 
     protected function getSprints($projectgroup_id, $sprint_id)
     {
-        $sprints = DB::table('agile_projectgroups')
+        $sprints = DB::table('mantis_project_table')
             ->select('mantis_custom_field_string_table.value')
-            ->where('agile_projectgroups.id', $projectgroup_id)
             ->where('mantis_custom_field_string_table.field_id', 6)
             ->where('mantis_custom_field_string_table.value', '!=', '')
-            ->join('agile_projectgroups_projects', 'agile_projectgroups.id', '=', 'agile_projectgroups_projects.projectgroup_id')
-            ->join('mantis_project_table', 'mantis_project_table.id', '=', 'agile_projectgroups_projects.project_id')
             ->join('mantis_bug_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
             ->join('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
             ->groupBy('mantis_custom_field_string_table.value')
@@ -242,7 +239,7 @@ class TaskboardController extends Controller
         ];
 
         foreach ($tickets as $ticket) {
-            if ($ticket->status == 80 || ($ticket->user && stristr($ticket->user->realname, 'LG'))) {
+            if ($ticket->status >= 80 || ($ticket->user && stristr($ticket->user->realname, 'LG'))) {
                 if ($ticket->fields->where('id', 1, false)->first()) {
                     $completed['total_hours'] += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
                 }
@@ -252,7 +249,7 @@ class TaskboardController extends Controller
                     $feedback['total_hours'] += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
                 }
                 $feedback['tickets'][] = $ticket;
-            } elseif ($ticket->status == 20 || ($ticket->user && stristr($ticket->user->realname, 'frontoffice testen'))) {
+            } elseif (($ticket->status == 20) || ($ticket->user && stristr($ticket->user->realname, 'frontoffice testen'))) {
                 if ($ticket->fields->where('id', 1, false)->first()) {
                     $inProgress['total_hours'] += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
                 }
