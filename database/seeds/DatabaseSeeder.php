@@ -32,6 +32,15 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        $user = \App\User::find(3);
+        if (! $user) {
+            \App\User::create([
+                'name' => 'Dominic',
+                'email' => 'online@lesgenereux.nl',
+                'password' => bcrypt('BJc1AvB1fDqVXza1')
+            ]);
+        }
+
         // $this->call(UserTableSeeder::class);
 
         Model::reguard();
