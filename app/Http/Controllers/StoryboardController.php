@@ -82,6 +82,7 @@ class StoryboardController extends Controller
         $projectgroup = Projectgroup::find($request->get('projectgroup_id'));
 
         $story = new Story($request->all());
+        $story->project_id = $projectgroup->id;
         $story->save();
 
         return redirect(route('storyboard.index', ['projectgroup_id' => $projectgroup->id]))->with('info', 'Bericht geplaatst');
