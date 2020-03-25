@@ -43,24 +43,24 @@ class Bug extends Model
             ->groupBy('mantis_bug_table.id');
     }
 
-	public function scopeSprintless($query, $projectgroup_id)
-    {
-        $query
-            ->select('mantis_bug_table.*')
-            ->leftJoin('mantis_custom_field_string_table', function($join) {
-                $join->on('mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id');
-                $join->on(\DB::raw('mantis_custom_field_string_table.field_id = 6'), \DB::raw(''), \DB::raw(''));
-            })
-            ->join('mantis_project_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
-            ->join('agile_projectgroups_projects', 'mantis_project_table.id', '=', 'agile_projectgroups_projects.project_id')
-            ->join('agile_projectgroups', 'agile_projectgroups.id', '=', 'agile_projectgroups_projects.projectgroup_id')
-            ->addSelect('mantis_bug_table.status')
-            ->where('agile_projectgroups.id', $projectgroup_id)
-            ->where(function ($query) {
-                $query->where('mantis_custom_field_string_table.value', '');
-                $query->orWhereNull('mantis_custom_field_string_table.value');
-            });
-    }
+//	public function scopeSprintless($query, $projectgroup_id)
+//    {
+//        $query
+//            ->select('mantis_bug_table.*')
+//            ->leftJoin('mantis_custom_field_string_table', function($join) {
+//                $join->on('mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id');
+//                $join->on(\DB::raw('mantis_custom_field_string_table.field_id = 6'), \DB::raw(''), \DB::raw(''));
+//            })
+//            ->join('mantis_project_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
+//            ->join('agile_projectgroups_projects', 'mantis_project_table.id', '=', 'agile_projectgroups_projects.project_id')
+//            ->join('agile_projectgroups', 'agile_projectgroups.id', '=', 'agile_projectgroups_projects.projectgroup_id')
+//            ->addSelect('mantis_bug_table.status')
+//            ->where('agile_projectgroups.id', $projectgroup_id)
+//            ->where(function ($query) {
+//                $query->where('mantis_custom_field_string_table.value', '');
+//                $query->orWhereNull('mantis_custom_field_string_table.value');
+//            });
+//    }
 
 	/**
 	 * Scope for getting tickets grouped by projectgroup and sprint.

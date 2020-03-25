@@ -43,29 +43,29 @@ class TaskboardController extends Controller
         return view('taskboard.index', ['users' => $users, 'projectgroups' => $projectgroups, 'projectgroup' => $projectgroup, 'sprintId' => $sprint_id, 'toDo' => $toDo, 'inProgress' => $inProgress, 'feedback' => $feedback, 'completed' => $completed, 'sprints' => $sprints]);
     }
 
-    public function sprintless($projectgroup_id)
-    {
-        $sprint_id = -1;
-        $users = collectionToSelect(MantisUser::orderBy('realname', 'ASC')->get(), true, 'realname');
-        $projectgroups = collectionToSelect(Projectgroup::orderBy('name', 'ASC')->get(), false, 'name');
-
-        if ($projectgroup_id) {
-            $projectgroup = Projectgroup::with('projects')->find($projectgroup_id);
-
-            list($sprints, $sprint_id) = $this->getSprints($projectgroup_id, $sprint_id);
-            $sprint_id = 'sprintless';
-
-            $tickets = Bug::with(['fields', 'bugText', 'project'])->sprintless($projectgroup_id)->bugnoteCount()->get();
-
-            list($toDo, $inProgress, $feedback, $completed) = $this->categorizeTickets($tickets);
-
-        } else {
-            $flash['error'] = 'Kies een project om door te gaan';
-            return redirect(route('home'))->with($flash);
-        }
-
-        return view('taskboard.index', ['users' => $users, 'projectgroups' => $projectgroups, 'projectgroup' => $projectgroup, 'sprintId' => $sprint_id, 'toDo' => $toDo, 'inProgress' => $inProgress, 'feedback' => $feedback, 'completed' => $completed, 'sprints' => $sprints]);
-    }
+//    public function sprintless($projectgroup_id)
+//    {
+//        $sprint_id = -1;
+//        $users = collectionToSelect(MantisUser::orderBy('realname', 'ASC')->get(), true, 'realname');
+//        $projectgroups = collectionToSelect(Projectgroup::orderBy('name', 'ASC')->get(), false, 'name');
+//
+//        if ($projectgroup_id) {
+//            $projectgroup = Projectgroup::with('projects')->find($projectgroup_id);
+//
+//            list($sprints, $sprint_id) = $this->getSprints($projectgroup_id, $sprint_id);
+//            $sprint_id = 'sprintless';
+//
+//            $tickets = Bug::with(['fields', 'bugText', 'project'])->sprintless($projectgroup_id)->bugnoteCount()->get();
+//
+//            list($toDo, $inProgress, $feedback, $completed) = $this->categorizeTickets($tickets);
+//
+//        } else {
+//            $flash['error'] = 'Kies een project om door te gaan';
+//            return redirect(route('home'))->with($flash);
+//        }
+//
+//        return view('taskboard.index', ['users' => $users, 'projectgroups' => $projectgroups, 'projectgroup' => $projectgroup, 'sprintId' => $sprint_id, 'toDo' => $toDo, 'inProgress' => $inProgress, 'feedback' => $feedback, 'completed' => $completed, 'sprints' => $sprints]);
+//    }
 
     /**
      * Update the status of a ticket.
@@ -214,7 +214,7 @@ class TaskboardController extends Controller
         foreach($sprintsObj as $s){
             $sprints[$s->value] = $s->value;
         }
-        $sprints['sprintless'] = 'Punten zonder sprint';
+//        $sprints['sprintless'] = 'Punten zonder sprint';
 
         return [$sprints, $sprint_id];
     }
