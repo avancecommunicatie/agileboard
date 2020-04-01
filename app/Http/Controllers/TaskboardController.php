@@ -188,15 +188,26 @@ class TaskboardController extends Controller
      */
     public function changeProject(Request $request)
     {
-        return redirect(route('taskboard.index', ['projectgroup_id' => $request->get('projectgroup_id'), 'sprint_id' => $request->get('sprint_id')]));
+        $sprint_id = $request->get('sprint_id');
+        $projectgroup_id = $request->get('projectgroup_id');
+
+        list($sprints, $sprint_id) = $this->getSprints($projectgroup_id, $sprint_id);
+
+        if (!isset($sprints[$sprint_id])) {
+            $sprint_id = null;
+        }
+        return redirect(route('taskboard.index', ['projectgroup_id' => $projectgroup_id, 'sprint_id' => $sprint_id]));
     }
 
     protected function getSprints($projectgroup_id, $sprint_id)
     {
-        $sprints = DB::table('mantis_project_table')
+        $sprints = DB::table('agile_projectgroups')
             ->select('mantis_custom_field_string_table.value')
+            ->where('agile_projectgroups.id', $projectgroup_id)
             ->where('mantis_custom_field_string_table.field_id', 6)
             ->where('mantis_custom_field_string_table.value', '!=', '')
+            ->join('agile_projectgroups_projects', 'agile_projectgroups.id', '=', 'agile_projectgroups_projects.projectgroup_id')
+            ->join('mantis_project_table', 'mantis_project_table.id', '=', 'agile_projectgroups_projects.project_id')
             ->join('mantis_bug_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
             ->join('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
             ->groupBy('mantis_custom_field_string_table.value')
