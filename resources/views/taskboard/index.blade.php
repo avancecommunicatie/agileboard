@@ -45,7 +45,7 @@
                             {!! Form::hidden('projectgroup_id', $projectgroup->id) !!}
                             {!! Form::hidden('sprint_id', $sprintId) !!}
                             @if ($sprintId)
-                                {!! Form::submit('Ontkoppel sprint', ['class' => 'btn btn-primary', 'onClick' => 'return confirm("Let op!\nWeet u zeker dat u deze sprint wilt ontkoppelen?")']) !!}
+                                {!! Form::submit('Ontkoppel sprint', ['class' => 'ontkoppel-sprint btn btn-primary']) !!}
                             @endif
                         </div>
                         {!! Form::close() !!}

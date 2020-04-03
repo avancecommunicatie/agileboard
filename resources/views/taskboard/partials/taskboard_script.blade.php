@@ -98,4 +98,20 @@
 
         return timer;
     }
+
+    $('.ontkoppel-sprint').on('click', function(e) {
+        e.preventDefault();
+        var form = $(this).parents('form');
+        swal({
+            title: "Let op!",
+            text: "Weet je zeker dat je deze sprint wilt ontkoppelen?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Verwijder!",
+            closeOnConfirm: true
+        }, function() {
+            form.submit();
+        });
+    });
 </script>
