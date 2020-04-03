@@ -38,17 +38,19 @@
                     {!! Form::close() !!}
                 </div>
                 {{-- sprint ontkoppelen --}}
-                <div class="col-lg-1">
-                    {!! Form::open(['id' => 'clear-sprint', 'url' => route('taskboard.clear-sprint'), 'method' => 'POST']) !!}
-                    <div class="form-group input-sprint">
-                        {!! Form::hidden('projectgroup_id', $projectgroup->id) !!}
-                        {!! Form::hidden('sprint_id', $sprintId) !!}
-                        @if ($sprintId)
-                            {!! Form::submit('Ontkoppel sprint', ['class' => 'btn btn-primary']) !!}
-                        @endif
+                @if(Auth::user()->id == "1")
+                    <div class="col-lg-1">
+                        {!! Form::open(['id' => 'clear-sprint', 'url' => route('taskboard.clear-sprint'), 'method' => 'POST']) !!}
+                        <div class="form-group input-sprint">
+                            {!! Form::hidden('projectgroup_id', $projectgroup->id) !!}
+                            {!! Form::hidden('sprint_id', $sprintId) !!}
+                            @if ($sprintId)
+                                {!! Form::submit('Ontkoppel sprint', ['class' => 'btn btn-primary', 'onClick' => 'return confirm("Let op!\nWeet u zeker dat u deze sprint wilt ontkoppelen?")']) !!}
+                            @endif
+                        </div>
+                        {!! Form::close() !!}
                     </div>
-                    {!! Form::close() !!}
-                </div>
+                @endif
                 <div class="pull-right">
                     <div class="checkbox disable-auto-refresh" title="Pagina niet verversen na 5 minuten">
                         <label><input type="checkbox" id="disable-refresh-checkbox" value="0"><strong>Niet verversen</strong></label>

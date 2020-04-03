@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Bug;
 
 use DB;
+use Illuminate\Support\Facades\Auth;
 
 class TaskboardController extends Controller
 {
@@ -146,13 +147,21 @@ class TaskboardController extends Controller
     {
         $sprintId = $request->get('sprint_id');
         $projectgroup_id = $request->get('projectgroup_id');
-//        dd($sprintId);
-        $tickets = Bug::onGlobalSprint($sprintId);
-        foreach ($tickets as $ticket) {
-            $ticket->fields()->wherePivot('field_id', 6)->detach();
-        }
 
-        return redirect(route('taskboard.index', ['projectgroup_id' => $projectgroup_id, 'sprint_id' => $sprintId]));
+        if(Auth::id() === 1)
+        {
+            $tickets = Bug::onGlobalSprint($sprintId)->get();
+//            $tickets = Bug::onSprint($projectgroup_id, $sprintId)->get();
+            foreach ($tickets as $ticket)
+            {
+                $ticket->fields()->wherePivot('field_id', 6)->detach();
+            }
+            return redirect(route('taskboard.index', ['projectgroup_id' => $projectgroup_id]));
+        }
+        else
+        {
+            return redirect(route('taskboard.index', ['projectgroup_id' => $projectgroup_id, 'sprint_id' => $sprintId]))->with('warning', 'Niet gelukt');
+        }
     }
 
     /**
