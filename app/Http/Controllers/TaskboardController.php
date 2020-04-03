@@ -142,6 +142,19 @@ class TaskboardController extends Controller
         return redirect(route('taskboard.index', ['projectgroup_id' => $request->get('projectgroup_id'), 'sprint_id' => $request->get('sprint_id')]));
     }
 
+    public function clearSprint(Request $request)
+    {
+        $sprintId = $request->get('sprint_id');
+        $projectgroup_id = $request->get('projectgroup_id');
+//        dd($sprintId);
+        $tickets = Bug::onGlobalSprint($sprintId);
+        foreach ($tickets as $ticket) {
+            $ticket->fields()->wherePivot('field_id', 6)->detach();
+        }
+
+        return redirect(route('taskboard.index', ['projectgroup_id' => $projectgroup_id, 'sprint_id' => $sprintId]));
+    }
+
     /**
      * Change the ticket's current handler.
      *

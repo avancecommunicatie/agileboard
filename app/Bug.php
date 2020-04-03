@@ -82,4 +82,17 @@ class Bug extends Model
             ->where('mantis_custom_field_string_table.value', $sprint_id)
             ->whereIn('mantis_bug_table.status', [10, 50, 20, 80]);
     }
+
+    public function scopeOnGlobalSprint($query, $sprint_id) {
+        $query
+            ->select('mantis_bug_table.*')
+            ->join('mantis_custom_field_string_table', 'mantis_bug_table.id', '=', 'mantis_custom_field_string_table.bug_id')
+            ->join('mantis_project_table', 'mantis_bug_table.project_id', '=', 'mantis_project_table.id')
+//            ->join('agile_projectgroups_projects', 'mantis_project_table.id', '=', 'agile_projectgroups_projects.project_id')
+//            ->join('agile_projectgroups', 'agile_projectgroups.id', '=', 'agile_projectgroups_projects.projectgroup_id')
+            ->addSelect('mantis_bug_table.status')
+            ->where('mantis_custom_field_string_table.field_id', 6)
+//            ->where('agile_projectgroups.id', $projectgroup_id)
+            ->where('mantis_custom_field_string_table.value', $sprint_id);
+    }
 }

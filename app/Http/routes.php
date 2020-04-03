@@ -12,6 +12,7 @@ Route::post('taskboard/update-status', ['as' => 'taskboard.update-status', 'uses
 Route::post('taskboard/change-handler', ['as' => 'taskboard.change-handler', 'uses' => 'TaskboardController@changeHandler', 'middleware' => 'auth']);
 Route::post('taskboard/change-sprint', ['as' => 'taskboard.change-sprint', 'uses' => 'TaskboardController@changeSprint', 'middleware' => 'auth']);
 Route::post('taskboard/change-project', ['as' => 'taskboard.change-project', 'uses' => 'TaskboardController@changeProject', 'middleware' => 'auth']);
+Route::post('taskboard/clear-sprint', ['as' => 'taskboard.clear-sprint', 'uses' => 'TaskboardController@clearSprint', 'middleware' => 'auth']);
 
 Route::get('storyboard/{projectgroup_id?}/{sprint_id?}', ['as' => 'storyboard.index', 'uses' => 'StoryboardController@index', 'middleware' => 'auth']);
 Route::post('storyboard', ['as' => 'storyboard.store', 'uses' => 'StoryboardController@store', 'middleware' => 'auth']);
