@@ -5216,6 +5216,32 @@ table.issue-tracker tbody tr td {
 	margin-top: 5px;
 	font-size: 12px;
 }
+
+/*BUG TICKET FANCY CHECKBOX*/
+
+.fancy-checkbox input[type="checkbox"] {
+	position: absolute;
+	opacity: 0;
+}
+
+.fancy-checkbox {
+	font-weight: normal;
+}
+
+.fancy-checkbox span:before {
+	font-family: "FontAwesome";
+	font-style: normal;
+	font-weight: normal;
+	width: 1em;
+	height: 1em;
+	content: '\f096';
+	margin-right: .3em;
+}
+
+.fancy-checkbox input[type="checkbox"]:checked ~ span:before {
+	content: '\f046';
+}
+
 /* DIFF */
 ins {
 	background-color: #c6ffc6;

@@ -45,15 +45,16 @@
 					<div class="col-xs-4">
 						{!! $ticket->status < 80 ? '<span class="fa fa-square-o"></span>' : '<span class="fa fa-check-square-o"></span>' !!} Afgesloten
 					</div>
+					@foreach($checkboxes as $checkbox)
+						<div class="col-xs-4">
+							<label class="fancy-checkbox">
+								{!! Form::checkbox('checkbox[]', $checkbox->id, $ticket->checkboxes->contains('id', $checkbox->id) ? true : '', ['class' => 'checkbox '.$ticket->id, 'data-ticket' => $ticket->id ]) !!}
+								<span>{{$checkbox->name}}</span>
+							</label>
+						</div>
+					@endforeach
 				</div>
 			</div>
-		</div>
-		<div >
-			@foreach($checkboxes as $checkbox)
-				<div class="col-xs-4">
-						{!! Form::checkbox('checkbox[]', $checkbox->id, $ticket->checkboxes->contains('id', $checkbox->id) ? true : '', ['class' => 'checkbox '.$ticket->id, 'data-ticket' => $ticket->id ]) !!} {{$checkbox->name}}
-				</div>
-			@endforeach
 		</div>
 	</div>
 </li>
