@@ -51,7 +51,7 @@
 		<div >
 			@foreach($checkboxes as $checkbox)
 				<div class="col-xs-4">
-					<input type="checkbox" name="checkbox[]" class="checkbox {{$ticket->id}}" data-checkbox="{{$checkbox->id}}"  data-ticket="{{$ticket->id}}"> {{$checkbox->name}}
+					{!! Form::checkbox('checkbox[]', $checkbox->id, false, ['class' => 'checkbox '.$ticket->id, 'data-ticket' => $ticket->id ]) !!} {{$checkbox->name}}
 				</div>
 			@endforeach
 		</div>

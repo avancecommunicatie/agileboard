@@ -119,7 +119,7 @@
         var ticket = $(this).data('ticket');
         var checkboxes = [];
         $('.' + ticket +":checked").each(function() {
-            checkboxes.push($(this).data('checkbox'));
+            checkboxes.push($(this).val());
         });
 
         $.ajax({
