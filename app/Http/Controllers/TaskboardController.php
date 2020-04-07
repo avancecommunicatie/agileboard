@@ -35,7 +35,7 @@ class TaskboardController extends Controller
 
             list($sprints, $sprint_id) = $this->getSprints($projectgroup_id, $sprint_id);
 
-            $tickets = Bug::with(['fields', 'bugText', 'project', 'user'])->onSprint($projectgroup_id, $sprint_id)->bugnoteCount()->get();
+            $tickets = Bug::with(['fields', 'bugText', 'project', 'user', 'checkboxes'])->onSprint($projectgroup_id, $sprint_id)->bugnoteCount()->get();
             $checkboxes = Checkbox::enabled()->get();
 
             list($toDo, $inProgress, $feedback, $completed) = $this->categorizeTickets($tickets);
