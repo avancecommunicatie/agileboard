@@ -57,30 +57,3 @@
 		</div>
 	</div>
 </li>
-@section('bottom-script')
-	<script>
-		$(function() {
-			$('.checkbox').click(function () {
-				var ticket = $(this).data('ticket');
-				var checkboxes = [];
-				$('.' + ticket +":checked").each(function() {
-					checkboxes.push($(this).data('checkbox'));
-				});
-
-				$.ajax({
-					type: "POST",
-					headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-					url: 'http://agileboard.test/taskboard',
-					data: {
-						'checkboxes': checkboxes,
-						'ticket_id': ticket
-					},
-					success: function(data)
-					{
-						//
-					}
-				});
-			});
-		});
-	</script>
-@endsection
