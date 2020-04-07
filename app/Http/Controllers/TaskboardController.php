@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Checkbox;
 use App\Projectgroup;
 use App\MantisUser;
 use Illuminate\Http\Request;
@@ -12,6 +13,8 @@ use App\Bug;
 
 use DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Symfony\Component\Console\Tests\Input\InputTest;
 
 class TaskboardController extends Controller
 {
@@ -297,4 +300,26 @@ class TaskboardController extends Controller
 
         return [$toDo, $inProgress, $feedback, $completed];
     }
+
+    public function additionalCheckbox(Request $request) {
+        $ticket = $request->get('ticket_id');
+        $input = $request->all();
+
+        $checkboxes = $request->input('checkbox');
+
+        if(is_array($checkboxes)) {
+            foreach($checkboxes as $checkbox) {
+                dd($checkboxes);
+                DB::table('agile_ticket_checkboxes')->insert(
+                    [
+                        'bug_id' => $ticket,
+                        'in_de_mededeling' => $checkbox,
+                        'akkoord_klant' => $checkbox,
+                    ]
+                );
+            }
+        }
+        return back()->with('added', '');
+    }
+
 }

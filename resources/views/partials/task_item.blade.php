@@ -40,11 +40,25 @@
 				</div>
 				<div class="col-xs-12">
 					<p>
-					<div class="hr-line-dashed"></div>
+						<div class="hr-line-dashed"></div>
 					</p>
-					{!! $ticket->status < 80 ? '<span class="fa fa-square-o"></span>' : '<span class="fa fa-check-square-o"></span>' !!} Afgesloten
+					<div class="col-xs-4">
+						{!! $ticket->status < 80 ? '<span class="fa fa-square-o"></span>' : '<span class="fa fa-check-square-o"></span>' !!} Afgesloten
+					</div>
 				</div>
 			</div>
 		</div>
+		{!! Form::open(['id' => 'ticket-checkbox', 'url' => route('taskboard.additional-checkbox'), 'method' => 'POST']) !!}
+			{!! Form::hidden('ticket_id', $ticket->id) !!}
+			<div class="col-xs-4">
+				{!! Form::checkbox('checkbox[]', 'In de mededeling') !!} In de mededeling
+			</div>
+			<div class="col-xs-4">
+				{!! Form::checkbox('checkbox[]', 'Akkoord klant') !!} Akkoord klant
+			</div>
+			<div class="col-xs-4">
+				{!! Form::submit() !!}
+			</div>
+		{!! Form::close() !!}
 	</div>
 </li>
