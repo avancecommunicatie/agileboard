@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAgileCheckboxesTable extends Migration
+class CreateAgileBugCheckboxTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,10 @@ class CreateAgileCheckboxesTable extends Migration
      */
     public function up()
     {
-        Schema::create('agile_ticket_checkboxes', function (Blueprint $table) {
+        Schema::create('agile_bug_checkbox', function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('bug_id');
-            $table->boolean('in_de_mededeling')->default(false);
-            $table->boolean('akkoord_klant')->default(false);
-            $table->timestamps();
+            $table->integer('checkbox_id');
         });
     }
 
@@ -28,6 +26,6 @@ class CreateAgileCheckboxesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('agile_checkboxes');
+        Schema::drop('agile_bug_checkbox');
     }
 }

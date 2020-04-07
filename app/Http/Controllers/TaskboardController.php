@@ -36,6 +36,7 @@ class TaskboardController extends Controller
             list($sprints, $sprint_id) = $this->getSprints($projectgroup_id, $sprint_id);
 
             $tickets = Bug::with(['fields', 'bugText', 'project', 'user'])->onSprint($projectgroup_id, $sprint_id)->bugnoteCount()->get();
+            $checkboxes = Checkbox::enabled()->get();
 
             list($toDo, $inProgress, $feedback, $completed) = $this->categorizeTickets($tickets);
 
@@ -44,7 +45,7 @@ class TaskboardController extends Controller
             return redirect(route('home'))->with($flash);
         }
 
-        return view('taskboard.index', ['users' => $users, 'projectgroups' => $projectgroups, 'projectgroup' => $projectgroup, 'sprintId' => $sprint_id, 'toDo' => $toDo, 'inProgress' => $inProgress, 'feedback' => $feedback, 'completed' => $completed, 'sprints' => $sprints]);
+        return view('taskboard.index', ['users' => $users, 'projectgroups' => $projectgroups, 'projectgroup' => $projectgroup, 'sprintId' => $sprint_id, 'toDo' => $toDo, 'inProgress' => $inProgress, 'feedback' => $feedback, 'completed' => $completed, 'sprints' => $sprints, 'checkboxes' => $checkboxes]);
     }
 
 //    public function sprintless($projectgroup_id)
@@ -301,25 +302,16 @@ class TaskboardController extends Controller
         return [$toDo, $inProgress, $feedback, $completed];
     }
 
-    public function additionalCheckbox(Request $request) {
-        $ticket = $request->get('ticket_id');
-        $input = $request->all();
+    public function additionalCheckbox(Request $request)
+    {
+        $ticket = Bug::find($request->ticket_id);
 
-        $checkboxes = $request->input('checkbox');
+        if ($request->checkboxes) {
+            $ticket->checkboxes()->sync($request->checkboxes);
 
-        if(is_array($checkboxes)) {
-            foreach($checkboxes as $checkbox) {
-                dd($checkboxes);
-                DB::table('agile_ticket_checkboxes')->insert(
-                    [
-                        'bug_id' => $ticket,
-                        'in_de_mededeling' => $checkbox,
-                        'akkoord_klant' => $checkbox,
-                    ]
-                );
-            }
+            return ['status' => true];
         }
-        return back()->with('added', '');
+        return ['status' => false];
     }
 
 }

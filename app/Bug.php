@@ -36,6 +36,10 @@ class Bug extends Model
 		return $this->belongsToMany('App\CustomField', 'mantis_custom_field_string_table', 'bug_id', 'field_id')->withPivot('value');
 	}
 
+    public function checkboxes() {
+        return $this->belongsToMany('App\Checkbox', 'agile_bug_checkbox', 'bug_id', 'checkbox_id');
+    }
+
 	public function scopeBugnoteCount($query)
     {
         $query->leftJoin('mantis_bugnote_table', 'mantis_bugnote_table.bug_id', '=', 'mantis_bug_table.id')

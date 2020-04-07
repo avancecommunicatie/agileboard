@@ -4,7 +4,7 @@
 		<strong class="ticket-summary">#{{ $ticket->id }}: {{ $ticket->summary }}</strong>
 		<div class="hr-line-dashed ticket-description no-padding"></div>
 		@if(count($users) > 0)
-		<p class="ticket-description"><strong>Project:</strong> {{ $ticket->project->name }}</p>
+			<p class="ticket-description"><strong>Project:</strong> {{ $ticket->project->name }}</p>
 		@endif
 		<p class="ticket-description">{{ $ticket->bugText->description }}</p>
 
@@ -32,7 +32,7 @@
 					{{--@if(count($users) > 0)--}}
 					{{--{!! Form::select('assign_to_id', $users, $ticket->handler_id, ['class' => 'ticket-assign-to']) !!}--}}
 					{{--@else--}}
-						{{--<p><strong>{{ $ticket->project->name }}</strong> </p>--}}
+					{{--<p><strong>{{ $ticket->project->name }}</strong> </p>--}}
 					{{--@endif--}}
 					<div>
 						{{$ticket->user ? $ticket->user->realname : '...'}}
@@ -40,7 +40,7 @@
 				</div>
 				<div class="col-xs-12">
 					<p>
-						<div class="hr-line-dashed"></div>
+					<div class="hr-line-dashed"></div>
 					</p>
 					<div class="col-xs-4">
 						{!! $ticket->status < 80 ? '<span class="fa fa-square-o"></span>' : '<span class="fa fa-check-square-o"></span>' !!} Afgesloten
@@ -48,17 +48,39 @@
 				</div>
 			</div>
 		</div>
-		{!! Form::open(['id' => 'ticket-checkbox', 'url' => route('taskboard.additional-checkbox'), 'method' => 'POST']) !!}
-			{!! Form::hidden('ticket_id', $ticket->id) !!}
-			<div class="col-xs-4">
-				{!! Form::checkbox('checkbox[]', 'In de mededeling') !!} In de mededeling
-			</div>
-			<div class="col-xs-4">
-				{!! Form::checkbox('checkbox[]', 'Akkoord klant') !!} Akkoord klant
-			</div>
-			<div class="col-xs-4">
-				{!! Form::submit() !!}
-			</div>
-		{!! Form::close() !!}
+		<div >
+			@foreach($checkboxes as $checkbox)
+				<div class="col-xs-4">
+					<input type="checkbox" name="checkbox[]" class="checkbox {{$ticket->id}}" data-checkbox="{{$checkbox->id}}"  data-ticket="{{$ticket->id}}"> {{$checkbox->name}}
+				</div>
+			@endforeach
+		</div>
 	</div>
 </li>
+@section('bottom-script')
+	<script>
+		$(function() {
+			$('.checkbox').click(function () {
+				var ticket = $(this).data('ticket');
+				var checkboxes = [];
+				$('.' + ticket +":checked").each(function() {
+					checkboxes.push($(this).data('checkbox'));
+				});
+
+				$.ajax({
+					type: "POST",
+					headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+					url: 'http://agileboard.test/taskboard',
+					data: {
+						'checkboxes': checkboxes,
+						'ticket_id': ticket
+					},
+					success: function(data)
+					{
+						//
+					}
+				});
+			});
+		});
+	</script>
+@endsection
