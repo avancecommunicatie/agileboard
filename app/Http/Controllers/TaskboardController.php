@@ -306,12 +306,15 @@ class TaskboardController extends Controller
     {
         $ticket = Bug::find($request->ticket_id);
 
-        if ($request->checkboxes) {
+        if ($request->has('checkboxes')) {
             $ticket->checkboxes()->sync($request->checkboxes);
 
             return ['status' => true];
+        } else {
+            $ticket->checkboxes()->detach($request->checkboxes);
+
+            return ['status' => false];
         }
-        return ['status' => false];
     }
 
 }
