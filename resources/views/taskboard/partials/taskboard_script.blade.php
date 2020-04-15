@@ -125,7 +125,7 @@
         $.ajax({
             type: "POST",
             headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-            url: 'http://agileboard.test/taskboard',
+            url: '{{ route('taskboard.additional-checkbox') }}',
             data: {
                 'checkboxes': checkboxes,
                 'ticket_id': ticket
