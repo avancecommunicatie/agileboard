@@ -305,16 +305,33 @@ class TaskboardController extends Controller
     public function additionalCheckbox(Request $request)
     {
         $ticket = Bug::find($request->ticket_id);
+        $response['success'] = false;
 
-        if ($request->checkboxes) {
-            $ticket->checkboxes()->sync($request->checkboxes);
+        if ($ticket) {
+            $ticket->checkboxes()->sync(request('checkboxes', []));
 
-            return ['status' => true];
-        } else {
-            $ticket->checkboxes()->detach($request->checkboxes);
-
-            return ['status' => false];
+            $response['success'] = true;
+            $options = array(
+                'cluster' => 'eu',
+                'encrypted' => true
+            );
+            $pusher = new \Pusher(
+                config('broadcasting.connections.pusher.key'),
+                config('broadcasting.connections.pusher.secret'),
+                config('broadcasting.connections.pusher.app_id'),
+                $options
+            );
+            $pusher->trigger(
+                'refreshChannel'.$request->get('projectgroup_id').$request->get('sprint_id').$request->get('env'),
+                'updateCheckbox',
+                [
+                    'id' => $ticket->id,
+                    'checkboxes' => $ticket->checkboxes,
+                ]
+            );
         }
+
+        return ['status' => !!request('checkboxes')];
     }
 
 }

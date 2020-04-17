@@ -87,5 +87,9 @@
 			$('#'+data.id).addClass('changed-item');
 			toastr.info('Ticket #'+data.id+' is toegewezen aan '+data.handlerName, 'Update!');
 		});
+
+        channel.bind('updateCheckbox', function(data) {
+             alert('An event was triggered with message: ' + data.message);
+        });
 	});
 </script>
