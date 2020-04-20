@@ -118,5 +118,6 @@
 @section('bottom-script')
     @parent
     @include('partials.navigation_script')
+    @include('partials.checkboxes_script')
     @include('storyboard.scripts.index_script')
 @endsection
