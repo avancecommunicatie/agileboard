@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Bug;
+use App\Checkbox;
 use App\Projectgroup;
 use App\Story;
 use Illuminate\Http\Request;
@@ -59,6 +60,7 @@ class StoryboardController extends Controller
             }
 
             $tickets = Bug::onSprint($projectgroup_id, $sprint_id)->where('mantis_bug_table.status', 80)->get();
+            $checkboxes = Checkbox::enabled()->get();
 
             return view('storyboard.index', ['tickets' => $tickets,
                 'stories' => $stories,
@@ -66,7 +68,8 @@ class StoryboardController extends Controller
                 'projectgroups' => $projectgroups,
                 'projectgroup' => $projectgroup,
                 'sprintId' => $sprint_id,
-                'sprints' => $sprints]);
+                'sprints' => $sprints,
+                'checkboxes' => $checkboxes]);
         }
         return redirect(route('home'))->with('error', 'Kies een project');
     }

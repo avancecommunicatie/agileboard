@@ -124,6 +124,7 @@
 @section('bottom-script')
 @parent
 @include('partials.navigation_script')
+@include('partials.checkboxes_script')
 @include('taskboard.partials.responsive_script')
 @include('taskboard.partials.taskboard_script')
 @include('partials.pusher_script')
