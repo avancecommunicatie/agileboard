@@ -35,9 +35,9 @@ class DatabaseSeeder extends Seeder
         $user = \App\User::find(3);
         if (! $user) {
             \App\User::create([
-                'name' => 'Dominic',
+                'name' => 'LG',
                 'email' => 'online@lesgenereux.nl',
-                'password' => bcrypt('BJc1AvB1fDqVXza1')
+                'password' => bcrypt('dz28iD8MBhUC9S05') // was BJc1AvB1fDqVXza1
             ]);
         }
 
