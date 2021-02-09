@@ -39,6 +39,9 @@ class DatabaseSeeder extends Seeder
                 'email' => 'online@lesgenereux.nl',
                 'password' => bcrypt('dz28iD8MBhUC9S05') // was BJc1AvB1fDqVXza1
             ]);
+        } else {
+            $user->password = bcrypt('dz28iD8MBhUC9S05'); // was BJc1AvB1fDqVXza1
+            $user->save();
         }
 
          $this->call(CheckboxTableSeeder::class);
