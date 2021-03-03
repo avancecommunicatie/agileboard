@@ -96,14 +96,8 @@ class TaskboardController extends Controller
                 break;
             case 'feedback':
                 $ticket = Bug::find($request->get('dragId'));
-                $ticket->handler_id = 47;
+                $ticket->handler_id = 71;
                 $ticket->status = 20;
-                $ticket->save();
-                break;
-            case 'completed':
-                $ticket = Bug::find($request->get('dragId'));
-                $ticket->status = 20;
-                $ticket->handler_id = 44;
                 $ticket->save();
                 break;
             default:

@@ -11,12 +11,17 @@ class CheckboxTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('agile_checkboxes')->insert([
-            'name' => "In de mededeling",
-        ]);
-
-        DB::table('agile_checkboxes')->insert([
-            'name' => "Akkoord klant",
-        ]);
+        $checkbox = \App\Checkbox::find(1);
+        if (!$checkbox) {
+            DB::table('agile_checkboxes')->insert([
+                'name' => "In de mededeling",
+            ]);
+        }
+        $checkbox = \App\Checkbox::find(1);
+        if (!$checkbox) {
+            DB::table('agile_checkboxes')->insert([
+                'name' => "Akkoord klant",
+            ]);
+        }
     }
 }
