@@ -100,6 +100,12 @@ class TaskboardController extends Controller
                 $ticket->status = 20;
                 $ticket->save();
                 break;
+            case 'completed':
+                $ticket = Bug::find($request->get('dragId'));
+                $ticket->status = 20;
+                $ticket->handler_id = 44;
+                $ticket->save();
+                break;
             default:
         }
         if ($ticket) {
@@ -275,7 +281,7 @@ class TaskboardController extends Controller
                     $completed['total_hours'] += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
                 }
                 $completed['tickets'][] = $ticket;
-            } elseif ($ticket->user && stristr($ticket->user->realname, 'edwin')) {
+            } elseif ($ticket->user && stristr($ticket->user->realname, 'sprint')) {
                 if ($ticket->fields->where('id', 1, false)->first()) {
                     $feedback['total_hours'] += (int) $ticket->fields->where('id', 1, false)->first()->pivot->value;
                 }
